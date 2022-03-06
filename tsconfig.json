@@ -1,0 +1,21 @@
+{
+  "compilerOptions":
+  {
+    "target": "es2016",
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "outDir": "target"
+  },
+  "files": [
+    "source/blacklist.ts",
+    "source/whitelist.ts",
+    "source/filter.ts",
+    "source/files.ts",
+    "source/discordbot.ts",
+    "source/minecraftbot.ts",
+    "source/bot.ts"
+  ]
+}
