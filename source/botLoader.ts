@@ -1,7 +1,7 @@
 import {Files} from "./files";
 import {Config} from "./config";
 
-export class Botloader {
+export class BotLoader {
 
 	static loadFromFile<T>(path: string): T {
 		return new Object(new Config(path)) as T;
