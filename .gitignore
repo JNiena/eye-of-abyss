@@ -199,3 +199,4 @@ dist
 
 # package-lock.json
 package-lock.json
+/launcher_accounts.json
