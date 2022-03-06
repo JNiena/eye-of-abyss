@@ -10,22 +10,22 @@ export class DiscordBot {
 		this.client = new Client({intents: [Intents.FLAGS.GUILD_MESSAGES]});
 	}
 
-	login(callback: Function = () => {}) : void {
+	login(callback: Function = () => {}): void {
 		this.client.login(this.token).then(() => {
 			callback();
 		});
 	}
 
-	onMessage(callback: Function) : void {
+	onMessage(callback: Function): void {
 		this.client.on("message", (message) => {
 			callback(message);
 		});
 	}
 
-	onReady(callback: Function) : void {
+	onReady(callback: Function): void {
 		this.client.on("ready", () => {
 			callback();
-		})
+		});
 	}
 
 }
