@@ -15,9 +15,9 @@
     "source/whitelist.ts",
     "source/filter.ts",
     "source/files.ts",
-    "source/discordbot.ts",
-    "source/minecraftbot.ts",
+    "source/discordBot.ts",
+    "source/minecraftBot.ts",
     "source/bot.ts",
-    "source/botloader.ts"
+    "source/botLoader.ts"
   ]
 }
