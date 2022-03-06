@@ -1,0 +1,29 @@
+{
+	"bot": {
+		"host": "",
+		"email": "",
+		"password": "",
+		"version": ""
+	},
+	"ingame": {
+		"joinCommand": "",
+		"autoRejoin": true
+	},
+	"general": {
+		"enabled": true,
+		"logLocally": false,
+		"logDiscord": true,
+		"logAll": false,
+		"logPath": "logs/log.txt",
+		"whitelist": [
+			""
+		],
+		"blacklist": [
+			""
+		]
+	},
+	"discord": {
+		"channelID": "",
+		"pingRoleID": ""
+	}
+}

@@ -1,0 +1,8 @@
+{
+  "name": "watcherbot",
+  "version": "1.0.0",
+  "dependencies": {
+    "discord.js": "^12.5.3",
+    "mineflayer": "^3.6.0"
+  }
+}
