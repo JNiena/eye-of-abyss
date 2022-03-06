@@ -1,24 +1,23 @@
 import {Bot, createBot} from "mineflayer";
+import {Config} from "./config";
 
 export class MinecraftBot {
 
-	protected email: string;
-	protected password: string;
-	protected host: string;
-	protected port: number;
-	protected bot: Bot;
+	public config: Config;
+	private bot: Bot;
 
-	constructor(email: string, password: string, host: string, port: number = 25565) {
-		this.email = email;
-		this.password = password;
-		this.host = host;
-		this.port = port;
+	constructor(config: Config) {
+		this.config = config;
 		this.bot = createBot({
-			username: email,
-			password: password,
-			host: host,
-			port: port
+			username: config.get()["email"],
+			password: config.get()["password"],
+			host: config.get()["host"],
+			port: config.get()["port"]
 		});
+	}
+
+	chat(message: string): void {
+		this.bot.chat(message);
 	}
 
 	onSpawn(callback: Function = () => {}): void {
@@ -33,8 +32,8 @@ export class MinecraftBot {
 		});
 	}
 
-	onMessage(callback: Function = () => {}): void {
-		this.bot.on("message", (username, message) => {
+	onChat(callback: Function = () => {}): void {
+		this.bot.on("chat", (username, message) => {
 			callback(username, message);
 		});
 	}
