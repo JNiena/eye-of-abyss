@@ -1,17 +1,18 @@
 import {Client, Intents} from "discord.js";
+import {Config} from "./config";
 
 export class DiscordBot {
 
-	protected token: string;
-	protected client: Client;
+	public config: Config;
+	private client: Client;
 
-	constructor(token: string) {
-		this.token = token;
+	constructor(config: Config) {
+		this.config = config;
 		this.client = new Client({intents: [Intents.FLAGS.GUILD_MESSAGES]});
 	}
 
 	login(callback: Function = () => {}): void {
-		this.client.login(this.token).then(() => {
+		this.client.login(this.config.get()["botToken"]).then(() => {
 			callback();
 		});
 	}
