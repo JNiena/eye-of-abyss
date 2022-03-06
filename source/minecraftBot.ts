@@ -9,10 +9,10 @@ export class MinecraftBot {
 	constructor(config: Config) {
 		this.config = config;
 		this.bot = createBot({
-			username: config.get()["email"],
-			password: config.get()["password"],
-			host: config.get()["host"],
-			port: config.get()["port"]
+			username: config.get()["bot"]["email"],
+			password: config.get()["bot"]["password"],
+			host: config.get()["bot"]["host"],
+			port: config.get()["bot"]["port"]
 		});
 	}
 

@@ -6,7 +6,7 @@
 		"version": ""
 	},
 	"ingame": {
-		"joinCommand": "",
+		"joinMessage": "",
 		"autoRejoin": true
 	},
 	"general": {
