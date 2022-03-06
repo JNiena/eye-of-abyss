@@ -34,8 +34,8 @@ export class MinecraftBot {
 	}
 
 	onMessage(callback: Function = () => {}): void {
-		this.bot.on("message", () => {
-			callback();
+		this.bot.on("message", (username, message) => {
+			callback(username, message);
 		});
 	}
 
