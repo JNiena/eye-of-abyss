@@ -1,11 +1,9 @@
-import {Files} from "./files";
-
 export class Config {
 
 	private config: any;
 
-	constructor(path: string) {
-		this.config = JSON.parse(Files.read(path));
+	constructor(data: string) {
+		this.config = JSON.parse(data);
 	}
 
 	get(): any {
