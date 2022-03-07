@@ -8,13 +8,17 @@ export class DiscordBot {
 
 	constructor(config: Config) {
 		this.config = config;
-		this.client = new Client({intents: [Intents.FLAGS.GUILD_MESSAGES]});
+		this.client = new Client({intents: [Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILDS]});
 	}
 
 	login(callback: Function = () => {}): void {
 		this.client.login(this.config.get()["botToken"]).then(() => {
 			callback();
 		});
+	}
+
+	message(text: string, channelID: string): void {
+		// Need to find channel by id and send message.
 	}
 
 	onMessage(callback: Function): void {
