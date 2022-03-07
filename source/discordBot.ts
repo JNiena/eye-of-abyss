@@ -18,7 +18,7 @@ export class DiscordBot {
 	}
 
 	onMessage(callback: Function): void {
-		this.client.on("message", (message) => {
+		this.client.on("message", (message:any) => {
 			callback(message);
 		});
 	}

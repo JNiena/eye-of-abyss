@@ -2,13 +2,13 @@ import {Files} from "./files";
 
 export class Config {
 
-	private config: object;
+	private config: any;
 
 	constructor(path: string) {
 		this.config = JSON.parse(Files.read(path));
 	}
 
-	get(): object {
+	get(): any {
 		return this.config;
 	}
 
