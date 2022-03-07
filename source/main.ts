@@ -18,7 +18,7 @@ for (let i = 0; i < minecraftBots.length; i++) {
 	minecraftBot.onFirstSpawn(() => {
 		minecraftBot.chat(minecraftBot.config.get()["ingame"]["joinMessage"]);
 	});
-	minecraftBot.onChat((username, message) => {
+	minecraftBot.onChat((username: string, message: { toString: () => string; }) => {
 		discordBot.message(username + " : " + message.toString(), minecraftBot.config.get()["discord"]["channelID"]);
 	});
 }
