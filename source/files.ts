@@ -10,7 +10,7 @@ export class Files {
 		let directory: string[] = readdirSync(directoryPath);
 		let files: string[] = [];
 		for (let i = 0; i < directory.length; i++) {
-			files.push(this.read(directory[i]));
+			files.push(this.read(directoryPath + "/" + directory[i]));
 		}
 		return files;
 	}
