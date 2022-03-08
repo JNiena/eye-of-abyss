@@ -1,29 +1,23 @@
 {
+  "enabled": false,
+  "joinMessage": "",
   "bot": {
-    "host": "",
     "email": "",
     "password": "",
+    "host": "",
     "version": ""
   },
-  "ingame": {
-    "joinMessage": "",
-    "autoRejoin": true
+  "discord": {
+    "channelID": ""
   },
-  "general": {
-    "enabled": true,
-    "logLocally": false,
-    "logDiscord": true,
-    "logAll": false,
-    "logPath": "logs/log.txt",
-    "whitelist": [
-      ""
-    ],
-    "blacklist": [
+  "log": {
+    "enabled": false,
+    "path": ""
+  },
+  "whitelist": {
+    "enabled": false,
+    "filter": [
       ""
     ]
-  },
-  "discord": {
-    "channelID": "",
-    "pingRoleID": ""
   }
 }
