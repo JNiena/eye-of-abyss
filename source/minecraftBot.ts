@@ -20,25 +20,25 @@ export class MinecraftBot {
 		this.bot.chat(message);
 	}
 
-	onSpawn(callback: Function = () => {}): void {
+	onSpawn(callback: Function): void {
 		this.bot.on("spawn", () => {
 			callback();
 		});
 	}
 
-	onFirstSpawn(callback: Function = () => {}): void {
+	onFirstSpawn(callback: Function): void {
 		this.bot.once("spawn", () => {
 			callback();
 		});
 	}
 
-	onChat(callback: Function = () => {}): void {
+	onChat(callback: Function): void {
 		this.bot.on("chat", (username:string, message:string) => {
 			callback(username, message);
 		});
 	}
 
-	onKicked(callback: Function = () => {}): void {
+	onKicked(callback: Function): void {
 		this.bot.on("kicked", () => {
 			callback();
 		});
