@@ -1,4 +1,4 @@
-import {Client, Intents} from "discord.js";
+import {Client, Intents, TextChannel} from "discord.js";
 import {Config} from "./config";
 
 export class DiscordBot {
@@ -17,12 +17,19 @@ export class DiscordBot {
 		});
 	}
 
-	message(text: string, channelID: string): void {
-		// Need to find channel by id and send message.
+	async message(text: string, channelID: string): Promise<any> {
+		try {
+			let channel = this.client.channels.cache.get(channelID);
+			if (channel) {
+				await (channel as TextChannel).send(text);
+			}
+		} catch (error) {
+			console.log(error);
+		}
 	}
 
 	onMessage(callback: Function): void {
-		this.client.on("message", (message:any) => {
+		this.client.on("message", (message: any) => {
 			callback(message);
 		});
 	}
