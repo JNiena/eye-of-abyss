@@ -33,7 +33,7 @@ export class MinecraftBot {
 	}
 
 	onChat(callback: Function): void {
-		this.bot.on("chat", (username:string, message:string) => {
+		this.bot.on("chat", (username: string, message: string) => {
 			callback(username, message);
 		});
 	}
