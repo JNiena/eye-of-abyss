@@ -16,6 +16,7 @@
     "source/config.ts",
     "source/discordBot.ts",
     "source/minecraftBot.ts",
-    "source/main.ts"
+    "source/main.ts",
+    "source/command.ts"
   ]
 }
