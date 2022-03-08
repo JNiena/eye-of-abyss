@@ -1,4 +1,4 @@
-import {existsSync, readdirSync, readFileSync, writeFileSync} from "fs";
+import {existsSync, readdirSync, readFileSync, writeFileSync, unlinkSync} from "fs";
 
 export class Files {
 
@@ -17,6 +17,10 @@ export class Files {
 
 	static write(filePath: string, data: string = ""): void {
 		writeFileSync(filePath, data);
+	}
+
+	static delete(filePath: string) {
+		unlinkSync(filePath);
 	}
 
 	static exists(filePath: string): boolean {
