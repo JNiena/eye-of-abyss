@@ -19,7 +19,7 @@ export class Files {
 		writeFileSync(filePath, data);
 	}
 
-	static delete(filePath: string) {
+	static delete(filePath: string): void {
 		unlinkSync(filePath);
 	}
 
