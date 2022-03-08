@@ -1,4 +1,4 @@
-import {existsSync, readdirSync, readFileSync, writeFileSync, unlinkSync} from "fs";
+import {existsSync, readdirSync, readFileSync, unlinkSync, writeFileSync} from "fs";
 
 export class Files {
 
