@@ -17,6 +17,7 @@ export class MinecraftBot {
 	}
 
 	chat(message: string): void {
+		if (message === "") return;
 		this.bot.chat(message);
 	}
 
