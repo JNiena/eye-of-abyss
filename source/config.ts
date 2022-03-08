@@ -18,7 +18,7 @@ export class Config {
 
 	save(path: string): void {
 		Files.delete(path);
-		Files.write(path, JSON.stringify(this.config, null, "\t"))
+		Files.write(path, JSON.stringify(this.config, null, "\t"));
 	}
 
 }
