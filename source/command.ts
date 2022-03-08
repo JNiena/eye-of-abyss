@@ -8,7 +8,7 @@ export class Command {
 		this.handler = handler;
 	}
 
-	handle(message: any) {
+	handle(message: any): void {
 		this.handler(message);
 	}
 
