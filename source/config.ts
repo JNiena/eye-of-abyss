@@ -12,11 +12,11 @@ export class Config {
 		return this.config;
 	}
 
-	set(data: object) {
+	set(data: object): void {
 		this.config = data;
 	}
 
-	save(path: string) {
+	save(path: string): void {
 		Files.delete(path);
 		Files.write(path, JSON.stringify(this.config, null, "\t"))
 	}
