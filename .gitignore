@@ -199,5 +199,6 @@ dist
 
 # package-lock.json
 package-lock.json
-/launcher_accounts.json
+launcher_accounts.json
 config.json
+accounts
