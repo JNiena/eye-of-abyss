@@ -9,7 +9,6 @@
     "outDir": "target"
   },
   "files": [
-    "source/blacklist.ts",
     "source/whitelist.ts",
     "source/filter.ts",
     "source/files.ts",
