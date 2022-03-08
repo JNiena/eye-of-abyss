@@ -201,4 +201,4 @@ dist
 package-lock.json
 launcher_accounts.json
 config.json
-accounts
+accounts/
