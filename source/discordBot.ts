@@ -1,4 +1,4 @@
-import {Client, Intents, TextChannel} from "discord.js";
+import {Client, Intents, Message, TextChannel} from "discord.js";
 import {Config} from "./config";
 import {Command} from "./command";
 
@@ -15,14 +15,12 @@ export class DiscordBot {
 	}
 
 	startListening() {
-		this.client.on("messageCreate", (message: any) => {
+		this.client.on("messageCreate", (message: Message) => {
 			if (message.author.bot) return;
-			if (message.channel.type !== "text") return;
 			for (let i = 0; i < this.commands.length; i++) {
-				let messagePrefix: string = message.content.split(" ")[0];
 				let commandPrefix: string = this.commands[i].name;
-				if (messagePrefix === commandPrefix) {
-					message.content = message.content.replace(messagePrefix, "");
+				if (message.content.startsWith(commandPrefix)) {
+					message.content = message.content.replace(commandPrefix + " ", "");
 					this.commands[i].handle(message);
 					break;
 				}
@@ -41,6 +39,7 @@ export class DiscordBot {
 	}
 
 	async sendMessage(text: string, channelID: string): Promise<any> {
+		if (text === "") return;
 		try {
 			let channel = this.client.channels.cache.get(channelID);
 			if (channel) await (channel as TextChannel).send(text);
