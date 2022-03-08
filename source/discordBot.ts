@@ -14,7 +14,7 @@ export class DiscordBot {
 		this.commands = [];
 	}
 
-	startListening() {
+	startListening(): void {
 		this.client.on("messageCreate", (message: Message) => {
 			if (message.author.bot) return;
 			for (let i = 0; i < this.commands.length; i++) {
@@ -28,7 +28,7 @@ export class DiscordBot {
 		});
 	}
 
-	registerCommand(command: Command) {
+	registerCommand(command: Command): void {
 		this.commands.push(command);
 	}
 
