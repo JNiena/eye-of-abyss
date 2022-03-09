@@ -12,7 +12,8 @@ export class MinecraftBot {
 			username: config.get()["bot"]["email"],
 			password: config.get()["bot"]["password"],
 			host: config.get()["bot"]["host"],
-			port: config.get()["bot"]["port"]
+			port: config.get()["bot"]["port"],
+			auth: config.get()["bot"]["auth"]
 		});
 	}
 
