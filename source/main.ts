@@ -2,23 +2,83 @@ import {MinecraftBot} from "./minecraftBot";
 import {DiscordBot} from "./discordBot";
 import {Config} from "./config";
 import {Files} from "./files";
+import {Command} from "./command";
+import {Message} from "discord.js";
+import {Whitelist} from "./whitelist";
 
-let discordBot: DiscordBot = new DiscordBot(new Config(Files.read("config.json")));
+// Setup discord bot.
+let discordBot: DiscordBot = new DiscordBot(new Config("config.json"));
+
+// Setup minecraft bots.
 let minecraftBots: MinecraftBot[] = [];
-
-let minecraftBotConfigs: string[] = Files.readAll("accounts");
-for (let i = 0; i < minecraftBotConfigs.length; i++) {
-	minecraftBots.push(new MinecraftBot(new Config(minecraftBotConfigs[i])));
+let minecraftBotPaths: string[] = Files.paths("accounts");
+for (let i = 0; i < minecraftBotPaths.length; i++) {
+	minecraftBots.push(new MinecraftBot(new Config(minecraftBotPaths[i])));
 }
 
+// Discord bot behavior.
 discordBot.login();
+discordBot.registerCommand(new Command("!say", (message: Message) => {
+	for (let i = 0; i < minecraftBots.length; i++) {
+		if (minecraftBots[i].config.get()["discord"]["channelID"] !== message.channel.id) continue;
+		minecraftBots[i].chat(message.toString());
+	}
+}));
+discordBot.registerCommand(new Command("!list", (message: Message) => {
+	let minecraftBot: MinecraftBot | undefined = matchBot(message.channel.id);
+	if (minecraftBot === undefined) return;
+	discordBot.sendMessage("**Whitelist: " + minecraftBot.config.get()["whitelist"]["filter"].toString().replace(" ", ", ") + "**", message.channel.id).then();
+}));
+discordBot.registerCommand(new Command("!add", (message: Message) => {
+	let minecraftBot: MinecraftBot | undefined = matchBot(message.channel.id);
+	if (minecraftBot === undefined) return;
+	minecraftBot.config.get()["whitelist"]["filter"].push(message.content.toLowerCase());
+	minecraftBot.config.save();
+	discordBot.sendMessage("**Added \"" + message.content + "\" to the whitelist.**", message.channel.id).then();
+}));
+discordBot.registerCommand(new Command("!remove", (message: Message) => {
+	let minecraftBot: MinecraftBot | undefined = matchBot(message.channel.id);
+	if (minecraftBot === undefined) return;
+	minecraftBot.config.get()["whitelist"]["filter"] = minecraftBot.config.get()["whitelist"]["filter"].filter((element: any) => element !== message.content.toLowerCase());
+	minecraftBot.config.save();
+	discordBot.sendMessage("**Removed \"" + message.content + "\" from the whitelist.**", message.channel.id).then();
+}));
+discordBot.registerCommand(new Command("!enable", (message: Message) => {
+	let minecraftBot: MinecraftBot | undefined = matchBot(message.channel.id);
+	if (minecraftBot === undefined) return;
+	minecraftBot.config.get()["whitelist"]["enabled"] = true;
+	minecraftBot.config.save();
+	discordBot.sendMessage("**Whitelist enabled.**", message.channel.id).then();
+}));
+discordBot.registerCommand(new Command("!disable", (message: Message) => {
+	let minecraftBot: MinecraftBot | undefined = matchBot(message.channel.id);
+	if (minecraftBot === undefined) return;
+	minecraftBot.config.get()["whitelist"]["enabled"] = false;
+	minecraftBot.config.save();
+	discordBot.sendMessage("**Whitelist disabled.**", message.channel.id).then();
+}));
+discordBot.startListening();
 
+// Minecraft bot behavior.
 for (let i = 0; i < minecraftBots.length; i++) {
 	let minecraftBot = minecraftBots[i];
+	if (!minecraftBot.config.get()["enabled"]) continue;
 	minecraftBot.onFirstSpawn(() => {
-		minecraftBot.chat(minecraftBot.config.get()["ingame"]["joinMessage"]);
+		minecraftBot.chat(minecraftBot.config.get()["joinMessage"]);
 	});
-	minecraftBot.onChat((username: string, message: { toString: () => string; }) => {
-		discordBot.message(username + " : " + message.toString(), minecraftBot.config.get()["discord"]["channelID"]);
+	minecraftBot.onChat((username: string, message: string) => {
+		let toSend: string = username + ": " + message;
+		if (!minecraftBot.config.get()["whitelist"]["enabled"] || new Whitelist(minecraftBot.config.get()["whitelist"]["filter"]).processText(toSend)) {
+			discordBot.sendMessage(toSend, minecraftBot.config.get()["discord"]["channelID"]).then();
+		}
+		if (minecraftBot.config.get()["log"]["enabled"]) {
+			Files.write(minecraftBot.config.get()["log"]["path"], toSend + "\n");
+		}
 	});
+}
+
+function matchBot(channelID: string): MinecraftBot | undefined {
+	for (let i = 0; i < minecraftBots.length; i++) {
+		if (minecraftBots[i].config.get()["discord"]["channelID"] === channelID) return minecraftBots[i];
+	}
 }
