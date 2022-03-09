@@ -3,9 +3,11 @@ import {Files} from "./files";
 export class Config {
 
 	private config: any;
+	private path: string;
 
-	constructor(data: string) {
-		this.config = JSON.parse(data);
+	constructor(path: string) {
+		this.config = JSON.parse(Files.read(path));
+		this.path = path;
 	}
 
 	get(): any {
@@ -16,9 +18,9 @@ export class Config {
 		this.config = data;
 	}
 
-	save(path: string): void {
-		Files.delete(path);
-		Files.write(path, JSON.stringify(this.config, null, "\t"));
+	save(): void {
+		Files.delete(this.path);
+		Files.write(this.path, JSON.stringify(this.config, null, "\t"));
 	}
 
 }
