@@ -15,6 +15,14 @@ export class Files {
 		return files;
 	}
 
+	static paths(directoryPath: string): string[] {
+		let paths: string[] = readdirSync(directoryPath);
+		for (let i = 0; i < paths.length; i++) {
+			paths[i] = directoryPath + "/" + paths[i];
+		}
+		return paths;
+	}
+
 	static write(filePath: string, data: string = ""): void {
 		appendFileSync(filePath, data);
 	}
