@@ -41,8 +41,8 @@ export class MinecraftBot {
 	}
 
 	onKicked(callback: Function): void {
-		this.bot.on("kicked", () => {
-			callback();
+		this.bot.on("kicked", (reason: string) => {
+			callback(reason);
 		});
 	}
 
