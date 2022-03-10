@@ -1,6 +1,7 @@
 {
 	"enabled": true,
 	"joinMessage": "",
+	"autoRejoin": false,
 	"bot": {
 		"email": "",
 		"password": "",
