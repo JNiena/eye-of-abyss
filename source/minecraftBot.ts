@@ -46,4 +46,10 @@ export class MinecraftBot {
 		});
 	}
 
+	onError(callback: Function): void {
+		this.bot.on("error", (error: Error) => {
+			callback(error);
+		});
+	}
+
 }
