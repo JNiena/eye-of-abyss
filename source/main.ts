@@ -66,6 +66,12 @@ for (let i = 0; i < minecraftBots.length; i++) {
 	minecraftBot.onFirstSpawn(() => {
 		minecraftBot.chat(minecraftBot.config.get()["joinMessage"]);
 	});
+	minecraftBot.onKicked((reason: string) => {
+		discordBot.sendMessage(`<@&${minecraftBot.config.get()["discord"]["pingRoleID"]}> The bot has disconnected! Reason:\n${JSON.parse(reason)["text"]}`, minecraftBot.config.get()["discord"]["channelID"]).then();
+	});
+	minecraftBot.onError((error: Error) => {
+		discordBot.sendMessage(`<@&${minecraftBot.config.get()["discord"]["pingRoleID"]}> The bot has encountered an error! Reason:\n${error.message}`, minecraftBot.config.get()["discord"]["channelID"]).then();
+	});
 	minecraftBot.onChat((username: string, message: string) => {
 		let toSend: string = username + ": " + message;
 		if (!minecraftBot.config.get()["whitelist"]["enabled"] || new Whitelist(minecraftBot.config.get()["whitelist"]["filter"]).processText(toSend)) {
