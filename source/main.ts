@@ -2,9 +2,9 @@ import {MinecraftBot} from "./minecraftBot";
 import {DiscordBot} from "./discordBot";
 import {Config} from "./config";
 import {Files} from "./files";
-import {Command} from "./command";
 import {Message} from "discord.js";
 import {Whitelist} from "./whitelist";
+import {ChannelCommand} from "./channelCommand";
 
 let discordBot: DiscordBot = new DiscordBot(new Config("config.json"));
 let minecraftBots: MinecraftBot[] = [];
@@ -13,29 +13,31 @@ for (let i = 0; i < minecraftBotPaths.length; i++) {
 	minecraftBots.push(new MinecraftBot(new Config(minecraftBotPaths[i])));
 }
 
-setupDiscordBotBehavior(discordBot);
+discordBot.login();
 for (let i = 0; i < minecraftBots.length; i++) {
 	let minecraftBot = minecraftBots[i];
 	if (!minecraftBot.config.get()["enabled"]) continue;
 	setupMinecraftBotBehavior(minecraftBot);
+	setupDiscordBotBehavior(discordBot, minecraftBot);
 }
+discordBot.startListening();
 
-function setupDiscordBotBehavior(discordBot: DiscordBot) {
-	discordBot.login();
-	discordBot.registerCommand(new Command("!say", (message: Message) => {
-		let minecraftBot: MinecraftBot | undefined = matchBot(message.channel.id);
-		if (minecraftBot === undefined) return;
+function setupDiscordBotBehavior(discordBot: DiscordBot, minecraftBot: MinecraftBot) {
+	let channelID: string = minecraftBot.config.get()["discord"]["channelID"];
+
+	// "Say" command.
+	discordBot.registerCommand(new ChannelCommand(channelID, "!say", (message: Message) => {
 		minecraftBot.chat(message.toString());
 	}));
-	discordBot.registerCommand(new Command("!list", (message: Message) => {
-		let minecraftBot: MinecraftBot | undefined = matchBot(message.channel.id);
-		if (minecraftBot === undefined) return;
+
+	// "List" command.
+	discordBot.registerCommand(new ChannelCommand(channelID, "!list", (message: Message) => {
 		discordBot.sendMessage("**Whitelist: " + minecraftBot.config.get()["whitelist"]["filter"].toString().replace(" ", ", ") + "**", message.channel.id).then();
 	}));
-	discordBot.registerCommand(new Command("!add", (message: Message) => {
-		let minecraftBot: MinecraftBot | undefined = matchBot(message.channel.id);
-		if (minecraftBot === undefined) return;
-		if (minecraftBot.config.get()["whitelist"]["filter"].contains(message.content.toLowerCase())) {
+
+	// "Add" command.
+	discordBot.registerCommand(new ChannelCommand(channelID, "!add", (message: Message) => {
+		if (minecraftBot.config.get()["whitelist"]["filter"].includes(message.content.toLowerCase())) {
 			discordBot.sendMessage("**That word is already on the whitelist.**", message.channel.id).then();
 			return;
 		}
@@ -43,10 +45,10 @@ function setupDiscordBotBehavior(discordBot: DiscordBot) {
 		minecraftBot.config.save();
 		discordBot.sendMessage("**Added \"" + message.content + "\" to the whitelist.**", message.channel.id).then();
 	}));
-	discordBot.registerCommand(new Command("!remove", (message: Message) => {
-		let minecraftBot: MinecraftBot | undefined = matchBot(message.channel.id);
-		if (minecraftBot === undefined) return;
-		if (!minecraftBot.config.get()["whitelist"]["filter"].contains(message.content.toLowerCase())) {
+
+	// "Remove" command.
+	discordBot.registerCommand(new ChannelCommand(channelID, "!remove", (message: Message) => {
+		if (!minecraftBot.config.get()["whitelist"]["filter"].includes(message.content.toLowerCase())) {
 			discordBot.sendMessage("**That word isn't on the whitelist.**", message.channel.id).then();
 			return;
 		}
@@ -54,23 +56,23 @@ function setupDiscordBotBehavior(discordBot: DiscordBot) {
 		minecraftBot.config.save();
 		discordBot.sendMessage("**Removed \"" + message.content + "\" from the whitelist.**", message.channel.id).then();
 	}));
-	discordBot.registerCommand(new Command("!enable", (message: Message) => {
-		let minecraftBot: MinecraftBot | undefined = matchBot(message.channel.id);
-		if (minecraftBot === undefined) return;
+
+	// "Enable" command.
+	discordBot.registerCommand(new ChannelCommand(channelID, "!enable", (message: Message) => {
 		minecraftBot.config.get()["whitelist"]["enabled"] = true;
 		minecraftBot.config.save();
 		discordBot.sendMessage("**Whitelist enabled.**", message.channel.id).then();
 	}));
-	discordBot.registerCommand(new Command("!disable", (message: Message) => {
-		let minecraftBot: MinecraftBot | undefined = matchBot(message.channel.id);
-		if (minecraftBot === undefined) return;
+
+	// "Disable" command.
+	discordBot.registerCommand(new ChannelCommand(channelID, "!disable", (message: Message) => {
 		minecraftBot.config.get()["whitelist"]["enabled"] = false;
 		minecraftBot.config.save();
 		discordBot.sendMessage("**Whitelist disabled.**", message.channel.id).then();
 	}));
-	discordBot.registerCommand(new Command("!connect", (message: Message) => {
-		let minecraftBot: MinecraftBot | undefined = matchBot(message.channel.id);
-		if (minecraftBot === undefined) return;
+
+	// "Connect" command.
+	discordBot.registerCommand(new ChannelCommand(channelID, "!connect", (message: Message) => {
 		if (minecraftBot.isConnected()) {
 			discordBot.sendMessage("**The bot is already connected.**", minecraftBot.config.get()["discord"]["channelID"]).then();
 		} else {
@@ -78,20 +80,22 @@ function setupDiscordBotBehavior(discordBot: DiscordBot) {
 			setupMinecraftBotBehavior(minecraftBot);
 		}
 	}));
-	discordBot.registerCommand(new Command("!disconnect", (message: Message) => {
-		let minecraftBot: MinecraftBot | undefined = matchBot(message.channel.id);
-		if (minecraftBot === undefined) return;
+
+	// "Disconnect" command.
+	discordBot.registerCommand(new ChannelCommand(channelID, "!disconnect", (message: Message) => {
 		minecraftBot.disconnect();
 		discordBot.sendMessage("**Successfully disconnected.**", message.channel.id).then();
 	}));
-	discordBot.startListening();
 }
 
 function setupMinecraftBotBehavior(minecraftBot: MinecraftBot) {
+	// "First Spawn" event.
 	minecraftBot.onFirstSpawn(() => {
 		minecraftBot.chat(minecraftBot.config.get()["joinMessage"]);
 		discordBot.sendMessage("**Successfully connected.**", minecraftBot.config.get()["discord"]["channelID"]).then();
 	});
+
+	// "Kicked" event.
 	minecraftBot.onKicked((reason: string) => {
 		discordBot.sendMessage(`<@&${minecraftBot.config.get()["discord"]["pingRoleID"]}> **The bot has disconnected! Reason:** *${JSON.parse(reason)["text"]}*`, minecraftBot.config.get()["discord"]["channelID"]).then();
 		if (minecraftBot.config.get()["autoRejoin"]) {
@@ -102,9 +106,13 @@ function setupMinecraftBotBehavior(minecraftBot: MinecraftBot) {
 			}, 1000);
 		}
 	});
+
+	// "Error" event.
 	minecraftBot.onError((error: Error) => {
 		discordBot.sendMessage(`<@&${minecraftBot.config.get()["discord"]["pingRoleID"]}> **The bot has encountered an error! Reason:** *${error.message}*`, minecraftBot.config.get()["discord"]["channelID"]).then();
 	});
+
+	// "Chat" event.
 	minecraftBot.onChat((username: string, message: string) => {
 		let toSend: string = username + ": " + message;
 		if (!minecraftBot.config.get()["whitelist"]["enabled"] || new Whitelist(minecraftBot.config.get()["whitelist"]["filter"]).processText(toSend)) {
@@ -114,10 +122,4 @@ function setupMinecraftBotBehavior(minecraftBot: MinecraftBot) {
 			Files.write(minecraftBot.config.get()["log"]["path"], toSend + "\n");
 		}
 	});
-}
-
-function matchBot(channelID: string): MinecraftBot | undefined {
-	for (let i = 0; i < minecraftBots.length; i++) {
-		if (minecraftBots[i].config.get()["discord"]["channelID"] === channelID) return minecraftBots[i];
-	}
 }
