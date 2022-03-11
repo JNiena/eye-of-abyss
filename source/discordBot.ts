@@ -38,7 +38,7 @@ export class DiscordBot {
 		});
 	}
 
-	async sendMessage(text: string, channelID: string): Promise<any> {
+	async send(text: string, channelID: string): Promise<any> {
 		if (text.length === 0) return Promise.resolve();
 		try {
 			let channel = this.client.channels.cache.get(channelID);
