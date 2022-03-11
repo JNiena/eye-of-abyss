@@ -5,12 +5,13 @@ export class MinecraftBot {
 
 	public config: Config;
 	private reconnecting: boolean;
+	private connected: boolean;
 	private bot: any;
 
 	constructor(config: Config) {
 		this.config = config;
 		this.reconnecting = false;
-		this.connect();
+		this.connected = false;
 	}
 
 	connect(): void {
@@ -21,6 +22,12 @@ export class MinecraftBot {
 			port: this.config.get()["bot"]["port"],
 			auth: this.config.get()["bot"]["auth"]
 		});
+		this.bot.on("login", () => {
+			this.connected = true;
+		});
+		this.bot.on("end", () => {
+			this.connected = false;
+		})
 	}
 
 	reconnect(handler: Function): void {
@@ -33,7 +40,7 @@ export class MinecraftBot {
 	}
 
 	isConnected(): boolean {
-		return true;
+		return this.connected;
 	}
 
 	isReconnecting(): boolean {
