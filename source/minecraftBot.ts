@@ -27,7 +27,7 @@ export class MinecraftBot {
 		});
 		this.bot.on("end", () => {
 			this.connected = false;
-		})
+		});
 	}
 
 	reconnect(handler: Function): void {
