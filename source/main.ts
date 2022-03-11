@@ -63,8 +63,12 @@ function setupDiscordBotBehavior(discordBot: DiscordBot) {
 	discordBot.registerCommand(new Command("!connect", (message: Message) => {
 		let minecraftBot: MinecraftBot | undefined = matchBot(message.channel.id);
 		if (minecraftBot === undefined) return;
-		minecraftBot.connect();
-		setupMinecraftBotBehavior(minecraftBot);
+		if (minecraftBot.isConnected()) {
+			discordBot.sendMessage("**The bot is already connected.**", minecraftBot.config.get()["discord"]["channelID"]).then();
+		} else {
+			minecraftBot.connect();
+			setupMinecraftBotBehavior(minecraftBot);
+		}
 	}));
 	discordBot.registerCommand(new Command("!disconnect", (message: Message) => {
 		let minecraftBot: MinecraftBot | undefined = matchBot(message.channel.id);
