@@ -5,6 +5,7 @@
     "email": "",
     "password": "",
     "host": "",
+    "port": "",
     "version": "",
     "auth": ""
   },
