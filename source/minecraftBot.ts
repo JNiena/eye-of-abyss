@@ -4,10 +4,12 @@ import {Config} from "./config";
 export class MinecraftBot {
 
 	public config: Config;
+	private reconnecting: boolean;
 	private bot: any;
 
 	constructor(config: Config) {
 		this.config = config;
+		this.reconnecting = false;
 		this.connect();
 	}
 
@@ -21,8 +23,21 @@ export class MinecraftBot {
 		});
 	}
 
+	reconnect(handler: Function): void {
+		this.reconnecting = true;
+		setTimeout(() => {
+			this.connect();
+			handler();
+			this.reconnecting = false;
+		}, this.config.get()["autoRejoin"]["delay"]);
+	}
+
 	isConnected(): boolean {
-		return false;
+		return true;
+	}
+
+	isReconnecting(): boolean {
+		return this.reconnecting;
 	}
 
 	disconnect(): void {
