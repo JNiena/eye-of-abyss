@@ -40,6 +40,6 @@ Reviewed by Coder.
 
 ## License
 
-MIT
+[MIT](https://github.com/JNiena/Eye-of-Abyss/blob/main/LICENSE)
 
-**Free Software**
+**Open Source Software**
