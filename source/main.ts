@@ -6,6 +6,7 @@ import {Message} from "discord.js";
 import {Whitelist} from "./whitelist";
 import {ChannelCommand} from "./channelCommand";
 
+// Read from configuration.
 let discordBot: DiscordBot = new DiscordBot(new Config("config.json"));
 let minecraftBots: MinecraftBot[] = [];
 let minecraftBotPaths: string[] = Files.paths("accounts");
@@ -13,6 +14,7 @@ for (let i = 0; i < minecraftBotPaths.length; i++) {
 	minecraftBots.push(new MinecraftBot(new Config(minecraftBotPaths[i])));
 }
 
+// Setup behavior.
 discordBot.login();
 for (let i = 0; i < minecraftBots.length; i++) {
 	let minecraftBot = minecraftBots[i];
