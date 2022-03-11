@@ -1,26 +1,26 @@
 {
-	"enabled": true,
-	"joinMessage": "",
-	"autoRejoin": false,
-	"bot": {
-		"email": "",
-		"password": "",
-		"host": "",
-		"version": "",
-		"auth": ""
-	},
-	"discord": {
-		"channelID": "",
-		"pingRoleID": ""
-	},
-	"log": {
-		"enabled": false,
-		"path": ""
-	},
-	"whitelist": {
-		"enabled": false,
-		"filter": [
-			""
-		]
-	}
+  "enabled": false,
+  "joinMessage": "",
+  "autoRejoin": false,
+  "bot": {
+    "email": "",
+    "password": "",
+    "host": "",
+    "version": "",
+    "auth": ""
+  },
+  "discord": {
+    "channelID": "",
+    "pingRoleID": ""
+  },
+  "log": {
+    "enabled": false,
+    "path": ""
+  },
+  "whitelist": {
+    "enabled": false,
+    "filter": [
+      ""
+    ]
+  }
 }
