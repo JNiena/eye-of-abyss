@@ -19,11 +19,10 @@ export class MinecraftBot {
 			port: this.config.get()["bot"]["port"],
 			auth: this.config.get()["bot"]["auth"]
 		});
-
 	}
 
 	isConnected(): boolean {
-		return this.bot.isConnected();
+		return false;
 	}
 
 	disconnect(): void {
