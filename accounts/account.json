@@ -1,7 +1,6 @@
 {
   "enabled": false,
   "joinMessage": "",
-  "autoRejoin": false,
   "bot": {
     "email": "",
     "password": "",
@@ -22,5 +21,9 @@
     "filter": [
       ""
     ]
+  },
+  "autoRejoin": {
+    "enabled": true,
+    "delay": 60000
   }
 }
