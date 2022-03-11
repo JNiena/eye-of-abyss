@@ -113,12 +113,9 @@ function setupMinecraftBotBehavior(minecraftBot: MinecraftBot) {
 		if (minecraftBot.config.get()["autoRejoin"]["enabled"]) {
 			let delay: number = minecraftBot.config.get()["autoRejoin"]["delay"];
 			discordBot.send(`**Attempting to reconnect in ${delay / 1000} seconds...**`, channelID).then();
-			minecraftBot.reconnecting = true;
-			setTimeout(() => {
-				minecraftBot.connect();
+			minecraftBot.reconnect(() => {
 				setupMinecraftBotBehavior(minecraftBot);
-				minecraftBot.reconnecting = false;
-			}, delay);
+			});
 		}
 	});
 
