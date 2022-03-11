@@ -7,12 +7,12 @@ The idea is that each account can be interacted seperately within their own chan
 ## Features
 
 - Execute any command or chat with your friends as if you were in-game.
-- Filter through messages with a whitelist.
-- Log incoming messages to a file.
-- Auto rejoin if the bot gets kicked with configurable delay.
-- Ping some role if the bot gets disconnected.
-- Setup a join message or command.
-- Can connect with any version of minecraft.
+- Filter through messages using a whitelist.
+- Log the entire chat to a file.
+- Automatically rejoin if the bot gets using a configurable delay.
+- Ping a user or role if the bot gets disconnected.
+- Configurable join message and command.
+- Ability to connect on any version of minecraft.
 - Per account configuration.
 
 Visit the [Wiki](https://github.com/JNiena/Eye-of-Abyss/wiki) for more details.
@@ -36,6 +36,7 @@ Visit the [Wiki](https://github.com/JNiena/Eye-of-Abyss/wiki) for more details.
 ## Development
 
 Developed by JNiena.
+
 Reviewed by Coder.
 
 ## License
