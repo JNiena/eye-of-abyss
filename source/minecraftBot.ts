@@ -1,20 +1,29 @@
-import {Bot, createBot} from "mineflayer";
+import {createBot} from "mineflayer";
 import {Config} from "./config";
 
 export class MinecraftBot {
 
 	public config: Config;
-	private bot: Bot;
+	private bot: any;
 
 	constructor(config: Config) {
 		this.config = config;
+		this.connect();
+	}
+
+	connect(): void {
 		this.bot = createBot({
-			username: config.get()["bot"]["email"],
-			password: config.get()["bot"]["password"],
-			host: config.get()["bot"]["host"],
-			port: config.get()["bot"]["port"],
-			auth: config.get()["bot"]["auth"]
+			username: this.config.get()["bot"]["email"],
+			password: this.config.get()["bot"]["password"],
+			host: this.config.get()["bot"]["host"],
+			port: this.config.get()["bot"]["port"],
+			auth: this.config.get()["bot"]["auth"]
 		});
+
+	}
+
+	disconnect(): void {
+		this.bot.quit();
 	}
 
 	chat(message: string): void {
