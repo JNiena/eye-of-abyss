@@ -35,6 +35,10 @@ function setupDiscordBotBehavior(discordBot: DiscordBot) {
 	discordBot.registerCommand(new Command("!add", (message: Message) => {
 		let minecraftBot: MinecraftBot | undefined = matchBot(message.channel.id);
 		if (minecraftBot === undefined) return;
+		if (minecraftBot.config.get()["whitelist"]["filter"].contains(message.content.toLowerCase())) {
+			discordBot.sendMessage("**That word is already on the whitelist.**", message.channel.id).then();
+			return;
+		}
 		minecraftBot.config.get()["whitelist"]["filter"].push(message.content.toLowerCase());
 		minecraftBot.config.save();
 		discordBot.sendMessage("**Added \"" + message.content + "\" to the whitelist.**", message.channel.id).then();
@@ -42,6 +46,10 @@ function setupDiscordBotBehavior(discordBot: DiscordBot) {
 	discordBot.registerCommand(new Command("!remove", (message: Message) => {
 		let minecraftBot: MinecraftBot | undefined = matchBot(message.channel.id);
 		if (minecraftBot === undefined) return;
+		if (!minecraftBot.config.get()["whitelist"]["filter"].contains(message.content.toLowerCase())) {
+			discordBot.sendMessage("**That word isn't on the whitelist.**", message.channel.id).then();
+			return;
+		}
 		minecraftBot.config.get()["whitelist"]["filter"] = minecraftBot.config.get()["whitelist"]["filter"].filter((element: any) => element !== message.content.toLowerCase());
 		minecraftBot.config.save();
 		discordBot.sendMessage("**Removed \"" + message.content + "\" from the whitelist.**", message.channel.id).then();
