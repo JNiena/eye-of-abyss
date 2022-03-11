@@ -36,7 +36,7 @@ Visit the [Wiki](https://github.com/JNiena/Eye-of-Abyss/wiki) for more details.
 
 ## Development
 
-Developed by xAfflict.
+Developed by JNiena.
 Reviewed by Coder.
 
 ## License
