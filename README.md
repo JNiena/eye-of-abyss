@@ -4,7 +4,6 @@
 Eye of Abyss is a project that allows you to manage multiple minecraft accounts via discord.
 The idea is that each account can be interacted seperately within their own channels.
 
-
 ## Features
 
 - Execute any command or chat with your friends as if you were in-game.
