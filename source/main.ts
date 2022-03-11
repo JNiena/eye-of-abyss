@@ -75,7 +75,8 @@ function setupDiscordBotBehavior(discordBot: DiscordBot, minecraftBot: Minecraft
 	discordBot.registerCommand(new ChannelCommand(channelID, "!connect", (message: Message) => {
 		if (minecraftBot.isConnected()) {
 			discordBot.sendMessage("**The bot is already connected.**", minecraftBot.config.get()["discord"]["channelID"]).then();
-		} else {
+		}
+		else {
 			minecraftBot.connect();
 			setupMinecraftBotBehavior(minecraftBot);
 		}
