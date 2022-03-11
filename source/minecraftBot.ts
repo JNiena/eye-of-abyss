@@ -22,6 +22,10 @@ export class MinecraftBot {
 
 	}
 
+	isConnected(): boolean {
+		return this.bot.isConnected();
+	}
+
 	disconnect(): void {
 		this.bot.quit();
 	}
