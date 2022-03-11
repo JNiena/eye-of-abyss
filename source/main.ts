@@ -15,14 +15,14 @@ for (let i = 0; i < minecraftBotPaths.length; i++) {
 }
 
 // Setup bot behavior.
-discordBot.login();
+discordBot.connect();
 for (let i = 0; i < minecraftBots.length; i++) {
 	let minecraftBot = minecraftBots[i];
 	if (!minecraftBot.config.get()["enabled"]) continue;
+	minecraftBot.connect();
 	setupMinecraftBotBehavior(minecraftBot);
 	setupDiscordBotBehavior(discordBot, minecraftBot);
 }
-discordBot.startListening();
 
 function setupDiscordBotBehavior(discordBot: DiscordBot, minecraftBot: MinecraftBot) {
 	let channelID: string = minecraftBot.config.get()["discord"]["channelID"];
