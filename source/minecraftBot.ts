@@ -20,6 +20,7 @@ export class MinecraftBot {
 			password: this.config.get()["bot"]["password"],
 			host: this.config.get()["bot"]["host"],
 			port: this.config.get()["bot"]["port"],
+			version: this.config.get()["bot"]["version"],
 			auth: this.config.get()["bot"]["auth"]
 		});
 		this.bot.on("login", () => {
