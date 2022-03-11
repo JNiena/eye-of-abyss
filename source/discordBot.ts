@@ -12,9 +12,6 @@ export class DiscordBot {
 		this.config = config;
 		this.client = new Client({intents: [Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILDS]});
 		this.commands = [];
-	}
-
-	startListening(): void {
 		this.client.on("messageCreate", (message: Message) => {
 			if (message.author.bot) return;
 			for (let i = 0; i < this.commands.length; i++) {
@@ -32,7 +29,7 @@ export class DiscordBot {
 		this.commands.push(command);
 	}
 
-	login(callback: Function = () => {}): void {
+	connect(callback: Function = () => {}): void {
 		this.client.login(this.config.get()["botToken"]).then(() => {
 			callback();
 		});
