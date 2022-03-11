@@ -81,7 +81,7 @@ function setupMinecraftBotBehavior(minecraftBot: MinecraftBot) {
 		discordBot.sendMessage("**Successfully connected.**", minecraftBot.config.get()["discord"]["channelID"]).then();
 	});
 	minecraftBot.onKicked((reason: string) => {
-		discordBot.sendMessage(`<@&${minecraftBot.config.get()["discord"]["pingRoleID"]}> **The bot has disconnected!\nReason:** *${JSON.parse(reason)["text"]}*`, minecraftBot.config.get()["discord"]["channelID"]).then();
+		discordBot.sendMessage(`<@&${minecraftBot.config.get()["discord"]["pingRoleID"]}> **The bot has disconnected! Reason:** *${JSON.parse(reason)["text"]}*`, minecraftBot.config.get()["discord"]["channelID"]).then();
 		if (minecraftBot.config.get()["autoRejoin"]) {
 			discordBot.sendMessage("**Attempting to reconnect...**", minecraftBot.config.get()["discord"]["channelID"]).then();
 			setTimeout(() => {
@@ -91,7 +91,7 @@ function setupMinecraftBotBehavior(minecraftBot: MinecraftBot) {
 		}
 	});
 	minecraftBot.onError((error: Error) => {
-		discordBot.sendMessage(`<@&${minecraftBot.config.get()["discord"]["pingRoleID"]}> **The bot has encountered an error!\nReason:** *${error.message}*`, minecraftBot.config.get()["discord"]["channelID"]).then();
+		discordBot.sendMessage(`<@&${minecraftBot.config.get()["discord"]["pingRoleID"]}> **The bot has encountered an error! Reason:** *${error.message}*`, minecraftBot.config.get()["discord"]["channelID"]).then();
 	});
 	minecraftBot.onChat((username: string, message: string) => {
 		let toSend: string = username + ": " + message;
