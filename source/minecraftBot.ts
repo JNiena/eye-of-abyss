@@ -1,5 +1,6 @@
 import {createBot} from "mineflayer";
 import {Config} from "./config";
+import {EventListener} from "./EventListener";
 
 export class MinecraftBot {
 
@@ -40,14 +41,6 @@ export class MinecraftBot {
 		}, this.config.get()["autoRejoin"]["delay"]);
 	}
 
-	isConnected(): boolean {
-		return this.connected;
-	}
-
-	isReconnecting(): boolean {
-		return this.reconnecting;
-	}
-
 	disconnect(): void {
 		this.bot.quit();
 	}
@@ -57,34 +50,20 @@ export class MinecraftBot {
 		this.bot.chat(message);
 	}
 
-	onSpawn(callback: Function): void {
-		this.bot.on("spawn", () => {
-			callback();
-		});
+	on(event: string, listener: EventListener) {
+		this.bot.on(event, listener.handle);
 	}
 
-	onFirstSpawn(callback: Function): void {
-		this.bot.once("spawn", () => {
-			callback();
-		});
+	once(event: string, listener: EventListener) {
+		this.bot.once(event, listener.handle);
 	}
 
-	onChat(callback: Function): void {
-		this.bot.on("chat", (username: string, message: string) => {
-			callback(username, message);
-		});
+	isConnected(): boolean {
+		return this.connected;
 	}
 
-	onKicked(callback: Function): void {
-		this.bot.on("kicked", (reason: string) => {
-			callback(reason);
-		});
-	}
-
-	onError(callback: Function): void {
-		this.bot.on("error", (error: Error) => {
-			callback(error);
-		});
+	isReconnecting(): boolean {
+		return this.reconnecting;
 	}
 
 }
