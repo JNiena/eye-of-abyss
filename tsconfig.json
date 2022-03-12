@@ -7,16 +7,5 @@
     "strict": true,
     "skipLibCheck": true,
     "outDir": "target"
-  },
-  "files": [
-    "source/whitelist.ts",
-    "source/filter.ts",
-    "source/files.ts",
-    "source/config.ts",
-    "source/discordBot.ts",
-    "source/minecraftBot.ts",
-    "source/main.ts",
-    "source/command.ts",
-    "source/channelCommand.ts"
-  ]
+  }
 }
