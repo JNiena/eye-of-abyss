@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.StatusCommand = void 0;
-const channelCommand_1 = require("../channelCommand");
-class StatusCommand extends channelCommand_1.ChannelCommand {
+const ChannelCommand_1 = require("../ChannelCommand");
+class StatusCommand extends ChannelCommand_1.ChannelCommand {
     constructor(channelID, discordBot, minecraftBot) {
         super(channelID, "!status", (message) => {
             if (minecraftBot.isConnected()) {

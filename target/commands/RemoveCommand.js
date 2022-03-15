@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.RemoveCommand = void 0;
-const channelCommand_1 = require("../channelCommand");
-class RemoveCommand extends channelCommand_1.ChannelCommand {
+const ChannelCommand_1 = require("../ChannelCommand");
+class RemoveCommand extends ChannelCommand_1.ChannelCommand {
     constructor(channelID, discordBot, minecraftBot) {
         super(channelID, "!remove", (message) => {
             if (!minecraftBot.config.get()["whitelist"]["filter"].includes(message.content.toLowerCase())) {

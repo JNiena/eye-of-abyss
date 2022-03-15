@@ -1,17 +1,17 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ChatListener = void 0;
-const whitelist_1 = require("../whitelist");
-const files_1 = require("../files");
+const Whitelist_1 = require("../Whitelist");
+const Files_1 = require("../Files");
 class ChatListener {
     constructor(channelID, discordBot, minecraftBot) {
         this.handle = (username, message) => {
             let toSend = username + " » " + message.replace("@", "");
-            if (!minecraftBot.config.get()["whitelist"]["enabled"] || new whitelist_1.Whitelist(minecraftBot.config.get()["whitelist"]["filter"]).processText(toSend)) {
+            if (!minecraftBot.config.get()["whitelist"]["enabled"] || new Whitelist_1.Whitelist(minecraftBot.config.get()["whitelist"]["filter"]).processText(toSend)) {
                 discordBot.send(toSend, channelID).then();
             }
             if (minecraftBot.config.get()["log"]["enabled"]) {
-                files_1.Files.write(minecraftBot.config.get()["log"]["path"], toSend + "\n");
+                Files_1.Files.write(minecraftBot.config.get()["log"]["path"], toSend + "\n");
             }
         };
     }

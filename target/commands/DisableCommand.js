@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DisableCommand = void 0;
-const channelCommand_1 = require("../channelCommand");
-class DisableCommand extends channelCommand_1.ChannelCommand {
+const ChannelCommand_1 = require("../ChannelCommand");
+class DisableCommand extends ChannelCommand_1.ChannelCommand {
     constructor(channelID, discordBot, minecraftBot) {
         super(channelID, "!disable", (message) => {
             minecraftBot.config.get()["whitelist"]["enabled"] = false;

@@ -21,7 +21,7 @@ class DiscordBot {
         this.commands.push(command);
     }
     connect(callback = () => { }) {
-        this.client.login(this.config.get()["botToken"]).then(() => {
+        this.client.login(this.config.get()["token"]).then(() => {
             this.client.on("messageCreate", (message) => {
                 if (message.author.bot)
                     return;
@@ -30,7 +30,6 @@ class DiscordBot {
                     if (message.content.startsWith(commandPrefix)) {
                         message.content = message.content.replace(commandPrefix + " ", "");
                         this.commands[i].handle(message);
-                        break;
                     }
                 }
             });

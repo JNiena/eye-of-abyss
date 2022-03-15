@@ -1,10 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Config = void 0;
-const files_1 = require("./files");
+const Files_1 = require("./Files");
 class Config {
     constructor(path) {
-        this.config = JSON.parse(files_1.Files.read(path));
+        this.config = JSON.parse(Files_1.Files.read(path));
         this.path = path;
     }
     get() {
@@ -14,8 +14,8 @@ class Config {
         this.config = data;
     }
     save() {
-        files_1.Files.delete(this.path);
-        files_1.Files.write(this.path, JSON.stringify(this.config, null, "\t"));
+        Files_1.Files.delete(this.path);
+        Files_1.Files.write(this.path, JSON.stringify(this.config, null, "\t"));
     }
 }
 exports.Config = Config;

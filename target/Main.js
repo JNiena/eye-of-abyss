@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const minecraftBot_1 = require("./minecraftBot");
-const discordBot_1 = require("./discordBot");
-const config_1 = require("./config");
-const files_1 = require("./files");
+const MinecraftBot_1 = require("./MinecraftBot");
+const DiscordBot_1 = require("./DiscordBot");
+const Config_1 = require("./Config");
+const Files_1 = require("./Files");
 const SayCommand_1 = require("./commands/SayCommand");
 const ListCommand_1 = require("./commands/ListCommand");
 const AddCommand_1 = require("./commands/AddCommand");
@@ -17,11 +17,12 @@ const FirstSpawnListener_1 = require("./listeners/FirstSpawnListener");
 const KickedListener_1 = require("./listeners/KickedListener");
 const ErrorListener_1 = require("./listeners/ErrorListener");
 const ChatListener_1 = require("./listeners/ChatListener");
-let discordBot = new discordBot_1.DiscordBot(new config_1.Config("config.json"));
+const ResetCommand_1 = require("./commands/ResetCommand");
+let discordBot = new DiscordBot_1.DiscordBot(new Config_1.Config("config.json"));
 let minecraftBots = [];
-let minecraftBotPaths = files_1.Files.paths("accounts");
+let minecraftBotPaths = Files_1.Files.paths("accounts");
 for (let i = 0; i < minecraftBotPaths.length; i++) {
-    minecraftBots.push(new minecraftBot_1.MinecraftBot(new config_1.Config(minecraftBotPaths[i])));
+    minecraftBots.push(new MinecraftBot_1.MinecraftBot(new Config_1.Config(minecraftBotPaths[i])));
 }
 discordBot.connect();
 for (let i = 0; i < minecraftBots.length; i++) {
@@ -43,6 +44,7 @@ function setupDiscordBotBehavior(discordBot, minecraftBot) {
     discordBot.registerCommand(new ConnectCommand_1.ConnectCommand(channelID, discordBot, minecraftBot, setupMinecraftBotBehavior));
     discordBot.registerCommand(new DisconnectCommand_1.DisconnectCommand(channelID, discordBot, minecraftBot));
     discordBot.registerCommand(new StatusCommand_1.StatusCommand(channelID, discordBot, minecraftBot));
+    discordBot.registerCommand(new ResetCommand_1.ResetCommand(channelID, discordBot, minecraftBot));
 }
 function setupMinecraftBotBehavior(minecraftBot) {
     let channelID = minecraftBot.config.get()["discord"]["channelID"];
