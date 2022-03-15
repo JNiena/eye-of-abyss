@@ -9,7 +9,7 @@ The idea is that each account can be interacted seperately within their own chan
 - Execute any command or chat with your friends as if you were in-game.
 - Filter through messages using a whitelist.
 - Log the entire chat to a file.
-- Automatically rejoin if the bot gets using a configurable delay.
+- Automatically rejoin if the bot gets disconnected using a configurable delay.
 - Ping a user or role if the bot gets disconnected.
 - Configurable join message and command.
 - Ability to connect on any version of minecraft.
