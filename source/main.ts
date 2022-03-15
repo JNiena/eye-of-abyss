@@ -49,6 +49,6 @@ function setupMinecraftBotBehavior(minecraftBot: MinecraftBot): void {
 	let channelID: string = minecraftBot.config.get()["discord"]["channelID"];
 	minecraftBot.once("spawn", new FirstSpawnListener(channelID, discordBot, minecraftBot));
 	minecraftBot.on("kicked", new KickedListener(channelID, discordBot, minecraftBot, setupMinecraftBotBehavior));
-	minecraftBot.on("error", new ErrorListener(channelID, discordBot, minecraftBot));
+	minecraftBot.on("error", new ErrorListener(channelID, discordBot, minecraftBot, setupMinecraftBotBehavior));
 	minecraftBot.on("chat", new ChatListener(channelID, discordBot, minecraftBot));
 }
