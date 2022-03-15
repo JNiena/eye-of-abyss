@@ -24,8 +24,8 @@ export class DiscordBot {
 				if (message.author.bot) return;
 				for (let i = 0; i < this.commands.length; i++) {
 					let commandPrefix: string = this.commands[i].name;
-					if (message.content.split(" ")[0] === commandPrefix) {
-						message.content = message.content.replace(commandPrefix + " ", "");
+					let channelID: string = this.commands[i].channelID;
+					if (message.content.split(" ")[0] === commandPrefix && message.channel.id === channelID) {
 						this.commands[i].handle(message);
 					}
 				}
