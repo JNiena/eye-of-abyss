@@ -19,7 +19,7 @@ export class DiscordBot {
 	}
 
 	connect(callback: Function = () => {}): void {
-		this.client.login(this.config.get()["botToken"]).then(() => {
+		this.client.login(this.config.get()["token"]).then(() => {
 			this.client.on("messageCreate", (message: Message) => {
 				if (message.author.bot) return;
 				for (let i = 0; i < this.commands.length; i++) {
