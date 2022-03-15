@@ -1,9 +1,9 @@
-import {ChannelCommand} from "../ChannelCommand";
+import {Command} from "../Command";
 import {MinecraftBot} from "../MinecraftBot";
 import {Message} from "discord.js";
 import {DiscordBot} from "../DiscordBot";
 
-export class EnableCommand extends ChannelCommand {
+export class EnableCommand extends Command {
 
 	constructor(channelID: string, discordBot: DiscordBot, minecraftBot: MinecraftBot) {
 		super(channelID, "!enable", (message: Message) => {

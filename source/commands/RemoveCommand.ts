@@ -1,9 +1,9 @@
 import {Message} from "discord.js";
-import {ChannelCommand} from "../ChannelCommand";
+import {Command} from "../Command";
 import {DiscordBot} from "../DiscordBot";
 import {MinecraftBot} from "../MinecraftBot";
 
-export class RemoveCommand extends ChannelCommand {
+export class RemoveCommand extends Command {
 
 	constructor(channelID: string, discordBot: DiscordBot, minecraftBot: MinecraftBot) {
 		super(channelID, "!remove", (message: Message) => {
