@@ -20,7 +20,7 @@ Visit the [Wiki](https://github.com/JNiena/Eye-of-Abyss/wiki) for more details.
 ## Installation
 
 1. Make sure you have [Node.js](https://nodejs.org/) v10+ installed.
-2. Download and extract the latest version from the [Releases](https://github.com/JNiena/Eye-of-Abyss/releases) tab.
+2. Download and extract the latest version from the [Releases](https://github.com/JNiena/Eye-of-Abyss/releases/latest) tab.
 3. Put your discord bot token in the config.json file.
 4. Add and configure accounts inside of the accounts directory.
 5. Run main.js with node.
