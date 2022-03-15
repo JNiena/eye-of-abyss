@@ -1,5 +1,5 @@
 import {createBot} from "mineflayer";
-import {Config} from "./config";
+import {Config} from "./Config";
 import {EventListener} from "./EventListener";
 
 export class MinecraftBot {

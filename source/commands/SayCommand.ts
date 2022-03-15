@@ -1,6 +1,6 @@
-import {ChannelCommand} from "../channelCommand";
+import {ChannelCommand} from "../ChannelCommand";
 import {Message} from "discord.js";
-import {MinecraftBot} from "../minecraftBot";
+import {MinecraftBot} from "../MinecraftBot";
 
 export class SayCommand extends ChannelCommand {
 

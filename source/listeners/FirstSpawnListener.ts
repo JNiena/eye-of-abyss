@@ -1,6 +1,6 @@
 import {EventListener} from "../EventListener";
-import {MinecraftBot} from "../minecraftBot";
-import {DiscordBot} from "../discordBot";
+import {MinecraftBot} from "../MinecraftBot";
+import {DiscordBot} from "../DiscordBot";
 
 export class FirstSpawnListener implements EventListener {
 

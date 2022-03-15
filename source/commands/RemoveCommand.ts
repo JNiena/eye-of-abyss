@@ -1,7 +1,7 @@
 import {Message} from "discord.js";
-import {ChannelCommand} from "../channelCommand";
-import {DiscordBot} from "../discordBot";
-import {MinecraftBot} from "../minecraftBot";
+import {ChannelCommand} from "../ChannelCommand";
+import {DiscordBot} from "../DiscordBot";
+import {MinecraftBot} from "../MinecraftBot";
 
 export class RemoveCommand extends ChannelCommand {
 

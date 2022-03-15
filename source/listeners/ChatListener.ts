@@ -1,8 +1,8 @@
 import {EventListener} from "../EventListener";
-import {DiscordBot} from "../discordBot";
-import {MinecraftBot} from "../minecraftBot";
-import {Whitelist} from "../whitelist";
-import {Files} from "../files";
+import {DiscordBot} from "../DiscordBot";
+import {MinecraftBot} from "../MinecraftBot";
+import {Whitelist} from "../Whitelist";
+import {Files} from "../Files";
 
 export class ChatListener implements EventListener {
 

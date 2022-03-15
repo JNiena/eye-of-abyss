@@ -1,7 +1,7 @@
-import {ChannelCommand} from "../channelCommand";
+import {ChannelCommand} from "../ChannelCommand";
 import {Message} from "discord.js";
-import {DiscordBot} from "../discordBot";
-import {MinecraftBot} from "../minecraftBot";
+import {DiscordBot} from "../DiscordBot";
+import {MinecraftBot} from "../MinecraftBot";
 
 export class ListCommand extends ChannelCommand {
 

@@ -1,6 +1,6 @@
 import {Client, Intents, Message, TextChannel} from "discord.js";
-import {Config} from "./config";
-import {Command} from "./command";
+import {Config} from "./Config";
+import {Command} from "./Command";
 
 export class DiscordBot {
 

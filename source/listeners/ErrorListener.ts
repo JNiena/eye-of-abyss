@@ -1,6 +1,6 @@
 import {EventListener} from "../EventListener";
-import {DiscordBot} from "../discordBot";
-import {MinecraftBot} from "../minecraftBot";
+import {DiscordBot} from "../DiscordBot";
+import {MinecraftBot} from "../MinecraftBot";
 
 export class ErrorListener implements EventListener {
 

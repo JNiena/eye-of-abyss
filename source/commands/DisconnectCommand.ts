@@ -1,6 +1,6 @@
-import {ChannelCommand} from "../channelCommand";
-import {MinecraftBot} from "../minecraftBot";
-import {DiscordBot} from "../discordBot";
+import {ChannelCommand} from "../ChannelCommand";
+import {MinecraftBot} from "../MinecraftBot";
+import {DiscordBot} from "../DiscordBot";
 import {Message} from "discord.js";
 
 export class DisconnectCommand extends ChannelCommand {

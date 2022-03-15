@@ -1,6 +1,6 @@
-import {ChannelCommand} from "../channelCommand";
-import {DiscordBot} from "../discordBot";
-import {MinecraftBot} from "../minecraftBot";
+import {ChannelCommand} from "../ChannelCommand";
+import {DiscordBot} from "../DiscordBot";
+import {MinecraftBot} from "../MinecraftBot";
 import {Message} from "discord.js";
 
 export class StatusCommand extends ChannelCommand {
