@@ -15,6 +15,7 @@ import {FirstSpawnListener} from "./listeners/FirstSpawnListener";
 import {KickedListener} from "./listeners/KickedListener";
 import {ErrorListener} from "./listeners/ErrorListener";
 import {ChatListener} from "./listeners/ChatListener";
+import {ResetCommand} from "./commands/ResetCommand";
 
 let discordBot: DiscordBot = new DiscordBot(new Config("config.json"));
 let minecraftBots: MinecraftBot[] = [];
@@ -43,6 +44,7 @@ function setupDiscordBotBehavior(discordBot: DiscordBot, minecraftBot: Minecraft
 	discordBot.registerCommand(new ConnectCommand(channelID, discordBot, minecraftBot, setupMinecraftBotBehavior));
 	discordBot.registerCommand(new DisconnectCommand(channelID, discordBot, minecraftBot));
 	discordBot.registerCommand(new StatusCommand(channelID, discordBot, minecraftBot));
+	discordBot.registerCommand(new ResetCommand(channelID, discordBot, minecraftBot));
 }
 
 function setupMinecraftBotBehavior(minecraftBot: MinecraftBot): void {
