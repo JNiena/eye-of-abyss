@@ -27,7 +27,6 @@ export class DiscordBot {
 					if (message.content.startsWith(commandPrefix)) {
 						message.content = message.content.replace(commandPrefix + " ", "");
 						this.commands[i].handle(message);
-						break;
 					}
 				}
 			});
