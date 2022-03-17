@@ -10,7 +10,7 @@ export class MinecraftBot {
 	private initializeFunction: Function;
 	private bot: any;
 
-	constructor(config: Config, initializeFunction: Function = () => {}) {
+	public constructor(config: Config, initializeFunction: Function = () => {}) {
 		this.config = config;
 		this.reconnecting = false;
 		this.connected = false;
@@ -18,7 +18,7 @@ export class MinecraftBot {
 		if (config.get()["enabled"]) this.connect();
 	}
 
-	connect(): void {
+	public connect(): void {
 		this.bot = createBot({
 			username: this.config.get()["bot"]["email"],
 			password: this.config.get()["bot"]["password"],
@@ -36,7 +36,7 @@ export class MinecraftBot {
 		this.initializeFunction(this);
 	}
 
-	reconnect(handler: Function): void {
+	public reconnect(handler: Function): void {
 		this.reconnecting = true;
 		setTimeout(() => {
 			this.connect();
@@ -45,28 +45,28 @@ export class MinecraftBot {
 		}, this.config.get()["autoRejoin"]["delay"]);
 	}
 
-	disconnect(): void {
+	public disconnect(): void {
 		this.bot.quit();
 	}
 
-	chat(message: string): void {
+	public chat(message: string): void {
 		if (message.length === 0) return;
 		this.bot.chat(message);
 	}
 
-	on(event: string, listener: EventListener) {
+	public on(event: string, listener: EventListener) {
 		this.bot.on(event, listener.handle);
 	}
 
-	once(event: string, listener: EventListener) {
+	public once(event: string, listener: EventListener) {
 		this.bot.once(event, listener.handle);
 	}
 
-	isConnected(): boolean {
+	public isConnected(): boolean {
 		return this.connected;
 	}
 
-	isReconnecting(): boolean {
+	public isReconnecting(): boolean {
 		return this.reconnecting;
 	}
 
