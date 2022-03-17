@@ -7,12 +7,15 @@ export class MinecraftBot {
 	public config: Config;
 	private reconnecting: boolean;
 	private connected: boolean;
+	private initializeFunction: Function;
 	private bot: any;
 
-	constructor(config: Config) {
+	constructor(config: Config, initializeFunction: Function = () => {}) {
 		this.config = config;
 		this.reconnecting = false;
 		this.connected = false;
+		this.initializeFunction = initializeFunction;
+		if (config.get()["enabled"]) this.connect();
 	}
 
 	connect(): void {
@@ -30,6 +33,7 @@ export class MinecraftBot {
 		this.bot.on("end", () => {
 			this.connected = false;
 		});
+		this.initializeFunction(this);
 	}
 
 	reconnect(handler: Function): void {
