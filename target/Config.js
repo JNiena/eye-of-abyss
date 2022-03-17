@@ -4,18 +4,20 @@ exports.Config = void 0;
 const Files_1 = require("./Files");
 class Config {
     constructor(path) {
-        this.config = JSON.parse(Files_1.Files.read(path));
         this.path = path;
+        this.data = JSON.parse(Files_1.Files.read(path));
     }
     get() {
-        return this.config;
+        return this.data;
     }
     set(data) {
-        this.config = data;
+        this.data = data;
     }
     save() {
-        Files_1.Files.delete(this.path);
-        Files_1.Files.write(this.path, JSON.stringify(this.config, null, "\t"));
+        if (this.path !== undefined) {
+            Files_1.Files.delete(this.path);
+            Files_1.Files.write(this.path, JSON.stringify(this.data, null, "\t"));
+        }
     }
 }
 exports.Config = Config;

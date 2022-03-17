@@ -1,17 +1,32 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.RemoveCommand = void 0;
-const Command_1 = require("../Command");
-class RemoveCommand extends Command_1.Command {
-    constructor(channelID, discordBot, minecraftBot) {
-        super(channelID, "!remove", (message) => {
-            if (!minecraftBot.config.get()["whitelist"]["filter"].includes(message.content.toLowerCase())) {
-                discordBot.send("**That word isn't on the whitelist.**", channelID).then();
+const discord_akairo_1 = require("discord-akairo");
+class RemoveCommand extends discord_akairo_1.Command {
+    constructor(minecraftBots) {
+        super("remove", {
+            "aliases": ["remove"],
+            "args": [
+                {
+                    "id": "word",
+                    "type": "lowercase"
+                }
+            ]
+        });
+        this.minecraftBots = minecraftBots;
+    }
+    exec(message, args) {
+        this.minecraftBots.forEach(minecraftBot => {
+            if (message.channel.id !== minecraftBot.config.get()["discord"]["channelID"])
                 return;
+            if (minecraftBot.config.get()["whitelist"]["filter"].includes(args.word)) {
+                minecraftBot.config.get()["whitelist"]["filter"] = minecraftBot.config.get()["whitelist"]["filter"].filter((element) => element !== args.word);
+                minecraftBot.config.save();
+                message.reply(`**Removed "${args.word}" from the whitelist.**`).then();
             }
-            minecraftBot.config.get()["whitelist"]["filter"] = minecraftBot.config.get()["whitelist"]["filter"].filter((element) => element !== message.content.toLowerCase());
-            minecraftBot.config.save();
-            discordBot.send("**Removed \"" + message.content + "\" from the whitelist.**", channelID).then();
+            else {
+                message.reply("**That word isn't on the whitelist.**").then();
+            }
         });
     }
 }

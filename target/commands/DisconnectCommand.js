@@ -1,16 +1,25 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DisconnectCommand = void 0;
-const Command_1 = require("../Command");
-class DisconnectCommand extends Command_1.Command {
-    constructor(channelID, discordBot, minecraftBot) {
-        super(channelID, "!disconnect", (message) => {
-            if (!minecraftBot.isConnected()) {
-                discordBot.send("**The bot is already disconnected.**", channelID).then();
+const discord_akairo_1 = require("discord-akairo");
+class DisconnectCommand extends discord_akairo_1.Command {
+    constructor(minecraftBots) {
+        super("disconnect", {
+            "aliases": ["disconnect"]
+        });
+        this.minecraftBots = minecraftBots;
+    }
+    exec(message, args) {
+        this.minecraftBots.forEach(minecraftBot => {
+            if (message.channel.id !== minecraftBot.config.get()["discord"]["channelID"])
                 return;
+            if (minecraftBot.isConnected()) {
+                minecraftBot.disconnect();
+                message.reply("**Successfully disconnected.**").then();
             }
-            minecraftBot.disconnect();
-            discordBot.send("**Successfully disconnected.**", channelID).then();
+            else {
+                message.reply("**The bot is already disconnected.**").then();
+            }
         });
     }
 }

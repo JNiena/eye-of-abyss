@@ -1,15 +1,23 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.StatusCommand = void 0;
-const Command_1 = require("../Command");
-class StatusCommand extends Command_1.Command {
-    constructor(channelID, discordBot, minecraftBot) {
-        super(channelID, "!status", (message) => {
+const discord_akairo_1 = require("discord-akairo");
+class StatusCommand extends discord_akairo_1.Command {
+    constructor(minecraftBots) {
+        super("status", {
+            "aliases": ["status"]
+        });
+        this.minecraftBots = minecraftBots;
+    }
+    exec(message, args) {
+        this.minecraftBots.forEach(minecraftBot => {
+            if (message.channel.id !== minecraftBot.config.get()["discord"]["channelID"])
+                return;
             if (minecraftBot.isConnected()) {
-                discordBot.send("**The bot is online.**", channelID).then();
+                message.reply("**The bot is online.**").then();
             }
             else {
-                discordBot.send("**The bot is offline.**", channelID).then();
+                message.reply("**The bot is offline.**").then();
             }
         });
     }

@@ -10,38 +10,33 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DiscordBot = void 0;
-const discord_js_1 = require("discord.js");
-class DiscordBot {
+const discord_akairo_1 = require("discord-akairo");
+class DiscordBot extends discord_akairo_1.AkairoClient {
     constructor(config) {
-        this.config = config;
-        this.client = new discord_js_1.Client({ intents: [discord_js_1.Intents.FLAGS.GUILD_MESSAGES, discord_js_1.Intents.FLAGS.GUILDS] });
-        this.commands = [];
-    }
-    registerCommand(command) {
-        this.commands.push(command);
+        super();
+        this.commandHandler = new discord_akairo_1.CommandHandler(this, {
+            "directory": config.get()["commands"]["path"],
+            "prefix": config.get()["commands"]["prefix"]
+        });
+        this.commandHandler.loadAll();
+        this.token = config.get()["token"];
     }
     connect(callback = () => { }) {
-        this.client.login(this.config.get()["token"]).then(() => {
-            this.client.on("messageCreate", (message) => {
-                if (message.author.bot)
-                    return;
-                for (let i = 0; i < this.commands.length; i++) {
-                    let commandPrefix = this.commands[i].name;
-                    let channelID = this.commands[i].channelID;
-                    if (message.content.split(" ")[0] === commandPrefix && message.channel.id === channelID) {
-                        this.commands[i].handle(message);
-                    }
-                }
+        if (this.token) {
+            this.login(this.token).then(() => {
+                callback();
             });
-            callback();
-        });
+        }
+    }
+    registerCommand(command) {
+        this.commandHandler.register(command);
     }
     send(text, channelID) {
         return __awaiter(this, void 0, void 0, function* () {
             if (text.length === 0)
                 return Promise.resolve();
             try {
-                let channel = this.client.channels.cache.get(channelID);
+                let channel = this.channels.cache.get(channelID);
                 if (channel)
                     yield channel.send(text);
             }

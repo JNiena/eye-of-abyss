@@ -18,33 +18,26 @@ const KickedListener_1 = require("./listeners/KickedListener");
 const ErrorListener_1 = require("./listeners/ErrorListener");
 const ChatListener_1 = require("./listeners/ChatListener");
 const ResetCommand_1 = require("./commands/ResetCommand");
-let discordBot = new DiscordBot_1.DiscordBot(new Config_1.Config("config.json"));
+let discordBotConfig = new Config_1.Config("config.json");
+let discordBot = new DiscordBot_1.DiscordBot(discordBotConfig);
 let minecraftBots = [];
-let minecraftBotPaths = Files_1.Files.paths("accounts");
-for (let i = 0; i < minecraftBotPaths.length; i++) {
-    minecraftBots.push(new MinecraftBot_1.MinecraftBot(new Config_1.Config(minecraftBotPaths[i])));
-}
-discordBot.connect();
-for (let i = 0; i < minecraftBots.length; i++) {
-    let minecraftBot = minecraftBots[i];
-    if (!minecraftBot.config.get()["enabled"])
-        continue;
-    minecraftBot.connect();
-    setupMinecraftBotBehavior(minecraftBot);
-    setupDiscordBotBehavior(discordBot, minecraftBot);
-}
-function setupDiscordBotBehavior(discordBot, minecraftBot) {
-    let channelID = minecraftBot.config.get()["discord"]["channelID"];
-    discordBot.registerCommand(new SayCommand_1.SayCommand(channelID, minecraftBot));
-    discordBot.registerCommand(new ListCommand_1.ListCommand(channelID, discordBot, minecraftBot));
-    discordBot.registerCommand(new AddCommand_1.AddCommand(channelID, discordBot, minecraftBot));
-    discordBot.registerCommand(new RemoveCommand_1.RemoveCommand(channelID, discordBot, minecraftBot));
-    discordBot.registerCommand(new EnableCommand_1.EnableCommand(channelID, discordBot, minecraftBot));
-    discordBot.registerCommand(new DisableCommand_1.DisableCommand(channelID, discordBot, minecraftBot));
-    discordBot.registerCommand(new ConnectCommand_1.ConnectCommand(channelID, discordBot, minecraftBot, setupMinecraftBotBehavior));
-    discordBot.registerCommand(new DisconnectCommand_1.DisconnectCommand(channelID, discordBot, minecraftBot));
-    discordBot.registerCommand(new StatusCommand_1.StatusCommand(channelID, discordBot, minecraftBot));
-    discordBot.registerCommand(new ResetCommand_1.ResetCommand(channelID, discordBot, minecraftBot));
+Files_1.Files.readDir("accounts").forEach(path => {
+    minecraftBots.push(new MinecraftBot_1.MinecraftBot(new Config_1.Config(path), setupMinecraftBotBehavior));
+});
+discordBot.connect(() => {
+    setupDiscordBotBehavior(discordBot, minecraftBots);
+});
+function setupDiscordBotBehavior(discordBot, minecraftBots) {
+    discordBot.registerCommand(new SayCommand_1.SayCommand(minecraftBots));
+    discordBot.registerCommand(new ListCommand_1.ListCommand(minecraftBots));
+    discordBot.registerCommand(new AddCommand_1.AddCommand(minecraftBots));
+    discordBot.registerCommand(new RemoveCommand_1.RemoveCommand(minecraftBots));
+    discordBot.registerCommand(new EnableCommand_1.EnableCommand(minecraftBots));
+    discordBot.registerCommand(new DisableCommand_1.DisableCommand(minecraftBots));
+    discordBot.registerCommand(new ConnectCommand_1.ConnectCommand(minecraftBots));
+    discordBot.registerCommand(new DisconnectCommand_1.DisconnectCommand(minecraftBots));
+    discordBot.registerCommand(new StatusCommand_1.StatusCommand(minecraftBots));
+    discordBot.registerCommand(new ResetCommand_1.ResetCommand(minecraftBots));
 }
 function setupMinecraftBotBehavior(minecraftBot) {
     let channelID = minecraftBot.config.get()["discord"]["channelID"];

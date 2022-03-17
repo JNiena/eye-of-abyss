@@ -3,10 +3,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.MinecraftBot = void 0;
 const mineflayer_1 = require("mineflayer");
 class MinecraftBot {
-    constructor(config) {
+    constructor(config, initializeFunction = () => { }) {
         this.config = config;
         this.reconnecting = false;
         this.connected = false;
+        this.initializeFunction = initializeFunction;
+        if (config.get()["enabled"])
+            this.connect();
     }
     connect() {
         this.bot = (0, mineflayer_1.createBot)({
@@ -23,6 +26,7 @@ class MinecraftBot {
         this.bot.on("end", () => {
             this.connected = false;
         });
+        this.initializeFunction(this);
     }
     reconnect(handler) {
         this.reconnecting = true;

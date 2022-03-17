@@ -1,20 +1,27 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ConnectCommand = void 0;
-const Command_1 = require("../Command");
-class ConnectCommand extends Command_1.Command {
-    constructor(channelID, discordBot, minecraftBot, setupBehavior) {
-        super(channelID, "!connect", (message) => {
+const discord_akairo_1 = require("discord-akairo");
+class ConnectCommand extends discord_akairo_1.Command {
+    constructor(minecraftBots) {
+        super("connect", {
+            "aliases": ["connect"]
+        });
+        this.minecraftBots = minecraftBots;
+    }
+    exec(message, args) {
+        this.minecraftBots.forEach(minecraftBot => {
+            if (message.channel.id !== minecraftBot.config.get()["discord"]["channelID"])
+                return;
             if (minecraftBot.isReconnecting()) {
-                discordBot.send("**The bot is already attempting to reconnect, please wait.**", channelID).then();
-                return;
+                message.reply("**The bot is already attempting to reconnect, please wait.**").then();
             }
-            if (minecraftBot.isConnected()) {
-                discordBot.send("**The bot is already connected.**", channelID).then();
-                return;
+            else if (minecraftBot.isConnected()) {
+                message.reply("**The bot is already connected.**").then();
             }
-            minecraftBot.connect();
-            setupBehavior(minecraftBot);
+            else {
+                minecraftBot.connect();
+            }
         });
     }
 }

@@ -1,17 +1,32 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AddCommand = void 0;
-const Command_1 = require("../Command");
-class AddCommand extends Command_1.Command {
-    constructor(channelID, discordBot, minecraftBot) {
-        super(channelID, "!add", (message) => {
-            if (minecraftBot.config.get()["whitelist"]["filter"].includes(message.content.toLowerCase())) {
-                discordBot.send("**That word is already on the whitelist.**", channelID).then();
+const discord_akairo_1 = require("discord-akairo");
+class AddCommand extends discord_akairo_1.Command {
+    constructor(minecraftBots) {
+        super("add", {
+            "aliases": ["add"],
+            "args": [
+                {
+                    "id": "word",
+                    "type": "lowercase"
+                }
+            ]
+        });
+        this.minecraftBots = minecraftBots;
+    }
+    exec(message, args) {
+        this.minecraftBots.forEach(minecraftBot => {
+            if (message.channel.id !== minecraftBot.config.get()["discord"]["channelID"])
                 return;
+            if (minecraftBot.config.get()["whitelist"]["filter"].includes(args.word)) {
+                message.reply("**That word is already on the whitelist.**").then();
             }
-            minecraftBot.config.get()["whitelist"]["filter"].push(message.content.toLowerCase());
-            minecraftBot.config.save();
-            discordBot.send("**Added \"" + message.content + "\" to the whitelist.**", channelID).then();
+            else {
+                minecraftBot.config.get()["whitelist"]["filter"].push(args.word);
+                minecraftBot.config.save();
+                message.reply(`**Added "${args.word}" to the whitelist.**`).then();
+            }
         });
     }
 }

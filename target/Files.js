@@ -3,32 +3,27 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Files = void 0;
 const fs_1 = require("fs");
 class Files {
-    static read(filePath) {
-        return (0, fs_1.readFileSync)(filePath, "utf-8").toString();
+    static read(path) {
+        return (0, fs_1.readFileSync)(path, "utf-8").toString();
     }
-    static readAll(directoryPath) {
-        let directory = (0, fs_1.readdirSync)(directoryPath);
-        let files = [];
-        for (let i = 0; i < directory.length; i++) {
-            files.push(this.read(directoryPath + "/" + directory[i]));
-        }
-        return files;
-    }
-    static paths(directoryPath) {
+    static readDir(directoryPath) {
         let paths = (0, fs_1.readdirSync)(directoryPath);
         for (let i = 0; i < paths.length; i++) {
             paths[i] = directoryPath + "/" + paths[i];
         }
         return paths;
     }
-    static write(filePath, data = "") {
-        (0, fs_1.appendFileSync)(filePath, data);
+    static write(path, data) {
+        (0, fs_1.appendFileSync)(path, data);
     }
-    static delete(filePath) {
-        (0, fs_1.unlinkSync)(filePath);
+    static create(path) {
+        (0, fs_1.writeFileSync)(path, "");
     }
-    static exists(filePath) {
-        return (0, fs_1.existsSync)(filePath);
+    static delete(path) {
+        (0, fs_1.unlinkSync)(path);
+    }
+    static exists(path) {
+        return (0, fs_1.existsSync)(path);
     }
 }
 exports.Files = Files;
