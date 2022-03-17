@@ -1,17 +1,26 @@
-import {Command} from "../Command";
-import {DiscordBot} from "../DiscordBot";
+import {Command} from "discord-akairo";
 import {MinecraftBot} from "../MinecraftBot";
 import {Message} from "discord.js";
 
 export class StatusCommand extends Command {
 
-	constructor(channelID: string, discordBot: DiscordBot, minecraftBot: MinecraftBot) {
-		super(channelID, "!status", (message: Message) => {
+	private minecraftBots: MinecraftBot[];
+
+	constructor(minecraftBots: MinecraftBot[]) {
+		super("status", {
+			"aliases": ["status"]
+		});
+		this.minecraftBots = minecraftBots;
+	}
+
+	exec(message: Message, args: any): any {
+		this.minecraftBots.forEach(minecraftBot => {
+			if (message.channel.id !== minecraftBot.config.get()["discord"]["channelID"]) return;
 			if (minecraftBot.isConnected()) {
-				discordBot.send("**The bot is online.**", channelID).then();
+				message.reply("**The bot is online.**").then();
 			}
 			else {
-				discordBot.send("**The bot is offline.**", channelID).then();
+				message.reply("**The bot is offline.**").then();
 			}
 		});
 	}
