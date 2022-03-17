@@ -1,43 +1,24 @@
-import {Client, Intents, Message, TextChannel} from "discord.js";
+import {Intents, TextChannel} from "discord.js";
+import {AkairoClient, CommandHandler} from "discord-akairo";
 import {Config} from "./Config";
-import {Command} from "./Command";
 
-export class DiscordBot {
+export class DiscordBot extends AkairoClient {
 
-	public config: Config;
-	private client: Client;
-	private commands: Command[];
+	private commandHandler: CommandHandler;
 
 	constructor(config: Config) {
-		this.config = config;
-		this.client = new Client({intents: [Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILDS]});
-		this.commands = [];
-	}
-
-	registerCommand(command: Command): void {
-		this.commands.push(command);
-	}
-
-	connect(callback: Function = () => {}): void {
-		this.client.login(this.config.get()["token"]).then(() => {
-			this.client.on("messageCreate", (message: Message) => {
-				if (message.author.bot) return;
-				for (let i = 0; i < this.commands.length; i++) {
-					let commandPrefix: string = this.commands[i].name;
-					let channelID: string = this.commands[i].channelID;
-					if (message.content.split(" ")[0] === commandPrefix && message.channel.id === channelID) {
-						this.commands[i].handle(message);
-					}
-				}
-			});
-			callback();
+		super({intents: [Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILDS]});
+		this.commandHandler = new CommandHandler(this, {
+			"directory": config.get()["commands"]["path"],
+			"prefix": config.get()["commands"]["prefix"]
 		});
+		this.commandHandler.loadAll();
 	}
 
 	async send(text: string, channelID: string): Promise<any> {
 		if (text.length === 0) return Promise.resolve();
 		try {
-			let channel = this.client.channels.cache.get(channelID);
+			let channel = this.channels.cache.get(channelID);
 			if (channel) await (channel as TextChannel).send(text);
 		} catch (error) {
 			console.log(error);
