@@ -2,25 +2,27 @@ import {Files} from "./Files";
 
 export class Config {
 
-	private config: any;
-	private path: string;
+	private data: any;
+	private path: string | undefined;
 
-	constructor(path: string) {
-		this.config = JSON.parse(Files.read(path));
+	public constructor(path: string) {
 		this.path = path;
+		this.data = JSON.parse(Files.read(path));
 	}
 
-	get(): any {
-		return this.config;
+	public get(): any {
+		return this.data;
 	}
 
-	set(data: object): void {
-		this.config = data;
+	public set(data: any): void {
+		this.data = data;
 	}
 
-	save(): void {
-		Files.delete(this.path);
-		Files.write(this.path, JSON.stringify(this.config, null, "\t"));
+	public save(): void {
+		if (this.path !== undefined) {
+			Files.delete(this.path);
+			Files.write(this.path, JSON.stringify(this.data, null, "\t"));
+		}
 	}
 
 }
