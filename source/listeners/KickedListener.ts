@@ -6,7 +6,7 @@ export class KickedListener implements EventListener {
 
 	public handle: any;
 
-	constructor(channelID: string, discordBot: DiscordBot, minecraftBot: MinecraftBot, setupBehavior: Function) {
+	public constructor(channelID: string, discordBot: DiscordBot, minecraftBot: MinecraftBot, setupBehavior: Function) {
 		this.handle = (reason: string) => {
 			discordBot.send(`<@&${minecraftBot.config.get()["discord"]["pingRoleID"]}> **The bot has disconnected! Reason: ${JSON.parse(reason)["text"]}**`, channelID).then();
 			if (minecraftBot.config.get()["autoRejoin"]["enabled"]) {
