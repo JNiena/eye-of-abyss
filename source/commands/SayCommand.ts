@@ -6,7 +6,7 @@ export class SayCommand extends Command {
 
 	private minecraftBots: MinecraftBot[];
 
-	constructor(minecraftBots: MinecraftBot[]) {
+	public constructor(minecraftBots: MinecraftBot[]) {
 		super("say", {
 			"aliases": ["say"],
 			"args": [
@@ -19,7 +19,7 @@ export class SayCommand extends Command {
 		this.minecraftBots = minecraftBots;
 	}
 
-	exec(message: Message, args: any): any {
+	public exec(message: Message, args: any): any {
 		this.minecraftBots.forEach(minecraftBot => {
 			if (message.channel.id !== minecraftBot.config.get()["discord"]["channelID"]) return;
 			minecraftBot.chat(args.message);

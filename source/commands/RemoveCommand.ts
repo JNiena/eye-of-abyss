@@ -1,19 +1,35 @@
 import {Message} from "discord.js";
-import {Command} from "../Command";
-import {DiscordBot} from "../DiscordBot";
+import {Command} from "discord-akairo";
 import {MinecraftBot} from "../MinecraftBot";
 
 export class RemoveCommand extends Command {
 
-	constructor(channelID: string, discordBot: DiscordBot, minecraftBot: MinecraftBot) {
-		super(channelID, "!remove", (message: Message) => {
-			if (!minecraftBot.config.get()["whitelist"]["filter"].includes(message.content.toLowerCase())) {
-				discordBot.send("**That word isn't on the whitelist.**", channelID).then();
-				return;
+	private minecraftBots: MinecraftBot[];
+
+	public constructor(minecraftBots: MinecraftBot[]) {
+		super("remove", {
+			"aliases": ["remove"],
+			"args": [
+				{
+					"id": "word",
+					"type": "lowercase"
+				}
+			]
+		});
+		this.minecraftBots = minecraftBots;
+	}
+
+	public exec(message: Message, args: any): any {
+		this.minecraftBots.forEach(minecraftBot => {
+			if (message.channel.id !== minecraftBot.config.get()["discord"]["channelID"]) return;
+			if (minecraftBot.config.get()["whitelist"]["filter"].includes(args.word)) {
+				minecraftBot.config.get()["whitelist"]["filter"] = minecraftBot.config.get()["whitelist"]["filter"].filter((element: any) => element !== args.word);
+				minecraftBot.config.save();
+				message.reply(`**Removed "${args.word}" from the whitelist.**`).then();
 			}
-			minecraftBot.config.get()["whitelist"]["filter"] = minecraftBot.config.get()["whitelist"]["filter"].filter((element: any) => element !== message.content.toLowerCase());
-			minecraftBot.config.save();
-			discordBot.send("**Removed \"" + message.content + "\" from the whitelist.**", channelID).then();
+			else {
+				message.reply("**That word isn't on the whitelist.**").then();
+			}
 		});
 	}
 

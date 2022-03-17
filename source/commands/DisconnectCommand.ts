@@ -1,18 +1,28 @@
-import {Command} from "../Command";
+import {Command} from "discord-akairo";
 import {MinecraftBot} from "../MinecraftBot";
-import {DiscordBot} from "../DiscordBot";
 import {Message} from "discord.js";
 
 export class DisconnectCommand extends Command {
 
-	constructor(channelID: string, discordBot: DiscordBot, minecraftBot: MinecraftBot) {
-		super(channelID, "!disconnect", (message: Message) => {
-			if (!minecraftBot.isConnected()) {
-				discordBot.send("**The bot is already disconnected.**", channelID).then();
-				return;
+	private minecraftBots: MinecraftBot[];
+
+	public constructor(minecraftBots: MinecraftBot[]) {
+		super("disconnect", {
+			"aliases": ["disconnect"]
+		});
+		this.minecraftBots = minecraftBots;
+	}
+
+	public exec(message: Message, args: any): any {
+		this.minecraftBots.forEach(minecraftBot => {
+			if (message.channel.id !== minecraftBot.config.get()["discord"]["channelID"]) return;
+			if (minecraftBot.isConnected()) {
+				minecraftBot.disconnect();
+				message.reply("**Successfully disconnected.**").then();
 			}
-			minecraftBot.disconnect();
-			discordBot.send("**Successfully disconnected.**", channelID).then();
+			else {
+				message.reply("**The bot is already disconnected.**").then();
+			}
 		});
 	}
 

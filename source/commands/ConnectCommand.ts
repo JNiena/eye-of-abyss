@@ -1,22 +1,33 @@
-import {Command} from "../Command";
+import {Command} from "discord-akairo";
 import {MinecraftBot} from "../MinecraftBot";
 import {Message} from "discord.js";
-import {DiscordBot} from "../DiscordBot";
 
 export class ConnectCommand extends Command {
 
-	constructor(channelID: string, discordBot: DiscordBot, minecraftBot: MinecraftBot, setupBehavior: Function) {
-		super(channelID, "!connect", (message: Message) => {
+	private minecraftBots: MinecraftBot[];
+	private setupBehavior: Function;
+
+	public constructor(minecraftBots: MinecraftBot[], setupBehavior: Function) {
+		super("connect", {
+			"aliases": ["connect"]
+		});
+		this.minecraftBots = minecraftBots;
+		this.setupBehavior = setupBehavior;
+	}
+
+	public exec(message: Message, args: any): any {
+		this.minecraftBots.forEach(minecraftBot => {
+			if (message.channel.id !== minecraftBot.config.get()["discord"]["channelID"]) return;
 			if (minecraftBot.isReconnecting()) {
-				discordBot.send("**The bot is already attempting to reconnect, please wait.**", channelID).then();
-				return;
+				message.reply("**The bot is already attempting to reconnect, please wait.**").then();
 			}
-			if (minecraftBot.isConnected()) {
-				discordBot.send("**The bot is already connected.**", channelID).then();
-				return;
+			else if (minecraftBot.isConnected()) {
+				message.reply("**The bot is already connected.**").then();
 			}
-			minecraftBot.connect();
-			setupBehavior(minecraftBot);
+			else {
+				minecraftBot.connect();
+				this.setupBehavior(minecraftBot);
+			}
 		});
 	}
 
