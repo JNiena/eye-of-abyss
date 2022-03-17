@@ -1,12 +1,28 @@
-import {Command} from "../Command";
+import {Command} from "discord-akairo";
 import {Message} from "discord.js";
 import {MinecraftBot} from "../MinecraftBot";
 
 export class SayCommand extends Command {
 
-	constructor(channelID: string, minecraftBot: MinecraftBot) {
-		super(channelID, "!say", (message: Message) => {
-			minecraftBot.chat(message.toString());
+	private minecraftBots: MinecraftBot[];
+
+	constructor(minecraftBots: MinecraftBot[]) {
+		super("say", {
+			"aliases": ["say"],
+			"args": [
+				{
+					"id": "message",
+					"type": "string"
+				}
+			]
+		});
+		this.minecraftBots = minecraftBots;
+	}
+
+	exec(message: Message, args: any): any {
+		this.minecraftBots.forEach(minecraftBot => {
+			if (message.channel.id !== minecraftBot.config.get()["discord"]["channelID"]) return;
+			minecraftBot.chat(args.message);
 		});
 	}
 
