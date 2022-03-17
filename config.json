@@ -1,3 +1,7 @@
 {
-  "token": ""
+  "token": "",
+  "commands": {
+    "path": "",
+    "prefix": ""
+  }
 }
