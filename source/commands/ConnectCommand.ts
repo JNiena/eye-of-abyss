@@ -5,14 +5,12 @@ import {Message} from "discord.js";
 export class ConnectCommand extends Command {
 
 	private minecraftBots: MinecraftBot[];
-	private setupBehavior: Function;
 
-	public constructor(minecraftBots: MinecraftBot[], setupBehavior: Function) {
+	public constructor(minecraftBots: MinecraftBot[]) {
 		super("connect", {
 			"aliases": ["connect"]
 		});
 		this.minecraftBots = minecraftBots;
-		this.setupBehavior = setupBehavior;
 	}
 
 	public exec(message: Message, args: any): any {
@@ -26,7 +24,6 @@ export class ConnectCommand extends Command {
 			}
 			else {
 				minecraftBot.connect();
-				this.setupBehavior(minecraftBot);
 			}
 		});
 	}
