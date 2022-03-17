@@ -1,9 +1,12 @@
 {
-  "name": "watcherbot",
+  "name": "eye-of-abyss",
   "version": "1.0.0",
   "dependencies": {
-    "typescript": "^4.6.2",
     "discord.js": "^13.6.0",
+    "discord-akairo": "^8.1.0",
     "mineflayer": "^4.1.0"
+  },
+  "devDependencies": {
+    "typescript": "^4.6.2"
   }
 }
