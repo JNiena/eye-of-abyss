@@ -1,15 +1,24 @@
-import {Command} from "../Command";
-import {DiscordBot} from "../DiscordBot";
+import {Command} from "discord-akairo";
 import {MinecraftBot} from "../MinecraftBot";
 import {Message} from "discord.js";
 
 export class ResetCommand extends Command {
 
-	constructor(channelID: string, discordBot: DiscordBot, minecraftBot: MinecraftBot) {
-		super(channelID, "!reset", (message: Message) => {
+	private minecraftBots: MinecraftBot[];
+
+	constructor(minecraftBots: MinecraftBot[]) {
+		super("reset", {
+			"aliases": ["reset"]
+		});
+		this.minecraftBots = minecraftBots;
+	}
+
+	exec(message: Message, args: any): any {
+		this.minecraftBots.forEach(minecraftBot => {
+			if (message.channel.id !== minecraftBot.config.get()["discord"]["channelID"]) return;
 			minecraftBot.config.get()["whitelist"]["filter"] = [];
 			minecraftBot.config.save();
-			discordBot.send("**The whitelist has been reset.**", channelID).then();
+			message.reply("**The whitelist has been reset.**").then();
 		});
 	}
 
