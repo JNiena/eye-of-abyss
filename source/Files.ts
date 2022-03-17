@@ -1,21 +1,12 @@
-import {appendFileSync, existsSync, readdirSync, readFileSync, unlinkSync} from "fs";
+import {appendFileSync, existsSync, readdirSync, readFileSync, unlinkSync, writeFileSync} from "fs";
 
 export class Files {
 
-	static read(filePath: string): string {
-		return readFileSync(filePath, "utf-8").toString();
+	public static read(path: string): string {
+		return readFileSync(path, "utf-8").toString();
 	}
 
-	static readAll(directoryPath: string): string[] {
-		let directory: string[] = readdirSync(directoryPath);
-		let files: string[] = [];
-		for (let i = 0; i < directory.length; i++) {
-			files.push(this.read(directoryPath + "/" + directory[i]));
-		}
-		return files;
-	}
-
-	static paths(directoryPath: string): string[] {
+	public static readDir(directoryPath: string): string[] {
 		let paths: string[] = readdirSync(directoryPath);
 		for (let i = 0; i < paths.length; i++) {
 			paths[i] = directoryPath + "/" + paths[i];
@@ -23,16 +14,20 @@ export class Files {
 		return paths;
 	}
 
-	static write(filePath: string, data: string = ""): void {
-		appendFileSync(filePath, data);
+	public static write(path: string, data: string): void {
+		appendFileSync(path, data);
 	}
 
-	static delete(filePath: string): void {
-		unlinkSync(filePath);
+	public static create(path: string): void {
+		writeFileSync(path, "");
 	}
 
-	static exists(filePath: string): boolean {
-		return existsSync(filePath);
+	public static delete(path: string): void {
+		unlinkSync(path);
+	}
+
+	public static exists(path: string): boolean {
+		return existsSync(path);
 	}
 
 }
