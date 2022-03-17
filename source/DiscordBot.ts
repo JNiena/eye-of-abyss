@@ -1,4 +1,4 @@
-import {Intents, TextChannel} from "discord.js";
+import {TextChannel} from "discord.js";
 import {AkairoClient, Command, CommandHandler} from "discord-akairo";
 import {Config} from "./Config";
 
@@ -7,7 +7,7 @@ export class DiscordBot extends AkairoClient {
 	private commandHandler: CommandHandler;
 
 	public constructor(config: Config) {
-		super({intents: [Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILDS]});
+		super();
 		this.commandHandler = new CommandHandler(this, {
 			"directory": config.get()["commands"]["path"],
 			"prefix": config.get()["commands"]["prefix"]
