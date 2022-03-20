@@ -21,14 +21,13 @@ let discordBotConfig: Config = new Config("config.json");
 let discordBot: DiscordBot = new DiscordBot(discordBotConfig);
 
 let minecraftBots: MinecraftBot[] = [];
-let iteration = 1;
-Files.readDir("accounts").forEach(path => {
+let paths: string[] = Files.readDir("accounts");
+for (let i = 0; i < paths.length; i++) {
 	setTimeout(() => {
-		let config: Config = new Config(path);
+		let config: Config = new Config(paths[i]);
 		if (config.get()["enabled"]) minecraftBots.push(new MinecraftBot(config, setupMinecraftBotBehavior));
-	}, iteration * 1000);
-	iteration++;
-});
+	}, (i + 1) * 1000);
+}
 
 discordBot.connect(() => {
 	setupDiscordBotBehavior(discordBot, minecraftBots);
