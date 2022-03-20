@@ -14,15 +14,12 @@ export class StatusCommand extends Command {
 	}
 
 	public exec(message: Message, args: any): any {
-		this.minecraftBots.forEach(minecraftBot => {
-			if (message.channel.id !== minecraftBot.config.get()["discord"]["channelID"]) return;
-			if (minecraftBot.isConnected()) {
-				message.channel.send("**The bot is online.**").then();
-			}
-			else {
-				message.channel.send("**The bot is offline.**").then();
-			}
-		});
+		for (let i = 0; i < this.minecraftBots.length; i++) {
+			let minecraftBot: MinecraftBot = this.minecraftBots[i];
+			if (message.channel.id !== minecraftBot.config.get()["discord"]["channelID"]) continue;
+			if (minecraftBot.isConnected()) message.channel.send("**The bot is online.**").then();
+			else message.channel.send("**The bot is offline.**").then();
+		}
 	}
 
 }

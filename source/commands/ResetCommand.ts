@@ -14,12 +14,13 @@ export class ResetCommand extends Command {
 	}
 
 	public exec(message: Message, args: any): any {
-		this.minecraftBots.forEach(minecraftBot => {
-			if (message.channel.id !== minecraftBot.config.get()["discord"]["channelID"]) return;
+		for (let i = 0; i < this.minecraftBots.length; i++) {
+			let minecraftBot: MinecraftBot = this.minecraftBots[i];
+			if (message.channel.id !== minecraftBot.config.get()["discord"]["channelID"]) continue;
 			minecraftBot.config.get()["whitelist"]["filter"] = [];
 			minecraftBot.config.save();
 			message.channel.send("**The whitelist has been reset.**").then();
-		});
+		}
 	}
 
 }

@@ -20,17 +20,16 @@ export class AddCommand extends Command {
 	}
 
 	public exec(message: Message, args: any): any {
-		this.minecraftBots.forEach(minecraftBot => {
-			if (message.channel.id !== minecraftBot.config.get()["discord"]["channelID"]) return;
-			if (minecraftBot.config.get()["whitelist"]["filter"].includes(args.word)) {
-				message.channel.send("**That word is already on the whitelist.**").then();
-			}
+		for (let i = 0; i < this.minecraftBots.length; i++) {
+			let minecraftBot: MinecraftBot = this.minecraftBots[i];
+			if (message.channel.id !== minecraftBot.config.get()["discord"]["channelID"]) continue;
+			if (minecraftBot.config.get()["whitelist"]["filter"].includes(args.word)) message.channel.send("**That word is already on the whitelist.**").then();
 			else {
 				minecraftBot.config.get()["whitelist"]["filter"].push(args.word);
 				minecraftBot.config.save();
 				message.channel.send(`**Added "${args.word}" to the whitelist.**`).then();
 			}
-		});
+		}
 	}
 
 }

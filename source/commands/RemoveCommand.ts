@@ -20,17 +20,16 @@ export class RemoveCommand extends Command {
 	}
 
 	public exec(message: Message, args: any): any {
-		this.minecraftBots.forEach(minecraftBot => {
-			if (message.channel.id !== minecraftBot.config.get()["discord"]["channelID"]) return;
+		for (let i = 0; i < this.minecraftBots.length; i++) {
+			let minecraftBot: MinecraftBot = this.minecraftBots[i];
+			if (message.channel.id !== minecraftBot.config.get()["discord"]["channelID"]) continue;
 			if (minecraftBot.config.get()["whitelist"]["filter"].includes(args.word)) {
 				minecraftBot.config.get()["whitelist"]["filter"] = minecraftBot.config.get()["whitelist"]["filter"].filter((element: any) => element !== args.word);
 				minecraftBot.config.save();
 				message.channel.send(`**Removed "${args.word}" from the whitelist.**`).then();
 			}
-			else {
-				message.channel.send("**That word isn't on the whitelist.**").then();
-			}
-		});
+			else message.channel.send("**That word isn't on the whitelist.**").then();
+		}
 	}
 
 }
