@@ -16,18 +16,18 @@ class RemoveCommand extends discord_akairo_1.Command {
         this.minecraftBots = minecraftBots;
     }
     exec(message, args) {
-        this.minecraftBots.forEach(minecraftBot => {
+        for (let i = 0; i < this.minecraftBots.length; i++) {
+            let minecraftBot = this.minecraftBots[i];
             if (message.channel.id !== minecraftBot.config.get()["discord"]["channelID"])
-                return;
+                continue;
             if (minecraftBot.config.get()["whitelist"]["filter"].includes(args.word)) {
                 minecraftBot.config.get()["whitelist"]["filter"] = minecraftBot.config.get()["whitelist"]["filter"].filter((element) => element !== args.word);
                 minecraftBot.config.save();
-                message.reply(`**Removed "${args.word}" from the whitelist.**`).then();
+                message.channel.send(`**Removed "${args.word}" from the whitelist.**`).then();
             }
-            else {
-                message.reply("**That word isn't on the whitelist.**").then();
-            }
-        });
+            else
+                message.channel.send("**That word isn't on the whitelist.**").then();
+        }
     }
 }
 exports.RemoveCommand = RemoveCommand;

@@ -16,11 +16,12 @@ class SayCommand extends discord_akairo_1.Command {
         this.minecraftBots = minecraftBots;
     }
     exec(message, args) {
-        this.minecraftBots.forEach(minecraftBot => {
+        for (let i = 0; i < this.minecraftBots.length; i++) {
+            let minecraftBot = this.minecraftBots[i];
             if (message.channel.id !== minecraftBot.config.get()["discord"]["channelID"])
-                return;
+                continue;
             minecraftBot.chat(args.message);
-        });
+        }
     }
 }
 exports.SayCommand = SayCommand;

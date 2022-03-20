@@ -16,18 +16,18 @@ class AddCommand extends discord_akairo_1.Command {
         this.minecraftBots = minecraftBots;
     }
     exec(message, args) {
-        this.minecraftBots.forEach(minecraftBot => {
+        for (let i = 0; i < this.minecraftBots.length; i++) {
+            let minecraftBot = this.minecraftBots[i];
             if (message.channel.id !== minecraftBot.config.get()["discord"]["channelID"])
-                return;
-            if (minecraftBot.config.get()["whitelist"]["filter"].includes(args.word)) {
-                message.reply("**That word is already on the whitelist.**").then();
-            }
+                continue;
+            if (minecraftBot.config.get()["whitelist"]["filter"].includes(args.word))
+                message.channel.send("**That word is already on the whitelist.**").then();
             else {
                 minecraftBot.config.get()["whitelist"]["filter"].push(args.word);
                 minecraftBot.config.save();
-                message.reply(`**Added "${args.word}" to the whitelist.**`).then();
+                message.channel.send(`**Added "${args.word}" to the whitelist.**`).then();
             }
-        });
+        }
     }
 }
 exports.AddCommand = AddCommand;

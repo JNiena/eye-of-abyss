@@ -21,9 +21,14 @@ const ResetCommand_1 = require("./commands/ResetCommand");
 let discordBotConfig = new Config_1.Config("config.json");
 let discordBot = new DiscordBot_1.DiscordBot(discordBotConfig);
 let minecraftBots = [];
-Files_1.Files.readDir("accounts").forEach(path => {
-    minecraftBots.push(new MinecraftBot_1.MinecraftBot(new Config_1.Config(path), setupMinecraftBotBehavior));
-});
+let paths = Files_1.Files.readDir("accounts");
+for (let i = 0; i < paths.length; i++) {
+    setTimeout(() => {
+        let config = new Config_1.Config(paths[i]);
+        if (config.get()["enabled"])
+            minecraftBots.push(new MinecraftBot_1.MinecraftBot(config, setupMinecraftBotBehavior));
+    }, (i + 1) * 1000);
+}
 discordBot.connect(() => {
     setupDiscordBotBehavior(discordBot, minecraftBots);
 });

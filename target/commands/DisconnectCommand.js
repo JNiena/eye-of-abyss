@@ -10,17 +10,17 @@ class DisconnectCommand extends discord_akairo_1.Command {
         this.minecraftBots = minecraftBots;
     }
     exec(message, args) {
-        this.minecraftBots.forEach(minecraftBot => {
+        for (let i = 0; i < this.minecraftBots.length; i++) {
+            let minecraftBot = this.minecraftBots[i];
             if (message.channel.id !== minecraftBot.config.get()["discord"]["channelID"])
-                return;
+                continue;
             if (minecraftBot.isConnected()) {
                 minecraftBot.disconnect();
-                message.reply("**Successfully disconnected.**").then();
+                message.channel.send("**Successfully disconnected.**").then();
             }
-            else {
-                message.reply("**The bot is already disconnected.**").then();
-            }
-        });
+            else
+                message.channel.send("**The bot is already disconnected.**").then();
+        }
     }
 }
 exports.DisconnectCommand = DisconnectCommand;

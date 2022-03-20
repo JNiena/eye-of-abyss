@@ -28,7 +28,7 @@ class MinecraftBot {
         });
         this.initializeFunction(this);
     }
-    reconnect(handler) {
+    reconnect(handler = () => { }) {
         this.reconnecting = true;
         setTimeout(() => {
             this.connect();

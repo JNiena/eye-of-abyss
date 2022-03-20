@@ -10,11 +10,12 @@ class ListCommand extends discord_akairo_1.Command {
         this.minecraftBots = minecraftBots;
     }
     exec(message, args) {
-        this.minecraftBots.forEach(minecraftBot => {
+        for (let i = 0; i < this.minecraftBots.length; i++) {
+            let minecraftBot = this.minecraftBots[i];
             if (message.channel.id !== minecraftBot.config.get()["discord"]["channelID"])
-                return;
-            message.reply(`**Whitelist: ${minecraftBot.config.get()["whitelist"]["filter"].toString().replace(" ", ", ")}.**`).then();
-        });
+                continue;
+            message.channel.send(`**Whitelist: ${minecraftBot.config.get()["whitelist"]["filter"].toString().replace(" ", ", ")}.**`).then();
+        }
     }
 }
 exports.ListCommand = ListCommand;

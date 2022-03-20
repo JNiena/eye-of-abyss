@@ -10,16 +10,15 @@ class StatusCommand extends discord_akairo_1.Command {
         this.minecraftBots = minecraftBots;
     }
     exec(message, args) {
-        this.minecraftBots.forEach(minecraftBot => {
+        for (let i = 0; i < this.minecraftBots.length; i++) {
+            let minecraftBot = this.minecraftBots[i];
             if (message.channel.id !== minecraftBot.config.get()["discord"]["channelID"])
-                return;
-            if (minecraftBot.isConnected()) {
-                message.reply("**The bot is online.**").then();
-            }
-            else {
-                message.reply("**The bot is offline.**").then();
-            }
-        });
+                continue;
+            if (minecraftBot.isConnected())
+                message.channel.send("**The bot is online.**").then();
+            else
+                message.channel.send("**The bot is offline.**").then();
+        }
     }
 }
 exports.StatusCommand = StatusCommand;
