@@ -36,7 +36,7 @@ export class MinecraftBot {
 		this.initializeFunction(this);
 	}
 
-	public reconnect(handler: Function): void {
+	public reconnect(handler: Function = () => {}): void {
 		this.reconnecting = true;
 		setTimeout(() => {
 			this.connect();
