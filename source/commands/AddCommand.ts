@@ -23,12 +23,12 @@ export class AddCommand extends Command {
 		this.minecraftBots.forEach(minecraftBot => {
 			if (message.channel.id !== minecraftBot.config.get()["discord"]["channelID"]) return;
 			if (minecraftBot.config.get()["whitelist"]["filter"].includes(args.word)) {
-				message.reply("**That word is already on the whitelist.**").then();
+				message.channel.send("**That word is already on the whitelist.**").then();
 			}
 			else {
 				minecraftBot.config.get()["whitelist"]["filter"].push(args.word);
 				minecraftBot.config.save();
-				message.reply(`**Added "${args.word}" to the whitelist.**`).then();
+				message.channel.send(`**Added "${args.word}" to the whitelist.**`).then();
 			}
 		});
 	}

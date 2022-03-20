@@ -18,7 +18,7 @@ export class ResetCommand extends Command {
 			if (message.channel.id !== minecraftBot.config.get()["discord"]["channelID"]) return;
 			minecraftBot.config.get()["whitelist"]["filter"] = [];
 			minecraftBot.config.save();
-			message.reply("**The whitelist has been reset.**").then();
+			message.channel.send("**The whitelist has been reset.**").then();
 		});
 	}
 

@@ -18,10 +18,10 @@ export class DisconnectCommand extends Command {
 			if (message.channel.id !== minecraftBot.config.get()["discord"]["channelID"]) return;
 			if (minecraftBot.isConnected()) {
 				minecraftBot.disconnect();
-				message.reply("**Successfully disconnected.**").then();
+				message.channel.send("**Successfully disconnected.**").then();
 			}
 			else {
-				message.reply("**The bot is already disconnected.**").then();
+				message.channel.send("**The bot is already disconnected.**").then();
 			}
 		});
 	}

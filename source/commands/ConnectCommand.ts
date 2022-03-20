@@ -17,10 +17,10 @@ export class ConnectCommand extends Command {
 		this.minecraftBots.forEach(minecraftBot => {
 			if (message.channel.id !== minecraftBot.config.get()["discord"]["channelID"]) return;
 			if (minecraftBot.isReconnecting()) {
-				message.reply("**The bot is already attempting to reconnect, please wait.**").then();
+				message.channel.send("**The bot is already attempting to reconnect, please wait.**").then();
 			}
 			else if (minecraftBot.isConnected()) {
-				message.reply("**The bot is already connected.**").then();
+				message.channel.send("**The bot is already connected.**").then();
 			}
 			else {
 				minecraftBot.connect();

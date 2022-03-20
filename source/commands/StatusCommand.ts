@@ -17,10 +17,10 @@ export class StatusCommand extends Command {
 		this.minecraftBots.forEach(minecraftBot => {
 			if (message.channel.id !== minecraftBot.config.get()["discord"]["channelID"]) return;
 			if (minecraftBot.isConnected()) {
-				message.reply("**The bot is online.**").then();
+				message.channel.send("**The bot is online.**").then();
 			}
 			else {
-				message.reply("**The bot is offline.**").then();
+				message.channel.send("**The bot is offline.**").then();
 			}
 		});
 	}

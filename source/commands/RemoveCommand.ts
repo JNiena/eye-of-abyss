@@ -25,10 +25,10 @@ export class RemoveCommand extends Command {
 			if (minecraftBot.config.get()["whitelist"]["filter"].includes(args.word)) {
 				minecraftBot.config.get()["whitelist"]["filter"] = minecraftBot.config.get()["whitelist"]["filter"].filter((element: any) => element !== args.word);
 				minecraftBot.config.save();
-				message.reply(`**Removed "${args.word}" from the whitelist.**`).then();
+				message.channel.send(`**Removed "${args.word}" from the whitelist.**`).then();
 			}
 			else {
-				message.reply("**That word isn't on the whitelist.**").then();
+				message.channel.send("**That word isn't on the whitelist.**").then();
 			}
 		});
 	}

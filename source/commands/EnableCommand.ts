@@ -18,7 +18,7 @@ export class EnableCommand extends Command {
 			if (message.channel.id !== minecraftBot.config.get()["discord"]["channelID"]) return;
 			minecraftBot.config.get()["whitelist"]["enabled"] = true;
 			minecraftBot.config.save();
-			message.reply("**Whitelist enabled.**").then();
+			message.channel.send("**Whitelist enabled.**").then();
 		});
 	}
 
