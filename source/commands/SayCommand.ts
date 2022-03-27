@@ -12,7 +12,7 @@ export class SayCommand extends Command {
 			"args": [
 				{
 					"id": "message",
-					"type": "string"
+					"match": "content"
 				}
 			]
 		});
