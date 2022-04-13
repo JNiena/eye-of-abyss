@@ -6,10 +6,10 @@ export class Files {
 		return readFileSync(path, "utf-8").toString();
 	}
 
-	public static readDir(directoryPath: string): string[] {
-		let paths: string[] = readdirSync(directoryPath);
+	public static readDirectory(path: string): string[] {
+		let paths: string[] = readdirSync(path);
 		for (let i = 0; i < paths.length; i++) {
-			paths[i] = directoryPath + "/" + paths[i];
+			paths[i] = path + "/" + paths[i];
 		}
 		return paths;
 	}
