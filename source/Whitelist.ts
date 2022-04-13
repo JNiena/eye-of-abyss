@@ -1,12 +1,30 @@
 import {Filter} from "./Filter";
 
-export class Whitelist extends Filter {
+export class Whitelist implements Filter {
 
-	public processText(text: string): boolean {
+	private words: string[];
+
+	public constructor(words: string[] = []) {
+		this.words = words;
+	}
+
+	public complies(element: string): boolean {
 		for (let i = 0; i < this.words.length; i++) {
-			if (text.toLowerCase().includes(this.words[i].toLowerCase())) return true;
+			if (element.toLowerCase().includes(this.words[i].toLowerCase())) return true;
 		}
 		return false;
+	}
+
+	public add(word: string): void {
+		this.words.push(word.toLowerCase());
+	}
+
+	public remove(word: string): void {
+		this.words = this.words.filter(element => element !== word.toLowerCase());
+	}
+
+	public get(): string[] {
+		return this.words;
 	}
 
 }

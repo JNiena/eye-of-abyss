@@ -1,21 +1,11 @@
-export class Filter {
+export interface Filter {
 
-	protected words: string[];
+	complies(element: string): boolean;
 
-	public constructor(words: string[] = []) {
-		this.words = words;
-	}
+	add(element: string): void;
 
-	public addWord(word: string): void {
-		this.words.push(word.toLowerCase());
-	}
+	remove(element: string): void;
 
-	public getWords(): string[] {
-		return this.words;
-	}
-
-	public removeWord(word: string): void {
-		this.words = this.words.filter(element => element !== word.toLowerCase());
-	}
+	get(): string[];
 
 }
