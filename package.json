@@ -1,6 +1,6 @@
 {
   "name": "eye-of-abyss",
-  "version": "1.2.0",
+  "version": "1.0.0",
   "dependencies": {
     "discord-akairo": "^8.1.0",
     "discord.js": "^12.5.3",
@@ -9,5 +9,8 @@
   "devDependencies": {
     "typescript": "^4.6.2",
     "@types/node": "^17.0.21"
+  },
+  "scripts": {
+    "run": "npx tsc && cd target && node Main.js config.json"
   }
 }
