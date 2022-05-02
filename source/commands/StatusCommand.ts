@@ -4,22 +4,18 @@ import {Message} from "discord.js";
 
 export class StatusCommand extends Command {
 
-	private minecraftBots: MinecraftBot[];
+	private minecraftBot: MinecraftBot;
 
-	public constructor(minecraftBots: MinecraftBot[]) {
+	public constructor(minecraftBot: MinecraftBot) {
 		super("status", {
 			"aliases": ["status"]
 		});
-		this.minecraftBots = minecraftBots;
+		this.minecraftBot = minecraftBot;
 	}
 
 	public exec(message: Message, args: any): any {
-		for (let i = 0; i < this.minecraftBots.length; i++) {
-			let minecraftBot: MinecraftBot = this.minecraftBots[i];
-			if (message.channel.id !== minecraftBot.config.get()["discord"]["channelID"]) continue;
-			if (minecraftBot.isConnected()) message.channel.send("**The bot is online.**").then();
-			else message.channel.send("**The bot is offline.**").then();
-		}
+		if (this.minecraftBot.isConnected()) message.channel.send("**ONLINE**").then();
+		else message.channel.send("**OFFLINE**").then();
 	}
 
 }

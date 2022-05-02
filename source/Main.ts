@@ -1,55 +1,44 @@
-import {MinecraftBot} from "./MinecraftBot";
 import {DiscordBot} from "./DiscordBot";
 import {Config} from "./Config";
-import {Files} from "./Files";
-import {SayCommand} from "./commands/SayCommand";
-import {ListCommand} from "./commands/ListCommand";
-import {AddCommand} from "./commands/AddCommand";
-import {RemoveCommand} from "./commands/RemoveCommand";
-import {EnableCommand} from "./commands/EnableCommand";
-import {DisableCommand} from "./commands/DisableCommand";
-import {ConnectCommand} from "./commands/ConnectCommand";
-import {DisconnectCommand} from "./commands/DisconnectCommand";
-import {StatusCommand} from "./commands/StatusCommand";
-import {FirstSpawnListener} from "./listeners/FirstSpawnListener";
-import {KickedListener} from "./listeners/KickedListener";
+import {MinecraftBot} from "./MinecraftBot";
 import {ErrorListener} from "./listeners/ErrorListener";
 import {ChatListener} from "./listeners/ChatListener";
-import {ResetCommand} from "./commands/ResetCommand";
+import {SpawnedListener} from "./listeners/SpawnedListener";
+import {KickedListener} from "./listeners/KickedListener";
+import {DeathListener} from "./listeners/DeathListener";
+import {ConnectCommand} from "./commands/ConnectCommand";
+import {DisconnectCommand} from "./commands/DisconnectCommand";
+import {ReconnectCommand} from "./commands/ReconnectCommand";
+import {SayCommand} from "./commands/SayCommand";
+import {StatusCommand} from "./commands/StatusCommand";
+import {FilterAddCommand} from "./commands/filter/FilterAddCommand";
+import {FilterRemoveCommand} from "./commands/filter/FilterRemoveCommand";
+import {FilterEnableCommand} from "./commands/filter/FilterEnableCommand";
+import {FilterDisableCommand} from "./commands/filter/FilterDisableCommand";
+import {FilterResetCommand} from "./commands/filter/FilterResetCommand";
+import {FilterCommand} from "./commands/filter/FilterCommand";
 
-let discordBotConfig: Config = new Config("config.json");
-let discordBot: DiscordBot = new DiscordBot(discordBotConfig);
-
-let minecraftBots: MinecraftBot[] = [];
-let paths: string[] = Files.readDir("accounts");
-for (let i = 0; i < paths.length; i++) {
-	setTimeout(() => {
-		let config: Config = new Config(paths[i]);
-		if (config.get()["enabled"]) minecraftBots.push(new MinecraftBot(config, setupMinecraftBotBehavior));
-	}, (i + 1) * 1000);
-}
-
-discordBot.connect(() => {
-	setupDiscordBotBehavior(discordBot, minecraftBots);
+let config: Config = new Config(process.argv[2]);
+let discordBot: DiscordBot = new DiscordBot(config);
+let minecraftBot: MinecraftBot = new MinecraftBot(config, () => {
+	new ErrorListener(minecraftBot, discordBot);
+	new ChatListener(minecraftBot, discordBot);
+	new SpawnedListener(minecraftBot, discordBot);
+	new KickedListener(minecraftBot, discordBot);
+	new DeathListener(minecraftBot, discordBot);
 });
 
-function setupDiscordBotBehavior(discordBot: DiscordBot, minecraftBots: MinecraftBot[]): void {
-	discordBot.registerCommand(new SayCommand(minecraftBots));
-	discordBot.registerCommand(new ListCommand(minecraftBots));
-	discordBot.registerCommand(new AddCommand(minecraftBots));
-	discordBot.registerCommand(new RemoveCommand(minecraftBots));
-	discordBot.registerCommand(new EnableCommand(minecraftBots));
-	discordBot.registerCommand(new DisableCommand(minecraftBots));
-	discordBot.registerCommand(new ConnectCommand(minecraftBots));
-	discordBot.registerCommand(new DisconnectCommand(minecraftBots));
-	discordBot.registerCommand(new StatusCommand(minecraftBots));
-	discordBot.registerCommand(new ResetCommand(minecraftBots));
-}
+discordBot.register(new ConnectCommand(minecraftBot));
+discordBot.register(new DisconnectCommand(minecraftBot));
+discordBot.register(new ReconnectCommand(minecraftBot));
+discordBot.register(new StatusCommand(minecraftBot));
+discordBot.register(new SayCommand(minecraftBot));
+discordBot.register(new FilterCommand(minecraftBot));
+discordBot.register(new FilterAddCommand(minecraftBot));
+discordBot.register(new FilterRemoveCommand(minecraftBot));
+discordBot.register(new FilterResetCommand(minecraftBot));
+discordBot.register(new FilterEnableCommand(minecraftBot));
+discordBot.register(new FilterDisableCommand(minecraftBot));
 
-function setupMinecraftBotBehavior(minecraftBot: MinecraftBot): void {
-	let channelID: string = minecraftBot.config.get()["discord"]["channelID"];
-	minecraftBot.once("spawn", new FirstSpawnListener(channelID, discordBot, minecraftBot));
-	minecraftBot.on("kicked", new KickedListener(channelID, discordBot, minecraftBot, setupMinecraftBotBehavior));
-	minecraftBot.on("error", new ErrorListener(channelID, discordBot, minecraftBot, setupMinecraftBotBehavior));
-	minecraftBot.on("chat", new ChatListener(channelID, discordBot, minecraftBot));
-}
+minecraftBot.connect();
+discordBot.start();

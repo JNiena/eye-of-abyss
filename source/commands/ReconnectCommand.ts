@@ -2,23 +2,20 @@ import {Command} from "discord-akairo";
 import {MinecraftBot} from "../MinecraftBot";
 import {Message} from "discord.js";
 
-export class DisconnectCommand extends Command {
+export class ReconnectCommand extends Command {
 
 	private minecraftBot: MinecraftBot;
 
 	public constructor(minecraftBot: MinecraftBot) {
-		super("disconnect", {
-			"aliases": ["disconnect"]
+		super("reconnect", {
+			"aliases": ["reconnect"]
 		});
 		this.minecraftBot = minecraftBot;
 	}
 
 	public exec(message: Message, args: any): any {
-		if (this.minecraftBot.isConnected()) {
-			this.minecraftBot.disconnect();
-			message.channel.send("**DISCONNECTED**").then();
-		}
-		else message.channel.send("**ALREADY DISCONNECTED**").then();
+		this.minecraftBot.reconnect();
+		message.channel.send("**RECONNECTED**").then();
 	}
 
 }

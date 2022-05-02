@@ -1,6 +1,6 @@
-import {TextChannel} from "discord.js";
-import {AkairoClient, Command, CommandHandler} from "discord-akairo";
 import {Config} from "./Config";
+import {AkairoClient, Command, CommandHandler} from "discord-akairo";
+import {TextChannel} from "discord.js";
 
 export class DiscordBot extends AkairoClient {
 
@@ -8,34 +8,27 @@ export class DiscordBot extends AkairoClient {
 
 	public constructor(config: Config) {
 		super();
-		this.commandHandler = new CommandHandler(this, {
-			"directory": config.get()["commands"]["path"],
-			"prefix": config.get()["commands"]["prefix"]
-		});
-		this.commandHandler.loadAll();
+		this.commandHandler = new CommandHandler(this, {"prefix": config.get()["prefix"]});
 		this.token = config.get()["token"];
 	}
 
-	public connect(callback: Function = () => {}): void {
-		if (this.token) {
-			this.login(this.token).then(() => {
-				callback();
-			});
+	public start(): void {
+		if (this.token !== null && this.token !== undefined) {
+			this.login(this.token).then();
 		}
 	}
 
-	public registerCommand(command: Command): void {
+	public stop(): void {
+		this.destroy();
+	}
+
+	public register(command: Command): void {
 		this.commandHandler.register(command);
 	}
 
-	public async send(text: string, channelID: string): Promise<any> {
-		if (text.length === 0) return Promise.resolve();
-		try {
-			let channel = this.channels.cache.get(channelID);
-			if (channel) await (channel as TextChannel).send(text);
-		} catch (error) {
-			console.log(error);
-		}
+	public async send(message: string, channelID: string): Promise<any> {
+		if (message.length === 0) return Promise.resolve();
+		await (this.channels.cache.get(channelID) as TextChannel).send(message);
 	}
 
 }

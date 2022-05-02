@@ -1,19 +1,29 @@
-import {EventListener} from "../EventListener";
-import {DiscordBot} from "../DiscordBot";
 import {MinecraftBot} from "../MinecraftBot";
-import {Whitelist} from "../Whitelist";
+import {DiscordBot} from "../DiscordBot";
+import {Config} from "../Config";
+import {Filter} from "../Filter";
 import {Files} from "../Files";
 
-export class ChatListener implements EventListener {
+export class ChatListener {
 
-	public handle: any;
+	public constructor(minecraftBot: MinecraftBot, discordBot: DiscordBot) {
+		let config: Config = minecraftBot.config;
+		let channelID: string = config.get()["discord"]["channelID"];
 
-	public constructor(channelID: string, discordBot: DiscordBot, minecraftBot: MinecraftBot) {
-		this.handle = (username: string, message: string) => {
-			let toSend: string = username + " » " + message.replace("@", "");
-			if (minecraftBot.config.get()["log"]["enabled"]) Files.write(minecraftBot.config.get()["log"]["path"], toSend + "\n");
-			if (!minecraftBot.config.get()["whitelist"]["enabled"] || new Whitelist(minecraftBot.config.get()["whitelist"]["filter"]).processText(toSend)) discordBot.send(toSend, channelID).then();
-		};
+		minecraftBot.on("chat", (username: string, message: string) => {
+			let filter: Filter | undefined;
+			if (config.get()["filter"]["enable"]) filter = new Filter(config.get()["filter"]["list"]);
+
+			let formattedMessage: string = `${username} » ${message}`;
+			if (config.get()["logging"]["enable"]) Files.write(config.get()["logging"]["path"], `${formattedMessage}\n`);
+			if (filter === undefined || filter.complies(`${username} ${message}`)) discordBot.send(formattedMessage, channelID).then();
+
+			for (let i = 0; i < config.get()["chat"].length; i++) {
+				if (message.toLowerCase().includes(config.get()["chat"][i]["trigger"].toLowerCase())) {
+					minecraftBot.chat(config.get()["chat"][i]["reply"], config.get()["chat"][i]["delay"]);
+				}
+			}
+		});
 	}
 
 }
