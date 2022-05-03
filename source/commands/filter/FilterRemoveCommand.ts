@@ -8,7 +8,7 @@ export class FilterRemoveCommand extends Command {
 
 	public constructor(minecraftBot: MinecraftBot) {
 		super("filter-remove", {
-			"aliases": ["filter-remove"],
+			"aliases": ["filter-remove", "remove"],
 			"args": [{"id": "word", "type": "lowercase"}]
 		});
 		this.minecraftBot = minecraftBot;

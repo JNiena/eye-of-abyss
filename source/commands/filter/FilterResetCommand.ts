@@ -8,7 +8,7 @@ export class FilterResetCommand extends Command {
 
 	public constructor(minecraftBot: MinecraftBot) {
 		super("filter-reset", {
-			"aliases": ["filter-reset"]
+			"aliases": ["filter-reset", "reset"]
 		});
 		this.minecraftBot = minecraftBot;
 	}

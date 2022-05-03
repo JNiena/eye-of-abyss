@@ -8,7 +8,7 @@ export class FilterAddCommand extends Command {
 
 	public constructor(minecraftBot: MinecraftBot) {
 		super("filter-add", {
-			"aliases": ["filter-add"],
+			"aliases": ["filter-add", "add"],
 			"args": [{"id": "word", "type": "lowercase"}
 			]
 		});

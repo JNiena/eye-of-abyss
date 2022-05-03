@@ -8,7 +8,7 @@ export class FilterDisableCommand extends Command {
 
 	public constructor(minecraftBot: MinecraftBot) {
 		super("filter-disable", {
-			"aliases": ["filter-disable"]
+			"aliases": ["filter-disable", "disable"]
 		});
 		this.minecraftBot = minecraftBot;
 	}
