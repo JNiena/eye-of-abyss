@@ -16,7 +16,7 @@ import {FilterRemoveCommand} from "./commands/filter/FilterRemoveCommand";
 import {FilterEnableCommand} from "./commands/filter/FilterEnableCommand";
 import {FilterDisableCommand} from "./commands/filter/FilterDisableCommand";
 import {FilterResetCommand} from "./commands/filter/FilterResetCommand";
-import {FilterCommand} from "./commands/filter/FilterCommand";
+import {FilterListCommand} from "./commands/filter/FilterListCommand";
 import {ChannelInhibitor} from "./inhibitors/ChannelInhibitor";
 
 let config: Config = new Config(process.argv[2]);
@@ -34,7 +34,7 @@ discordBot.registerCommand(new DisconnectCommand(minecraftBot));
 discordBot.registerCommand(new ReconnectCommand(minecraftBot));
 discordBot.registerCommand(new StatusCommand(minecraftBot));
 discordBot.registerCommand(new SayCommand(minecraftBot));
-discordBot.registerCommand(new FilterCommand(minecraftBot));
+discordBot.registerCommand(new FilterListCommand(minecraftBot));
 discordBot.registerCommand(new FilterAddCommand(minecraftBot));
 discordBot.registerCommand(new FilterRemoveCommand(minecraftBot));
 discordBot.registerCommand(new FilterResetCommand(minecraftBot));
