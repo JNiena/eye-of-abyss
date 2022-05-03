@@ -8,8 +8,8 @@ export class DiscordBot extends AkairoClient {
 
 	public constructor(config: Config) {
 		super();
-		this.commandHandler = new CommandHandler(this, {"prefix": config.get()["prefix"]});
-		this.token = config.get()["token"];
+		this.commandHandler = new CommandHandler(this, {"prefix": config.get()["discord"]["prefix"]});
+		this.token = config.get()["discord"]["token"];
 	}
 
 	public start(): void {
