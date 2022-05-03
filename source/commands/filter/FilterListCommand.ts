@@ -14,7 +14,7 @@ export class FilterListCommand extends Command {
 	}
 
 	public exec(message: Message, args: any): any {
-		message.channel.send(`**FILTER:** ${this.minecraftBot.config.get()["filter"]["list"].replace("\n", ", ")}`).then();
+		message.channel.send(`**FILTER:** ${this.minecraftBot.config.get()["filter"]["list"].join().replace("\n", ", ")}`).then();
 	}
 
 }
