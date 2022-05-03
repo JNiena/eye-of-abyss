@@ -8,7 +8,7 @@ export class FilterListCommand extends Command {
 
 	public constructor(minecraftBot: MinecraftBot) {
 		super("filter-list", {
-			"aliases": ["filter-list", "filter"]
+			"aliases": ["filter-list", "filter", "list"]
 		});
 		this.minecraftBot = minecraftBot;
 	}
