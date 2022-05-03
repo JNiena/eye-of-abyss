@@ -14,7 +14,7 @@ export class FilterEnableCommand extends Command {
 	}
 
 	public exec(message: Message, args: any): any {
-		this.minecraftBot.config.get()["filter"]["enabled"] = true;
+		this.minecraftBot.config.get()["filter"]["enable"] = true;
 		this.minecraftBot.config.save();
 		message.channel.send("**ENABLED**").then();
 	}

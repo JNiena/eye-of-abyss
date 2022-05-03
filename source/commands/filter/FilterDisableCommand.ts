@@ -14,7 +14,7 @@ export class FilterDisableCommand extends Command {
 	}
 
 	public exec(message: Message, args: any): any {
-		this.minecraftBot.config.get()["filter"]["enabled"] = false;
+		this.minecraftBot.config.get()["filter"]["enable"] = false;
 		this.minecraftBot.config.save();
 		message.channel.send("**DISABLED**").then();
 	}
