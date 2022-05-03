@@ -17,6 +17,7 @@ import {FilterEnableCommand} from "./commands/filter/FilterEnableCommand";
 import {FilterDisableCommand} from "./commands/filter/FilterDisableCommand";
 import {FilterResetCommand} from "./commands/filter/FilterResetCommand";
 import {FilterCommand} from "./commands/filter/FilterCommand";
+import {ChannelInhibitor} from "./inhibitors/ChannelInhibitor";
 
 let config: Config = new Config(process.argv[2]);
 let discordBot: DiscordBot = new DiscordBot(config);
@@ -28,17 +29,19 @@ let minecraftBot: MinecraftBot = new MinecraftBot(config, () => {
 	new DeathListener(minecraftBot, discordBot);
 });
 
-discordBot.register(new ConnectCommand(minecraftBot));
-discordBot.register(new DisconnectCommand(minecraftBot));
-discordBot.register(new ReconnectCommand(minecraftBot));
-discordBot.register(new StatusCommand(minecraftBot));
-discordBot.register(new SayCommand(minecraftBot));
-discordBot.register(new FilterCommand(minecraftBot));
-discordBot.register(new FilterAddCommand(minecraftBot));
-discordBot.register(new FilterRemoveCommand(minecraftBot));
-discordBot.register(new FilterResetCommand(minecraftBot));
-discordBot.register(new FilterEnableCommand(minecraftBot));
-discordBot.register(new FilterDisableCommand(minecraftBot));
+discordBot.registerCommand(new ConnectCommand(minecraftBot));
+discordBot.registerCommand(new DisconnectCommand(minecraftBot));
+discordBot.registerCommand(new ReconnectCommand(minecraftBot));
+discordBot.registerCommand(new StatusCommand(minecraftBot));
+discordBot.registerCommand(new SayCommand(minecraftBot));
+discordBot.registerCommand(new FilterCommand(minecraftBot));
+discordBot.registerCommand(new FilterAddCommand(minecraftBot));
+discordBot.registerCommand(new FilterRemoveCommand(minecraftBot));
+discordBot.registerCommand(new FilterResetCommand(minecraftBot));
+discordBot.registerCommand(new FilterEnableCommand(minecraftBot));
+discordBot.registerCommand(new FilterDisableCommand(minecraftBot));
+
+discordBot.registerInhibitor(new ChannelInhibitor(config));
 
 minecraftBot.connect();
 discordBot.start();
