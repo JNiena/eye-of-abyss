@@ -20,7 +20,7 @@ export class FilterAddCommand extends Command {
 		else {
 			this.minecraftBot.config.get()["filter"]["list"].push(args.word);
 			this.minecraftBot.config.save();
-			message.channel.send(`ADDED "${args.word}"`).then();
+			message.channel.send(`**ADDED: "${args.word}"**`).then();
 		}
 	}
 

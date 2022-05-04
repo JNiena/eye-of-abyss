@@ -18,7 +18,7 @@ export class FilterRemoveCommand extends Command {
 		if (this.minecraftBot.config.get()["filter"]["list"].includes(args.word)) {
 			this.minecraftBot.config.get()["filter"]["list"] = this.minecraftBot.config.get()["filter"]["list"].filter((element: string) => element !== args.word);
 			this.minecraftBot.config.save();
-			message.channel.send(`**REMOVED "${args.word}"**`).then();
+			message.channel.send(`**REMOVED: "${args.word}"**`).then();
 		}
 		else message.channel.send("**ALREADY REMOVED**").then();
 	}
