@@ -1,6 +1,6 @@
-import {Command} from "discord-akairo";
-import {MinecraftBot} from "../MinecraftBot";
-import {Message} from "discord.js";
+import { Command } from "discord-akairo";
+import { MinecraftBot } from "../MinecraftBot";
+import { Message } from "discord.js";
 
 export class StatusCommand extends Command {
 
@@ -14,8 +14,12 @@ export class StatusCommand extends Command {
 	}
 
 	public exec(message: Message, args: any): any {
-		if (this.minecraftBot.isConnected()) message.channel.send("**ONLINE**").then();
-		else message.channel.send("**OFFLINE**").then();
+		if (this.minecraftBot.isConnected()) {
+			message.channel.send("**(BOT) ONLINE**").then();
+		}
+		else {
+			message.channel.send("**(BOT) OFFLINE**").then();
+		}
 	}
 
 }
