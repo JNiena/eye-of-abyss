@@ -1,6 +1,6 @@
-import {Command} from "discord-akairo";
-import {MinecraftBot} from "../MinecraftBot";
-import {Message} from "discord.js";
+import { Command } from "discord-akairo";
+import { MinecraftBot } from "../MinecraftBot";
+import { Message } from "discord.js";
 
 export class DisconnectCommand extends Command {
 
@@ -16,9 +16,11 @@ export class DisconnectCommand extends Command {
 	public exec(message: Message, args: any): any {
 		if (this.minecraftBot.isConnected()) {
 			this.minecraftBot.disconnect();
-			message.channel.send("**DISCONNECTED**").then();
+			message.channel.send("**(BOT) DISCONNECTED**").then();
 		}
-		else message.channel.send("**ALREADY DISCONNECTED**").then();
+		else {
+			message.channel.send("**(BOT) ALREADY DISCONNECTED**").then();
+		}
 	}
 
 }
