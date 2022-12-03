@@ -1,4 +1,4 @@
-import {appendFileSync, existsSync, readFileSync, unlinkSync, writeFileSync} from "fs";
+import { appendFileSync, existsSync, readdirSync, readFileSync, unlinkSync, writeFileSync } from "fs";
 
 export class Files {
 
@@ -6,8 +6,14 @@ export class Files {
 		return readFileSync(path, "utf-8").toString();
 	}
 
+	public static readDirectory(path: string): string[] {
+		return readdirSync(path, "utf-8");
+	}
+
 	public static write(path: string, data: string): void {
-		if (!this.exists(path)) this.create(path);
+		if (!this.exists(path)) {
+			this.create(path);
+		}
 		appendFileSync(path, data);
 	}
 
