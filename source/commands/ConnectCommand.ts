@@ -1,6 +1,6 @@
-import {Command} from "discord-akairo";
-import {MinecraftBot} from "../MinecraftBot";
-import {Message} from "discord.js";
+import { Command } from "discord-akairo";
+import { MinecraftBot } from "../MinecraftBot";
+import { Message, TextChannel } from "discord.js";
 
 export class ConnectCommand extends Command {
 
@@ -14,8 +14,12 @@ export class ConnectCommand extends Command {
 	}
 
 	public exec(message: Message, args: any): any {
-		if (this.minecraftBot.isConnected()) message.channel.send("**ALREADY CONNECTED**").then();
-		else this.minecraftBot.connect();
+		if (this.minecraftBot.isConnected()) {
+			message.channel.send("**(BOT) ALREADY CONNECTED**").then();
+		}
+		else {
+			this.minecraftBot.connect();
+		}
 	}
 
 }
