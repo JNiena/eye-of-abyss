@@ -1,6 +1,6 @@
-import {Command} from "discord-akairo";
-import {Message} from "discord.js";
-import {MinecraftBot} from "../MinecraftBot";
+import { Command } from "discord-akairo";
+import { Message } from "discord.js";
+import { MinecraftBot } from "../MinecraftBot";
 
 export class SayCommand extends Command {
 
@@ -9,7 +9,7 @@ export class SayCommand extends Command {
 	public constructor(minecraftBot: MinecraftBot) {
 		super("say", {
 			"aliases": ["say"],
-			"args": [{"id": "message", "match": "content"}]
+			"args": [{ "id": "message", "match": "content" }]
 		});
 		this.minecraftBot = minecraftBot;
 	}
