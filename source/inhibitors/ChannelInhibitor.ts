@@ -1,6 +1,6 @@
-import {Command, Inhibitor} from "discord-akairo";
-import {Message} from "discord.js";
-import {Config} from "../Config";
+import { Command, Inhibitor } from "discord-akairo";
+import { Message } from "discord.js";
+import { Config } from "../Config";
 
 export class ChannelInhibitor extends Inhibitor {
 
@@ -13,7 +13,7 @@ export class ChannelInhibitor extends Inhibitor {
 		this.ID = config.get()["discord"]["channelID"];
 	}
 
-	public exec(message: Message, command?: Command): boolean | Promise<boolean> {
+	public exec(message: Message, command: Command): boolean | Promise<boolean> {
 		return this.ID !== message.channel.id;
 	}
 
