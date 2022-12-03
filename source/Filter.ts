@@ -10,8 +10,12 @@ export class Filter {
 		this.words.push(word.toLowerCase());
 	}
 
-	public remove(word: string): void {
+	public remove(word: string): boolean {
+		if (!this.words.includes(word.toLowerCase())) {
+			return false;
+		}
 		this.words = this.words.filter(element => element !== word.toLowerCase());
+		return true;
 	}
 
 	public get(): string[] {
@@ -20,7 +24,9 @@ export class Filter {
 
 	public complies(element: string): boolean {
 		for (let i = 0; i < this.words.length; i++) {
-			if (element.toLowerCase().includes(this.words[i].toLowerCase())) return true;
+			if (element.toLowerCase().includes(this.words[i].toLowerCase())) {
+				return true;
+			}
 		}
 		return false;
 	}
