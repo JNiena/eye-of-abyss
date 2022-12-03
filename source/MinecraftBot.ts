@@ -1,5 +1,5 @@
-import {Config} from "./Config";
-import {BotEvents, createBot} from "mineflayer";
+import { Config } from "./Config";
+import { BotEvents, createBot, ScoreBoard } from "mineflayer";
 
 export class MinecraftBot {
 
@@ -8,7 +8,7 @@ export class MinecraftBot {
 	private bot: any;
 	private connected: boolean;
 
-	public constructor(config: Config, initialize: Function = () => {}) {
+	public constructor(config: Config, initialize: Function = () => { }) {
 		this.config = config;
 		this.initialize = initialize;
 		this.connected = false;
@@ -16,18 +16,19 @@ export class MinecraftBot {
 
 	public connect(delay: number = 0): void {
 		setTimeout(() => {
-			if (this.isConnected()) return;
-			this.bot = createBot({
-				"username": this.config.get()["credentials"]["email"],
-				"password": this.config.get()["credentials"]["password"],
-				"auth": this.config.get()["credentials"]["auth"],
-				"host": this.config.get()["server"]["host"],
-				"port": this.config.get()["server"]["port"],
-				"version": this.config.get()["server"]["version"]
-			});
-			this.bot.on("login", () => { this.connected = true; });
-			this.bot.on("end", () => { this.connected = false; });
-			this.initialize();
+			if (!this.isConnected()) {
+				this.bot = createBot({
+					"username": this.config.get()["credentials"]["email"],
+					"password": this.config.get()["credentials"]["password"],
+					"auth": this.config.get()["credentials"]["auth"],
+					"host": this.config.get()["server"]["host"],
+					"port": this.config.get()["server"]["port"],
+					"version": this.config.get()["server"]["version"]
+				});
+				this.bot.on("login", () => { this.connected = true; });
+				this.bot.on("end", () => { this.connected = false; });
+				this.initialize();
+			}
 		}, delay);
 	}
 
@@ -39,13 +40,23 @@ export class MinecraftBot {
 
 	public reconnect(delay: number = 0): void {
 		setTimeout(() => {
-			if (this.isConnected()) this.bot.disconnect();
+			if (this.isConnected()) {
+				this.bot.disconnect();
+			}
 			this.bot.connect();
 		}, delay);
 	}
 
 	public isConnected(): boolean {
 		return this.connected;
+	}
+
+	public username(): string {
+		return this.bot.username;
+	}
+
+	public scoreboards(): any {
+		return this.bot.scoreboards;
 	}
 
 	public on(event: keyof BotEvents, listener: Function): void {
@@ -58,7 +69,9 @@ export class MinecraftBot {
 
 	public chat(message: string, delay: number = 0): void {
 		setTimeout(() => {
-			if (message.length !== 0) this.bot.chat(message);
+			if (message.length !== 0) {
+				this.bot.chat(message);
+			}
 		}, delay);
 	}
 
