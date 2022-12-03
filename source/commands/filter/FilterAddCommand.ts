@@ -1,6 +1,6 @@
-import {Command} from "discord-akairo";
-import {MinecraftBot} from "../../MinecraftBot";
-import {Message} from "discord.js";
+import { Command } from "discord-akairo";
+import { MinecraftBot } from "../../MinecraftBot";
+import { Message } from "discord.js";
 
 export class FilterAddCommand extends Command {
 
@@ -9,18 +9,19 @@ export class FilterAddCommand extends Command {
 	public constructor(minecraftBot: MinecraftBot) {
 		super("filter-add", {
 			"aliases": ["filter-add", "add"],
-			"args": [{"id": "word", "type": "lowercase"}
-			]
+			"args": [{ "id": "word", "match": "content" }]
 		});
 		this.minecraftBot = minecraftBot;
 	}
 
 	public exec(message: Message, args: any): any {
-		if (this.minecraftBot.config.get()["filter"]["list"].includes(args.word)) message.channel.send("**ALREADY EXISTS").then();
+		if (this.minecraftBot.config.get()["filter"]["list"].includes(args.word.toLowerCase())) {
+			message.channel.send("**(FILTER) ALREADY ADDED").then();
+		}
 		else {
-			this.minecraftBot.config.get()["filter"]["list"].push(args.word);
+			this.minecraftBot.config.get()["filter"]["list"].push(args.word.toLowerCase());
 			this.minecraftBot.config.save();
-			message.channel.send(`**ADDED: "${args.word}"**`).then();
+			message.channel.send(`**(FILTER) ADDED: "${args.word.toLowerCase()}"**`).then();
 		}
 	}
 

@@ -1,6 +1,6 @@
-import {Command} from "discord-akairo";
-import {Message} from "discord.js";
-import {MinecraftBot} from "../../MinecraftBot";
+import { Command } from "discord-akairo";
+import { Message } from "discord.js";
+import { MinecraftBot } from "../../MinecraftBot";
 
 export class FilterDisableCommand extends Command {
 
@@ -16,7 +16,7 @@ export class FilterDisableCommand extends Command {
 	public exec(message: Message, args: any): any {
 		this.minecraftBot.config.get()["filter"]["enable"] = false;
 		this.minecraftBot.config.save();
-		message.channel.send("**DISABLED**").then();
+		message.channel.send("**(FILTER) DISABLED**").then();
 	}
 
 }

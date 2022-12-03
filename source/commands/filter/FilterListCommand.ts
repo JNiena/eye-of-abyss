@@ -1,6 +1,6 @@
-import {Command} from "discord-akairo";
-import {Message} from "discord.js";
-import {MinecraftBot} from "../../MinecraftBot";
+import { Command } from "discord-akairo";
+import { Message } from "discord.js";
+import { MinecraftBot } from "../../MinecraftBot";
 
 export class FilterListCommand extends Command {
 
@@ -14,7 +14,7 @@ export class FilterListCommand extends Command {
 	}
 
 	public exec(message: Message, args: any): any {
-		message.channel.send(`**FILTER: ${this.minecraftBot.config.get()["filter"]["list"].join().replace("\n", ", ")}**`).then();
+		message.channel.send(`**(FILTER) LIST: ${this.minecraftBot.config.get()["filter"]["list"].join().replace("\n", ", ")}**`).then();
 	}
 
 }
