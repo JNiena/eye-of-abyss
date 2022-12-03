@@ -1,49 +1,49 @@
 {
-  "discord": {
-    "token": "",
-    "prefix": "",
-    "channelID": "",
-    "roleID": ""
-  },
-  "credentials": {
-    "email": "",
-    "password": "",
-    "auth": ""
-  },
-  "server": {
-    "host": "",
-    "port": "",
-    "version": ""
-  },
-  "logging": {
-    "enable": false,
-    "path": ""
-  },
-  "filter": {
-    "enable": false,
-    "list": []
-  },
-  "events": {
-    "join": {
-      "enable": false,
-      "message": "",
-      "delay": 0
-    },
-    "death": {
-      "enable": false,
-      "message": "",
-      "delay": 0
-    }
-  },
-  "rejoin": {
-    "enable": false,
-    "delay": 0
-  },
-  "chat": [
-    {
-      "trigger": "",
-      "reply": "",
-      "delay": 0
-    }
-  ]
+	"discord": {
+		"token": "",
+		"prefix": "",
+		"channelID": "",
+		"roleID": ""
+	},
+	"credentials": {
+		"email": "",
+		"password": "",
+		"auth": ""
+	},
+	"server": {
+		"host": "",
+		"port": "",
+		"version": ""
+	},
+	"logging": {
+		"enable": false,
+		"path": ""
+	},
+	"filter": {
+		"enable": false,
+		"list": []
+	},
+	"events": {
+		"join": {
+			"enable": false,
+			"message": "",
+			"delay": 0
+		},
+		"death": {
+			"enable": false,
+			"message": "",
+			"delay": 0
+		}
+	},
+	"rejoin": {
+		"enable": false,
+		"delay": 0
+	},
+	"chat": [
+		{
+			"trigger": "",
+			"reply": "",
+			"delay": 0
+		}
+	]
 }
