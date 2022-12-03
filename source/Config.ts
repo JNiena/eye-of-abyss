@@ -1,4 +1,4 @@
-import {Files} from "./Files";
+import { Files } from "./Files";
 
 export class Config {
 
