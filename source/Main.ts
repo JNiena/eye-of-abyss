@@ -1,25 +1,29 @@
-import {DiscordBot} from "./DiscordBot";
-import {Config} from "./Config";
-import {MinecraftBot} from "./MinecraftBot";
-import {ErrorListener} from "./listeners/ErrorListener";
-import {ChatListener} from "./listeners/ChatListener";
-import {SpawnedListener} from "./listeners/SpawnedListener";
-import {KickedListener} from "./listeners/KickedListener";
-import {DeathListener} from "./listeners/DeathListener";
-import {ConnectCommand} from "./commands/ConnectCommand";
-import {DisconnectCommand} from "./commands/DisconnectCommand";
-import {ReconnectCommand} from "./commands/ReconnectCommand";
-import {SayCommand} from "./commands/SayCommand";
-import {StatusCommand} from "./commands/StatusCommand";
-import {FilterAddCommand} from "./commands/filter/FilterAddCommand";
-import {FilterRemoveCommand} from "./commands/filter/FilterRemoveCommand";
-import {FilterEnableCommand} from "./commands/filter/FilterEnableCommand";
-import {FilterDisableCommand} from "./commands/filter/FilterDisableCommand";
-import {FilterResetCommand} from "./commands/filter/FilterResetCommand";
-import {FilterListCommand} from "./commands/filter/FilterListCommand";
-import {ChannelInhibitor} from "./inhibitors/ChannelInhibitor";
+import { DiscordBot } from "./DiscordBot";
+import { Config } from "./Config";
+import { MinecraftBot } from "./MinecraftBot";
+import { ErrorListener } from "./listeners/ErrorListener";
+import { ChatListener } from "./listeners/ChatListener";
+import { SpawnedListener } from "./listeners/SpawnedListener";
+import { KickedListener } from "./listeners/KickedListener";
+import { DeathListener } from "./listeners/DeathListener";
+import { ConnectCommand } from "./commands/ConnectCommand";
+import { DisconnectCommand } from "./commands/DisconnectCommand";
+import { ReconnectCommand } from "./commands/ReconnectCommand";
+import { SayCommand } from "./commands/SayCommand";
+import { StatusCommand } from "./commands/StatusCommand";
+import { FilterAddCommand } from "./commands/filter/FilterAddCommand";
+import { FilterRemoveCommand } from "./commands/filter/FilterRemoveCommand";
+import { FilterEnableCommand } from "./commands/filter/FilterEnableCommand";
+import { FilterDisableCommand } from "./commands/filter/FilterDisableCommand";
+import { FilterResetCommand } from "./commands/filter/FilterResetCommand";
+import { FilterListCommand } from "./commands/filter/FilterListCommand";
+import { ChannelInhibitor } from "./inhibitors/ChannelInhibitor";
+import { PluginManager } from "./PluginManager";
+import { Repeater } from "./Repeater";
 
+let pluginManager: PluginManager = new PluginManager();
 let config: Config = new Config(process.argv[2]);
+
 let discordBot: DiscordBot = new DiscordBot(config);
 let minecraftBot: MinecraftBot = new MinecraftBot(config, () => {
 	new ErrorListener(minecraftBot, discordBot);
@@ -27,7 +31,11 @@ let minecraftBot: MinecraftBot = new MinecraftBot(config, () => {
 	new SpawnedListener(minecraftBot, discordBot);
 	new KickedListener(minecraftBot, discordBot);
 	new DeathListener(minecraftBot, discordBot);
+	pluginManager.loadDirectory("./plugins", minecraftBot, discordBot);
 });
+new Repeater(minecraftBot);
+
+minecraftBot.connect();
 
 discordBot.registerCommand(new ConnectCommand(minecraftBot));
 discordBot.registerCommand(new DisconnectCommand(minecraftBot));
@@ -40,8 +48,6 @@ discordBot.registerCommand(new FilterRemoveCommand(minecraftBot));
 discordBot.registerCommand(new FilterResetCommand(minecraftBot));
 discordBot.registerCommand(new FilterEnableCommand(minecraftBot));
 discordBot.registerCommand(new FilterDisableCommand(minecraftBot));
-
 discordBot.registerInhibitor(new ChannelInhibitor(config));
 
-minecraftBot.connect();
 discordBot.start();
