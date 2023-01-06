@@ -1,5 +1,5 @@
 import { Config } from "./Config";
-import { BotEvents, createBot, ScoreBoard } from "mineflayer";
+import { BotEvents, createBot } from "mineflayer";
 
 export class MinecraftBot {
 
