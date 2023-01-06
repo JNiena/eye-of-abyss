@@ -24,9 +24,12 @@ export class Filter {
 
 	public complies(element: string): boolean {
 		for (let i = 0; i < this.words.length; i++) {
-			return this.words[i].includes("|")
-				? this.handle_phrase(element.toLowerCase(), this.words[i].toLowerCase())
-				: this.handle_word(element.toLowerCase(), this.words[i].toLowerCase());
+			if (this.words[i].includes("|") && this.handle_phrase(element.toLowerCase(), this.words[i].toLowerCase())) {
+				return true;
+			}
+			else if (this.handle_word(element.toLowerCase(), this.words[i].toLowerCase())) {
+				return true;
+			}
 		}
 		return false;
 	}
