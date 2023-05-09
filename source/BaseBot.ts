@@ -41,7 +41,7 @@ export class BaseBot {
 			if (this.isConnected()) {
 				this.disconnect();
 			}
-			this.connect();
+			this.connect(1_000);
 		}, delay);
 	}
 
