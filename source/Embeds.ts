@@ -53,8 +53,8 @@ export class Embeds {
 		return this.template("Offline", "The bot is offline!", this.neutral);
 	}
 
-	public static messageSent(message: string): APIEmbed {
-		return this.template("Message Sent", message, this.neutral);
+	public static messageSent(): APIEmbed {
+		return this.template("Message Sent", "The message has been sent!", this.neutral);
 	}
 
 	public static itemsDropped(): APIEmbed {

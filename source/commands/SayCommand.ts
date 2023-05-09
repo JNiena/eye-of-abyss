@@ -27,6 +27,6 @@ export class SayCommand extends Command {
 		await interaction.deferReply();
 		const message: string = interaction.options.getString("message", true);
 		minecraftBot.chat(message);
-		return interaction.editReply({ "embeds": [Embeds.messageSent(message)] });
+		return interaction.editReply({ "embeds": [Embeds.messageSent()] });
 	}
 }
