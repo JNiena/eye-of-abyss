@@ -1,7 +1,6 @@
 import { appendFileSync, existsSync, readdirSync, readFileSync, unlinkSync, writeFileSync } from "fs";
 
 export class Files {
-
 	public static read(path: string): string {
 		return readFileSync(path, "utf-8").toString();
 	}
@@ -14,11 +13,11 @@ export class Files {
 		if (!this.exists(path)) {
 			this.create(path);
 		}
-		appendFileSync(path, data);
+		appendFileSync(path, data, "utf-8");
 	}
 
 	public static create(path: string): void {
-		writeFileSync(path, "");
+		writeFileSync(path, "", "utf-8");
 	}
 
 	public static delete(path: string): void {
@@ -28,5 +27,4 @@ export class Files {
 	public static exists(path: string): boolean {
 		return existsSync(path);
 	}
-
 }
