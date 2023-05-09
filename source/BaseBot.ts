@@ -4,8 +4,8 @@ import { config } from "./Main";
 export class BaseBot {
 	// @ts-ignore
 	protected bot: Bot;
-	private connected: boolean;
 	protected startup: Function[];
+	private connected: boolean;
 
 	public constructor() {
 		this.connected = false;
