@@ -42,7 +42,7 @@ export class Embeds {
 	}
 
 	public static reconnecting(delay: number): APIEmbed {
-		return this.template("Reconnecting", `The bot is reconnecting in ${delay / 1000}s!`, this.neutral);
+		return this.template("Reconnecting", `The bot is reconnecting in \`${delay / 1000}s\`!`, this.neutral);
 	}
 
 	public static online(): APIEmbed {
@@ -62,7 +62,7 @@ export class Embeds {
 	}
 
 	public static respawning(delay: number): APIEmbed {
-		return this.template("Respawning", `The bot is respawning in ${delay / 1000}s!`, this.neutral);
+		return this.template("Respawning", `The bot is respawning in \`${delay / 1000}s\`!`, this.neutral);
 	}
 
 	public static death(): APIEmbed {
@@ -112,18 +112,18 @@ export class Embeds {
 	}
 
 	public static filterAdded(item: string): APIEmbed {
-		return this.template("Item Added", `__${item}__ was added to the filter!`, this.neutral);
+		return this.template("Item Added", `\`${item}\` was added to the filter!`, this.neutral);
 	}
 
 	public static filterAlreadyAdded(item: string): APIEmbed {
-		return this.template("Item Already Added", `__${item}__ is already added to the filter!`, this.neutral);
+		return this.template("Item Already Added", `\`${item}\` is already added to the filter!`, this.neutral);
 	}
 
 	public static filterRemoved(item: string): APIEmbed {
-		return this.template("Item Removed", `__${item}__ was removed from the filter!`, this.neutral);
+		return this.template("Item Removed", `\`${item}\` was removed from the filter!`, this.neutral);
 	}
 
 	public static filterAlreadyRemoved(item: string): APIEmbed {
-		return this.template("Item Already Removed", `__${item}__ is already removed from the filter!`, this.neutral);
+		return this.template("Item Already Removed", `\`${item}\` is already removed from the filter!`, this.neutral);
 	}
 }
