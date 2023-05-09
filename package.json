@@ -5,6 +5,7 @@
 		"discord.js": "^14.11.0",
 		"@sapphire/framework": "^4.4.3",
 		"@sapphire/plugin-subcommands": "^4.0.1",
+		"@sapphire/time-utilities": "^1.7.9",
 		"mineflayer": "^4.8.1"
 	},
 	"devDependencies": {
