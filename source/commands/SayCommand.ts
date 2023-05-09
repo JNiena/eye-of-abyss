@@ -1,21 +1,32 @@
-import { Command } from "discord-akairo";
-import { Message } from "discord.js";
-import { MinecraftBot } from "../MinecraftBot";
+import { Command } from "@sapphire/framework";
+import { ChatInputCommandInteraction } from "discord.js";
+import { Embeds } from "../Embeds";
+import { minecraftBot } from "../Main";
 
 export class SayCommand extends Command {
-
-	private minecraftBot: MinecraftBot;
-
-	public constructor(minecraftBot: MinecraftBot) {
-		super("say", {
-			"aliases": ["say"],
-			"args": [{ "id": "message", "match": "content" }]
+	public constructor(context: Command.Context, options: Command.Options) {
+		super(context, {
+			...options,
+			"name": "say",
+			// @ts-ignore
+			"preconditions": ["IsValidChannel"],
+			"description": "Sends a message from the account."
 		});
-		this.minecraftBot = minecraftBot;
 	}
 
-	public exec(message: Message, args: any): any {
-		this.minecraftBot.chat(args.message);
+	public override registerApplicationCommands(registry: Command.Registry) {
+		registry.registerChatInputCommand((builder) => {
+			builder
+				.setName(this.name)
+				.setDescription(this.description)
+				.addStringOption(option => option.setName("message").setDescription("The message for the account to send.").setRequired(true).setMinLength(1));
+		}, { "idHints": ["1094053789134245978"] });
 	}
 
+	public override async chatInputRun(interaction: ChatInputCommandInteraction) {
+		await interaction.deferReply();
+		const message: string = interaction.options.getString("message", true);
+		minecraftBot.chat(message);
+		return interaction.editReply({ "embeds": [Embeds.messageSent(message)] });
+	}
 }

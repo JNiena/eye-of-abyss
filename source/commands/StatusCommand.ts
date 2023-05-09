@@ -1,25 +1,32 @@
-import { Command } from "discord-akairo";
-import { MinecraftBot } from "../MinecraftBot";
-import { Message } from "discord.js";
+import { ChatInputCommand, Command } from "@sapphire/framework";
+import { ChatInputCommandInteraction } from "discord.js";
+import { Embeds } from "../Embeds";
+import { minecraftBot } from "../Main";
 
 export class StatusCommand extends Command {
-
-	private minecraftBot: MinecraftBot;
-
-	public constructor(minecraftBot: MinecraftBot) {
-		super("status", {
-			"aliases": ["status"]
+	public constructor(context: Command.Context, options: Command.Options) {
+		super(context, {
+			...options,
+			"name": "status",
+			// @ts-ignore
+			"preconditions": ["IsValidChannel"],
+			"description": "Checks the status of the account."
 		});
-		this.minecraftBot = minecraftBot;
 	}
 
-	public exec(message: Message, args: any): any {
-		if (this.minecraftBot.isConnected()) {
-			message.channel.send("**(BOT) ONLINE**").then();
-		}
-		else {
-			message.channel.send("**(BOT) OFFLINE**").then();
-		}
+	public override registerApplicationCommands(registry: Command.Registry) {
+		registry.registerChatInputCommand((builder) => {
+			builder
+				.setName(this.name)
+				.setDescription(this.description);
+		}, { "idHints": ["1094053791453675550"] });
 	}
 
+	public override async chatInputRun(interaction: ChatInputCommandInteraction, context: ChatInputCommand.RunContext) {
+		await interaction.deferReply();
+		if (minecraftBot.isConnected()) {
+			return interaction.editReply({ "embeds": [Embeds.online()] });
+		}
+		return interaction.editReply({ "embeds": [Embeds.offline()] });
+	}
 }

@@ -1,25 +1,33 @@
-import { Command } from "discord-akairo";
-import { MinecraftBot } from "../MinecraftBot";
-import { Message, TextChannel } from "discord.js";
+import { Command } from "@sapphire/framework";
+import { ChatInputCommandInteraction } from "discord.js";
+import { Embeds } from "../Embeds";
+import { minecraftBot } from "../Main";
 
 export class ConnectCommand extends Command {
-
-	private minecraftBot: MinecraftBot;
-
-	public constructor(minecraftBot: MinecraftBot) {
-		super("connect", {
-			"aliases": ["connect"]
+	public constructor(context: Command.Context, options: Command.Options) {
+		super(context, {
+			...options,
+			"name": "connect",
+			// @ts-ignore
+			"preconditions": ["IsValidChannel"],
+			"description": "Connects the account to the server."
 		});
-		this.minecraftBot = minecraftBot;
 	}
 
-	public exec(message: Message, args: any): any {
-		if (this.minecraftBot.isConnected()) {
-			message.channel.send("**(BOT) ALREADY CONNECTED**").then();
-		}
-		else {
-			this.minecraftBot.connect();
-		}
+	public override registerApplicationCommands(registry: Command.Registry) {
+		registry.registerChatInputCommand((builder) => {
+			builder
+				.setName(this.name)
+				.setDescription(this.description);
+		}, { "idHints": ["1094053790623215729"] });
 	}
 
+	public override async chatInputRun(interaction: ChatInputCommandInteraction) {
+		await interaction.deferReply();
+		if (minecraftBot.isConnected()) {
+			return interaction.editReply({ "embeds": [Embeds.alreadyConnected()] });
+		}
+		minecraftBot.connect();
+		return interaction.editReply({ "embeds": [Embeds.connected()] });
+	}
 }

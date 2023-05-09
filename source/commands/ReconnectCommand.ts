@@ -1,21 +1,30 @@
-import { Command } from "discord-akairo";
-import { MinecraftBot } from "../MinecraftBot";
-import { Message } from "discord.js";
+import { Command } from "@sapphire/framework";
+import { ChatInputCommandInteraction } from "discord.js";
+import { Embeds } from "../Embeds";
+import { minecraftBot } from "../Main";
 
 export class ReconnectCommand extends Command {
-
-	private minecraftBot: MinecraftBot;
-
-	public constructor(minecraftBot: MinecraftBot) {
-		super("reconnect", {
-			"aliases": ["reconnect"]
+	public constructor(context: Command.Context, options: Command.Options) {
+		super(context, {
+			...options,
+			"name": "reconnect",
+			// @ts-ignore
+			"preconditions": ["IsValidChannel"],
+			"description": "Reconnects the account to the server."
 		});
-		this.minecraftBot = minecraftBot;
 	}
 
-	public exec(message: Message, args: any): any {
-		this.minecraftBot.reconnect();
-		message.channel.send("**(BOT) RECONNECTED**").then();
+	public override registerApplicationCommands(registry: Command.Registry) {
+		registry.registerChatInputCommand((builder) => {
+			builder
+				.setName(this.name)
+				.setDescription(this.description);
+		}, { "idHints": ["1094050995899727982"] });
 	}
 
+	public override async chatInputRun(interaction: ChatInputCommandInteraction) {
+		await interaction.deferReply();
+		minecraftBot.reconnect();
+		return interaction.editReply({ "embeds": [Embeds.reconnected()] });
+	}
 }
