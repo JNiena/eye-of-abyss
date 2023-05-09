@@ -19,8 +19,10 @@ export class ChatListener {
 	}
 
 	private checkFilter(message: string): void {
-		if (!config.get().filter.enable || Filter.complies(config.get().filter.list, message) && message.length > 1) {
-			discordBot.send(`\`${message}\``).then();
+		if (!config.get().filter.enable || Filter.complies(config.get().filter.list, message)) {
+			if (message.length > 1) {
+				discordBot.send(`\`${message}\``).then();
+			}
 		}
 	}
 
