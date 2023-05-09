@@ -17,6 +17,10 @@
 		"enable": false,
 		"path": ""
 	},
+	"filter": {
+		"enable": false,
+		"list": []
+	},
 	"events": {
 		"join": {
 			"enable": false,
