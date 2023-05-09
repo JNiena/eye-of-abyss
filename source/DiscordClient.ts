@@ -2,7 +2,7 @@ import { SapphireClient } from "@sapphire/framework";
 import { getRootData } from "@sapphire/pieces";
 import { ClientOptions, TextChannel } from "discord.js";
 import path from "path";
-import { config, discordBot } from "./Main";
+import { config } from "./Main";
 
 export class DiscordClient extends SapphireClient {
 	public constructor(options: ExtendedClientOptions) {
@@ -16,11 +16,11 @@ export class DiscordClient extends SapphireClient {
 		if (message.trim().length === 0) {
 			return Promise.resolve();
 		}
-		await (discordBot.channels.cache.get(config.get().discord.channelID) as TextChannel).send(message);
+		await (this.channels.cache.get(config.get().discord.channelID) as TextChannel).send(message);
 	}
 
 	public async sendEmbed(embed: any): Promise<void> {
-		await (discordBot.channels.cache.get(config.get().discord.channelID) as TextChannel).send({ "embeds": [embed] });
+		await (this.channels.cache.get(config.get().discord.channelID) as TextChannel).send({ "embeds": [embed] });
 	}
 }
 
