@@ -4,6 +4,7 @@
 		"target": "ES2022",
 		"outDir": "target",
 		"esModuleInterop": true,
+		"skipLibCheck": true,
 		"strict": true
 	},
 	"exclude": [
