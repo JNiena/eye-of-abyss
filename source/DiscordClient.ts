@@ -8,7 +8,7 @@ export class DiscordClient extends SapphireClient {
 	public constructor(options: ExtendedClientOptions) {
 		super(options);
 		if (options.loadPlugins) {
-			this.stores.get("interaction-handlers").registerPath(path.join(getRootData().root, "plugins"));
+			this.stores.registerPath(path.join(getRootData().root, "plugins"));
 		}
 	}
 

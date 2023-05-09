@@ -17,7 +17,7 @@ const discordBot: DiscordClient = new DiscordClient({
 	"loadMessageCommandListeners": true,
 	"loadDefaultErrorListeners": true,
 	"loadSubcommandErrorListeners": true,
-	"loadPlugins": false,
+	"loadPlugins": true,
 	"logger": { "level": LogLevel.Debug }
 });
 
