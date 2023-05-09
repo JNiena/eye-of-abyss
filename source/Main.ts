@@ -10,7 +10,7 @@ import { KickedListener } from "./minecraft/KickedListener";
 import { MinecraftBot } from "./MinecraftBot";
 import { Repeater } from "./Repeater";
 
-const config: Config = new Config("config.json");
+const config: Config = new Config(process.argv[2]);
 
 const discordBot: DiscordClient = new DiscordClient({
 	"intents": [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent],
