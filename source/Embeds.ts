@@ -3,11 +3,11 @@ import { APIEmbed } from "discord.js";
 import { minecraftBot } from "./Main";
 
 export class Embeds {
-	private static green: number = 2817792;
-	private static red: number = 16711680;
-	private static neutral: number = 7803166;
+	public static readonly green: number = 2817792;
+	public static readonly red: number = 16711680;
+	public static readonly neutral: number = 7803166;
 
-	private static template(title: string, description: string, color: number): APIEmbed {
+	public static template(title: string, description: string, color: number): APIEmbed {
 		return {
 			"title": title,
 			"description": description,
