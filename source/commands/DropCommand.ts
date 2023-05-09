@@ -29,10 +29,10 @@ export class DropCommand extends Command {
 	}
 
 	private dropItems(): void {
-		const items = minecraftBot.items();
+		const items = minecraftBot.internal().inventory.items();
 		for (let i: number = 0; i < items.length; i++) {
 			setTimeout(() => {
-				minecraftBot.tossStack(items[i]);
+				minecraftBot.internal().tossStack(items[i]).then();
 			}, i * 500);
 		}
 	}
