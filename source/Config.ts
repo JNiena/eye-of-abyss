@@ -1,7 +1,6 @@
 import { Files } from "./Files";
 
 export class Config {
-
 	private data: any;
 	private path: string | undefined;
 
@@ -19,10 +18,9 @@ export class Config {
 	}
 
 	public save(): void {
-		if (this.path !== undefined) {
+		if (this.path) {
 			Files.delete(this.path);
 			Files.write(this.path, JSON.stringify(this.data, null, "\t"));
 		}
 	}
-
 }
