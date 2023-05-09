@@ -21,13 +21,12 @@ const discordBot: DiscordClient = new DiscordClient({
 	"logger": { "level": LogLevel.Debug }
 });
 
-const minecraftBot: MinecraftBot = new MinecraftBot(() => {
-	new ErrorListener();
-	new ChatListener();
-	new JoinListener();
-	new KickedListener();
-	new DeathListener();
-});
+const minecraftBot: MinecraftBot = new MinecraftBot();
+new ErrorListener();
+new ChatListener();
+new JoinListener();
+new KickedListener();
+new DeathListener();
 Repeater.start(minecraftBot);
 
 minecraftBot.connect();

@@ -2,9 +2,8 @@ import { BotEvents } from "mineflayer";
 import { BaseBot } from "./BaseBot";
 
 export class ListeningBot extends BaseBot {
-	public constructor(registerListeners: Function) {
+	public constructor() {
 		super();
-		this.startup.push(registerListeners);
 	}
 
 	public on(event: keyof BotEvents, listener: Function): void {
