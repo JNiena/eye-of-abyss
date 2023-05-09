@@ -16,7 +16,7 @@ export class Embeds {
 				"text": new Timestamp("MM-DD-YYYY HH:mm:ss").displayUTC()
 			},
 			"thumbnail": {
-				"url": `https://api.mineatar.io/face/${minecraftBot.username()}?scale=5`
+				"url": `https://api.mineatar.io/face/${minecraftBot.internal().username}?scale=5`
 			}
 		};
 	}
