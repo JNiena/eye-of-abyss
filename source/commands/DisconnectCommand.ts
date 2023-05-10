@@ -1,15 +1,13 @@
 import { Command } from "@sapphire/framework";
 import { ChatInputCommandInteraction } from "discord.js";
 import { Embeds } from "../Embeds";
-import { minecraftBot } from "../Main";
+import { config, minecraftBot } from "../Main";
 
 export class ConnectCommand extends Command {
 	public constructor(context: Command.Context, options: Command.Options) {
 		super(context, {
 			...options,
 			"name": "disconnect",
-			// @ts-ignore
-			"preconditions": ["IsValidChannel"],
 			"description": "Disconnects the account from the server."
 		});
 	}
@@ -23,6 +21,7 @@ export class ConnectCommand extends Command {
 	}
 
 	public override async chatInputRun(interaction: ChatInputCommandInteraction) {
+		if (config.get().discord.channelID !== interaction.channelId) { return; }
 		await interaction.deferReply();
 		if (minecraftBot.isConnected()) {
 			minecraftBot.disconnect();

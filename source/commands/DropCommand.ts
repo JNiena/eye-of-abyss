@@ -1,15 +1,13 @@
 import { Command } from "@sapphire/framework";
 import { ChatInputCommandInteraction } from "discord.js";
 import { Embeds } from "../Embeds";
-import { minecraftBot } from "../Main";
+import { config, minecraftBot } from "../Main";
 
 export class DropCommand extends Command {
 	public constructor(context: Command.Context, options: Command.Options) {
 		super(context, {
 			...options,
 			"name": "drop",
-			// @ts-ignore
-			"preconditions": ["IsValidChannel"],
 			"description": "Drops every item in the account's inventory."
 		});
 	}
@@ -23,6 +21,7 @@ export class DropCommand extends Command {
 	}
 
 	public override async chatInputRun(interaction: ChatInputCommandInteraction) {
+		if (config.get().discord.channelID !== interaction.channelId) { return; }
 		await interaction.deferReply();
 		this.dropItems();
 		return interaction.editReply({ "embeds": [Embeds.itemsDropped()] });

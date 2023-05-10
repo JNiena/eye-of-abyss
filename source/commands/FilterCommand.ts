@@ -8,8 +8,6 @@ export class FilterCommand extends Subcommand {
 		super(context, {
 			...options,
 			"name": "filter",
-			// @ts-ignore
-			"preconditions": ["IsValidChannel"],
 			"description": "Modifies the filter.",
 			"subcommands": [
 				{ "name": "list", "chatInputRun": "chatInputList" },
@@ -39,6 +37,7 @@ export class FilterCommand extends Subcommand {
 	}
 
 	public async chatInputList(interaction: Subcommand.ChatInputCommandInteraction) {
+		if (config.get().discord.channelID !== interaction.channelId) { return; }
 		await interaction.deferReply();
 		if (config.get().filter.list.length === 0) {
 			return interaction.editReply({ "embeds": [Embeds.filterEmpty()] });
@@ -47,6 +46,7 @@ export class FilterCommand extends Subcommand {
 	}
 
 	public async chatInputEnable(interaction: Subcommand.ChatInputCommandInteraction) {
+		if (config.get().discord.channelID !== interaction.channelId) { return; }
 		await interaction.deferReply();
 		config.get().filter.enable = true;
 		config.save();
@@ -54,6 +54,7 @@ export class FilterCommand extends Subcommand {
 	}
 
 	public async chatInputDisable(interaction: Subcommand.ChatInputCommandInteraction) {
+		if (config.get().discord.channelID !== interaction.channelId) { return; }
 		await interaction.deferReply();
 		config.get().filter.enable = false;
 		config.save();
@@ -61,6 +62,7 @@ export class FilterCommand extends Subcommand {
 	}
 
 	public async chatInputReset(interaction: Subcommand.ChatInputCommandInteraction) {
+		if (config.get().discord.channelID !== interaction.channelId) { return; }
 		await interaction.deferReply();
 		config.get().filter.list = [];
 		config.save();
@@ -68,6 +70,7 @@ export class FilterCommand extends Subcommand {
 	}
 
 	public async chatInputAdd(interaction: Subcommand.ChatInputCommandInteraction) {
+		if (config.get().discord.channelID !== interaction.channelId) { return; }
 		await interaction.deferReply();
 		const item: string = interaction.options.getString("item", true).toLowerCase();
 		if (config.get().filter.list.includes(item)) {
@@ -79,6 +82,7 @@ export class FilterCommand extends Subcommand {
 	}
 
 	public async chatInputRemove(interaction: Subcommand.ChatInputCommandInteraction) {
+		if (config.get().discord.channelID !== interaction.channelId) { return; }
 		await interaction.deferReply();
 		const item: string = interaction.options.getString("item", true).toLowerCase();
 		if (config.get().filter.list.includes(item)) {
