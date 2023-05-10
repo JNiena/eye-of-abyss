@@ -1,8 +1,7 @@
-import { config } from "./Main";
-import { MinecraftBot } from "./MinecraftBot";
+import { config, minecraftBot } from "./Main";
 
 export class Repeater {
-	public static start(minecraftBot: MinecraftBot): void {
+	public static start(): void {
 		for (let i: number = 0; i < config.get().repeater.length; i++) {
 			setInterval(() => {
 				if (minecraftBot && minecraftBot.isConnected()) {

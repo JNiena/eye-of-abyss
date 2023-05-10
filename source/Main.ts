@@ -27,7 +27,7 @@ new ChatListener();
 new JoinListener();
 new KickedListener();
 new DeathListener();
-Repeater.start(minecraftBot);
+Repeater.start();
 
 minecraftBot.connect();
 discordBot.login(config.get().discord.token).then();
