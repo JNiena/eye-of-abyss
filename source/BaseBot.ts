@@ -14,7 +14,7 @@ export class BaseBot {
 
 	public connect(delay: number = 0): void {
 		setTimeout(() => {
-			if (!this.connected) {
+			if (!this.isConnected()) {
 				this.bot = createBot({
 					"username": config.get().credentials.email,
 					"password": config.get().credentials.password,
@@ -41,7 +41,7 @@ export class BaseBot {
 			if (this.isConnected()) {
 				this.disconnect();
 			}
-			this.connect(1_000);
+			this.connect(10_000);
 		}, delay);
 	}
 
