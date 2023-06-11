@@ -7,7 +7,7 @@ export class ErrorListener {
 			discordBot.sendEmbed(Embeds.error(error.message)).then();
 			if (config.get().events.error.enable) {
 				discordBot.sendEmbed(Embeds.reconnecting(config.get().events.error.delay)).then();
-				minecraftBot.connect(config.get().events.error.delay);
+				minecraftBot.reconnect(config.get().events.error.delay);
 			}
 		});
 	}
