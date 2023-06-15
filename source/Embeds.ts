@@ -29,6 +29,13 @@ export class Embeds {
 		return this.template("Already Connected", "The bot is already connected!");
 	}
 
+	public static attemptingConnect(delay: number = 0): APIEmbed {
+		const message: string = delay == 0
+			? "The bot is attempting to connect!"
+			: `The bot is attempting to connect in \`${delay / 1000}s\`!`;
+		return this.template("Attempting Connect", message);
+	}
+
 	public static disconnected(): APIEmbed {
 		return this.template("Disconnected", "The bot has disconnected!");
 	}
@@ -37,12 +44,22 @@ export class Embeds {
 		return this.template("Already Disconnected", "The bot is already disconnected!");
 	}
 
+	public static attemptingDisconnect(delay: number = 0): APIEmbed {
+		const message: string = delay == 0
+			? "The bot is attempting to disconnect!"
+			: `The bot is attempting to disconnect in \`${delay / 1000}s\`!`;
+		return this.template("Attempting Disconnect", message);
+	}
+
 	public static reconnected(): APIEmbed {
 		return this.template("Reconnected", "The bot has reconnected!");
 	}
 
-	public static reconnecting(delay: number): APIEmbed {
-		return this.template("Reconnecting", `The bot is reconnecting in \`${delay / 1000}s\`!`);
+	public static attemptingReconnect(delay: number = 0): APIEmbed {
+		const message: string = delay == 0
+			? "The bot is attempting to reconnect!"
+			: `The bot is attempting to reconnect in \`${delay / 1000}s\`!`;
+		return this.template("Attempting Reconnect", message);
 	}
 
 	public static online(): APIEmbed {
