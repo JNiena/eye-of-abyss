@@ -18,7 +18,12 @@ export class SayCommand extends ChannelCommand {
 			builder
 				.setName(this.name)
 				.setDescription(this.description)
-				.addStringOption(option => option.setName("message").setDescription("The message for the account to send.").setRequired(true).setMinLength(1));
+				.addStringOption(option => option
+					.setName("message")
+					.setDescription("The message for the account to send.")
+					.setRequired(true)
+					.setMinLength(1)
+				);
 		}, { "idHints": ["1094053789134245978"] });
 	}
 
