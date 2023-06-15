@@ -6,7 +6,7 @@ export class KickedListener {
 		minecraftBot.on("kicked", (reason: string) => {
 			discordBot.sendEmbed(Embeds.kicked(reason)).then();
 			if (config.get().events.kicked.enable) {
-				discordBot.sendEmbed(Embeds.reconnecting(config.get().events.kicked.delay)).then();
+				discordBot.sendEmbed(Embeds.attemptingReconnect(config.get().events.kicked.delay)).then();
 				minecraftBot.reconnect(config.get().events.kicked.delay);
 			}
 		});
