@@ -29,7 +29,7 @@ new KickedListener();
 new DeathListener();
 Repeater.start();
 
-minecraftBot.connect();
+// minecraftBot.connect();
 discordBot.login(config.get().discord.token).then();
 
 export {
