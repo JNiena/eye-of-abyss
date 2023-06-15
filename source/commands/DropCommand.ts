@@ -9,7 +9,7 @@ export class DropCommand extends ChannelCommand {
 		super(context, {
 			...options,
 			"name": "drop",
-			"description": "Drops every item in the account's inventory."
+			"description": "Drops the bot's inventory."
 		});
 	}
 
