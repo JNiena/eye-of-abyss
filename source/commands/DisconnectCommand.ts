@@ -9,7 +9,7 @@ export class ConnectCommand extends ChannelCommand {
 		super(context, {
 			...options,
 			"name": "disconnect",
-			"description": "Disconnects the account from the server."
+			"description": "Disconnects the bot from the server."
 		});
 	}
 
