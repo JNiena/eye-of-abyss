@@ -109,7 +109,7 @@ export class Embeds {
 	}
 
 	public static filterList(items: string[]): APIEmbed {
-		return this.template("Filter", items.toString());
+		return this.template("Filter", items.toString().replace("/,/g", ", "));
 	}
 
 	public static filterEmpty(): APIEmbed {
