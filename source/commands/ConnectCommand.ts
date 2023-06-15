@@ -9,7 +9,7 @@ export class ConnectCommand extends ChannelCommand {
 		super(context, {
 			...options,
 			"name": "connect",
-			"description": "Connects the account to the server."
+			"description": "Connects the bot to the server."
 		});
 	}
 
