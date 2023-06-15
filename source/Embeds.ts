@@ -143,4 +143,8 @@ export class Embeds {
 	public static filterAlreadyRemoved(item: string): APIEmbed {
 		return this.template("Item Already Removed", `\`${item}\` is already removed from the filter!`);
 	}
+
+	public static filterPasted(): APIEmbed {
+		return this.template("Filter Pasted", "The filter has been pasted!");
+	}
 }
