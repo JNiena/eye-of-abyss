@@ -23,7 +23,7 @@ export class FilterCommand extends ChannelSubcommand {
 	}
 
 	public override registerApplicationCommands(registry: Command.Registry) {
-		registry.registerChatInputCommand(builder => {
+		registry.registerChatInputCommand((builder) => {
 			builder
 				.setName(this.name)
 				.setDescription(this.description)
