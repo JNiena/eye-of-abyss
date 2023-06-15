@@ -23,6 +23,9 @@ export class DropCommand extends ChannelCommand {
 
 	public override async run(interaction: ChatInputCommandInteraction): Promise<Message> {
 		await interaction.deferReply();
+		if (!minecraftBot.isConnected()) {
+			return interaction.editReply({ "embeds": [Embeds.offline()] });
+		}
 		this.dropItems();
 		return interaction.editReply({ "embeds": [Embeds.itemsDropped()] });
 	}

@@ -29,6 +29,9 @@ export class SayCommand extends ChannelCommand {
 
 	public override async run(interaction: ChatInputCommandInteraction): Promise<Message> {
 		await interaction.deferReply();
+		if (!minecraftBot.isConnected()) {
+			return interaction.editReply({ "embeds": [Embeds.offline()] });
+		}
 		const message: string = interaction.options.getString("message", true);
 		minecraftBot.chat(message);
 		return interaction.editReply({ "embeds": [Embeds.messageSent()] });
