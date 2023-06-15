@@ -9,7 +9,7 @@ export class SayCommand extends ChannelCommand {
 		super(context, {
 			...options,
 			"name": "say",
-			"description": "Sends a message from the account."
+			"description": "Sends a message from the bot."
 		});
 	}
 

@@ -9,7 +9,7 @@ export class StatusCommand extends ChannelCommand {
 		super(context, {
 			...options,
 			"name": "status",
-			"description": "Checks the status of the account."
+			"description": "Checks the status of the bot."
 		});
 	}
 
