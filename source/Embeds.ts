@@ -13,7 +13,7 @@ export class Embeds {
 			"description": description,
 			"color": color,
 			"footer": {
-				"text": new Timestamp("MM-DD-YYYY HH:mm:ss").displayUTC()
+				"text": new Timestamp("MM-DD-YYYY HH:mm:ss").display()
 			},
 			"thumbnail": {
 				"url": `https://cravatar.eu/helmavatar/${minecraftBot.internal().username}/64.png`
