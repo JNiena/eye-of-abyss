@@ -9,7 +9,7 @@ export class ReconnectCommand extends ChannelCommand {
 		super(context, {
 			...options,
 			"name": "reconnect",
-			"description": "Reconnects the account to the server."
+			"description": "Reconnects the bot to the server."
 		});
 	}
 
