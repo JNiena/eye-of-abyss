@@ -1,9 +1,10 @@
 import { Command } from "@sapphire/framework";
-import { ChatInputCommandInteraction } from "discord.js";
+import { ChatInputCommandInteraction, Message } from "discord.js";
+import { ChannelCommand } from "../ChannelCommand";
 import { Embeds } from "../Embeds";
-import { config, minecraftBot } from "../Main";
+import { minecraftBot } from "../Main";
 
-export class SayCommand extends Command {
+export class SayCommand extends ChannelCommand {
 	public constructor(context: Command.Context, options: Command.Options) {
 		super(context, {
 			...options,
@@ -12,7 +13,7 @@ export class SayCommand extends Command {
 		});
 	}
 
-	public override registerApplicationCommands(registry: Command.Registry) {
+	public override registerApplicationCommands(registry: Command.Registry): void {
 		registry.registerChatInputCommand((builder) => {
 			builder
 				.setName(this.name)
@@ -21,8 +22,7 @@ export class SayCommand extends Command {
 		}, { "idHints": ["1094053789134245978"] });
 	}
 
-	public override async chatInputRun(interaction: ChatInputCommandInteraction) {
-		if (config.get().discord.channelID !== interaction.channelId) { return; }
+	public override async run(interaction: ChatInputCommandInteraction): Promise<Message> {
 		await interaction.deferReply();
 		const message: string = interaction.options.getString("message", true);
 		minecraftBot.chat(message);
