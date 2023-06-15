@@ -20,7 +20,7 @@ export class SayCommand extends ChannelCommand {
 				.setDescription(this.description)
 				.addStringOption(option => option
 					.setName("message")
-					.setDescription("The message for the account to send.")
+					.setDescription("The message that the bot will send.")
 					.setRequired(true)
 					.setMinLength(1)
 				);
