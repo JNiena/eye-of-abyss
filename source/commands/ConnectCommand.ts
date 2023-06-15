@@ -26,7 +26,7 @@ export class ConnectCommand extends ChannelCommand {
 		if (minecraftBot.isConnected()) {
 			return interaction.editReply({ "embeds": [Embeds.alreadyConnected()] });
 		}
-		minecraftBot.connect();
-		return interaction.editReply({ "embeds": [Embeds.connected()] });
+		minecraftBot.connect(1_000);
+		return interaction.editReply({ "embeds": [Embeds.attemptingConnect()] });
 	}
 }

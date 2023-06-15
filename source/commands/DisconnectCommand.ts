@@ -23,10 +23,10 @@ export class ConnectCommand extends ChannelCommand {
 
 	public override async run(interaction: ChatInputCommandInteraction): Promise<Message> {
 		await interaction.deferReply();
-		if (minecraftBot.isConnected()) {
-			minecraftBot.disconnect();
-			return interaction.editReply({ "embeds": [Embeds.disconnected()] });
+		if (!minecraftBot.isConnected()) {
+			return interaction.editReply({ "embeds": [Embeds.alreadyDisconnected()] });
 		}
-		return interaction.editReply({ "embeds": [Embeds.alreadyDisconnected()] });
+		minecraftBot.disconnect(1_000);
+		return interaction.editReply({ "embeds": [Embeds.attemptingDisconnect()] });
 	}
 }

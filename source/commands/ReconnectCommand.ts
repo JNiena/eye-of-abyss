@@ -23,7 +23,7 @@ export class ReconnectCommand extends ChannelCommand {
 
 	public override async run(interaction: ChatInputCommandInteraction): Promise<Message> {
 		await interaction.deferReply();
-		minecraftBot.reconnect();
-		return interaction.editReply({ "embeds": [Embeds.reconnected()] });
+		minecraftBot.reconnect(1_000);
+		return interaction.editReply({ "embeds": [Embeds.attemptingReconnect()] });
 	}
 }
