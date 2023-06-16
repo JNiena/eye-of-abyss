@@ -109,7 +109,12 @@ export class Embeds {
 	}
 
 	public static filterList(items: string[]): APIEmbed {
-		return this.template("Filter", items.toString().replace("/,/g", ", "));
+		let formatted: string = "";
+		for (let i: number = 0; i < items.length - 1; i++) {
+			formatted += `\`${items[i]}\`,\n`;
+		}
+		formatted += `\`${items[items.length - 1]}\``;
+		return this.template("Filter", formatted);
 	}
 
 	public static filterEmpty(): APIEmbed {
