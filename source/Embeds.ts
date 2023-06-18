@@ -152,4 +152,12 @@ export class Embeds {
 	public static filterPasted(): APIEmbed {
 		return this.template("Filter Pasted", "The filter has been pasted!");
 	}
+
+	public static autoReconnectEnabled(): APIEmbed {
+		return this.template("Auto-Reconnect Enabled", "Auto-reconnect has been enabled!");
+	}
+
+	public static autoReconnectDisabled(): APIEmbed {
+		return this.template("Auto-Reconnect Disabled", "Auto-reconnect has been disabled!");
+	}
 }
