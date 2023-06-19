@@ -27,19 +27,17 @@
 			"message": "",
 			"delay": 0
 		},
-		"kicked": {
-			"enable": false,
-			"message": "",
-			"delay": 0
-		},
 		"death": {
 			"enable": false,
 			"message": "",
 			"delay": 0
 		},
+		"kicked": {
+			"enable": false,
+			"delay": 0
+		},
 		"error": {
 			"enable": false,
-			"message": "",
 			"delay": 0
 		}
 	},
