@@ -24,7 +24,7 @@ export class GivetagCommand extends PluginCommand {
 					.setRequired(true)
 					.setMinLength(1)
 				);
-		}, { "idHints": [""] });
+		}, { "idHints": ["1120486204010397696"] });
 	}
 
 	public override setup(): void {}

@@ -24,7 +24,7 @@ export class ContainerTrustCommand extends PluginCommand {
 					.setRequired(true)
 					.setMinLength(1)
 				);
-		}, { "idHints": [""] });
+		}, { "idHints": ["1120486199182758019"] });
 	}
 
 	public override setup(): void {}

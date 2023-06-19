@@ -24,7 +24,7 @@ export class PermissionTrustCommand extends PluginCommand {
 					.setRequired(true)
 					.setMinLength(1)
 				);
-		}, { "idHints": [""] });
+		}, { "idHints": ["1120486200428482723"] });
 	}
 
 	public override setup(): void {}

@@ -24,7 +24,7 @@ export class TeleportCommand extends PluginCommand {
 					.setRequired(true)
 					.setMinLength(1)
 				);
-		}, { "idHints": [""] });
+		}, { "idHints": ["1120486112910118984"] });
 	}
 
 	public override setup(): void {}

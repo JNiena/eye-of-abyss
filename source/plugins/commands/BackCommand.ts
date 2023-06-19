@@ -18,7 +18,7 @@ export class BackCommand extends PluginCommand {
 			builder
 				.setName(this.name)
 				.setDescription(this.description);
-		}, { "idHints": [""] });
+		}, { "idHints": ["1120486196360003725"] });
 	}
 
 	public override setup(): void {}

@@ -24,7 +24,7 @@ export class TaketagCommand extends PluginCommand {
 					.setRequired(true)
 					.setMinLength(1)
 				);
-		}, { "idHints": [""] });
+		}, { "idHints": ["1120486110410326068"] });
 	}
 
 	public override setup(): void {}

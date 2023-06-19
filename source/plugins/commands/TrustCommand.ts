@@ -24,7 +24,7 @@ export class TrustCommand extends PluginCommand {
 					.setRequired(true)
 					.setMinLength(1)
 				);
-		}, { "idHints": [""] });
+		}, { "idHints": ["1120486197437939732"] });
 	}
 
 	public override setup(): void {}

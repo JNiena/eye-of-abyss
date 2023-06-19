@@ -24,7 +24,7 @@ export class KitCommand extends PluginCommand {
 					.setRequired(true)
 					.setMinLength(1)
 				);
-		}, { "idHints": [""] });
+		}, { "idHints": ["1120486114919198751"] });
 	}
 
 	public override setup(): void {}

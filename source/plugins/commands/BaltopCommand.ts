@@ -24,7 +24,7 @@ export class BaltopCommand extends PluginCommand {
 					.setRequired(false)
 					.setMinValue(1)
 				);
-		}, { "idHints": [""] });
+		}, { "idHints": ["1120486112054481017"] });
 	}
 
 	public override setup(): void {}

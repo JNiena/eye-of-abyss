@@ -18,7 +18,7 @@ export class TeleportAcceptCommand extends PluginCommand {
 			builder
 				.setName(this.name)
 				.setDescription(this.description);
-		}, { "idHints": [""] });
+		}, { "idHints": ["1120486114139066398"] });
 	}
 
 	public override setup(): void {}
