@@ -1,3 +1,6 @@
 node_modules/
 target/
+accounts/
+processes/
+server/
 package-lock.json
