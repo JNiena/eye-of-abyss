@@ -2,10 +2,10 @@ import { Bot, BotEvents, createBot } from "mineflayer";
 import { config } from "./Main";
 
 export class MinecraftBot {
+	public connected: boolean;
 	// @ts-ignore
 	private bot: Bot;
 	private startup: Function;
-	public connected: boolean;
 
 	public constructor(startup: Function) {
 		this.connected = false;
