@@ -1,5 +1,5 @@
 import { Command } from "@sapphire/framework";
-import { APIEmbed, ChatInputCommandInteraction, Message } from "discord.js";
+import { ChatInputCommandInteraction, Message } from "discord.js";
 import { Embeds } from "../../Embeds";
 import { minecraftBot } from "../../Main";
 import { PluginCommand } from "../../PluginCommand";
@@ -33,10 +33,6 @@ export class GivetagCommand extends PluginCommand {
 		await interaction.deferReply();
 		const username: string = interaction.options.getString("username", true);
 		minecraftBot.chat(`/giveabysstag1 ${username}`);
-		return interaction.editReply({ "embeds": [this.tagGiven(username)] });
-	}
-
-	private tagGiven(username: string): APIEmbed {
-		return Embeds.template("Tag Given", `The tag has been given to \`${username}\`!`);
+		return interaction.editReply({ "embeds": [Embeds.commandExecuted()] });
 	}
 }

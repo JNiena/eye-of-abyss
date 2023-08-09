@@ -1,5 +1,5 @@
 import { Command } from "@sapphire/framework";
-import { APIEmbed, ChatInputCommandInteraction, Message } from "discord.js";
+import { ChatInputCommandInteraction, Message } from "discord.js";
 import { Embeds } from "../../Embeds";
 import { minecraftBot } from "../../Main";
 import { PluginCommand } from "../../PluginCommand";
@@ -33,10 +33,6 @@ export class InviteCommand extends PluginCommand {
 		await interaction.deferReply();
 		const username: string = interaction.options.getString("username", true);
 		minecraftBot.chat(`/party invite ${username}`);
-		return interaction.editReply({ "embeds": [this.playerInvited(username)] });
-	}
-
-	private playerInvited(username: string): APIEmbed {
-		return Embeds.template("Player Invited", `The player \`${username}\` has been invited!`);
+		return interaction.editReply({ "embeds": [Embeds.commandExecuted()] });
 	}
 }

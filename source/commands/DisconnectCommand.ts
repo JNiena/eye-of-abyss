@@ -3,6 +3,7 @@ import { ChatInputCommandInteraction, Message } from "discord.js";
 import { ChannelCommand } from "../ChannelCommand";
 import { Embeds } from "../Embeds";
 import { minecraftBot } from "../Main";
+import { EndListener } from "../minecraft/EndListener";
 
 export class ConnectCommand extends ChannelCommand {
 	public constructor(context: Command.Context, options: Command.Options) {
@@ -26,6 +27,7 @@ export class ConnectCommand extends ChannelCommand {
 		if (!minecraftBot.isConnected()) {
 			return interaction.editReply({ "embeds": [Embeds.alreadyDisconnected()] });
 		}
+		EndListener.lastInteraction = interaction;
 		minecraftBot.disconnect(1_000);
 		return interaction.editReply({ "embeds": [Embeds.attemptingDisconnect()] });
 	}

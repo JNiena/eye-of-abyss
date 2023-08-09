@@ -1,5 +1,5 @@
 import { Command } from "@sapphire/framework";
-import { APIEmbed, ChatInputCommandInteraction, Message } from "discord.js";
+import { ChatInputCommandInteraction, Message } from "discord.js";
 import { Embeds } from "../../Embeds";
 import { minecraftBot } from "../../Main";
 import { PluginCommand } from "../../PluginCommand";
@@ -33,10 +33,6 @@ export class BaltopCommand extends PluginCommand {
 		await interaction.deferReply();
 		const page: number | null = interaction.options.getInteger("page", false);
 		minecraftBot.chat(`/baltop ${page ? page : 1}`);
-		return interaction.editReply({ "embeds": [this.baltopShown(page ? page : 1)] });
-	}
-
-	private baltopShown(page: number): APIEmbed {
-		return Embeds.template("Baltop Shown", `Page ${page} of baltop has been shown!`);
+		return interaction.editReply({ "embeds": [Embeds.commandExecuted()] });
 	}
 }

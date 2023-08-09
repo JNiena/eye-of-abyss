@@ -1,5 +1,5 @@
 import { Command } from "@sapphire/framework";
-import { APIEmbed, ChatInputCommandInteraction, Message } from "discord.js";
+import { ChatInputCommandInteraction, Message } from "discord.js";
 import { Embeds } from "../../Embeds";
 import { minecraftBot } from "../../Main";
 import { PluginCommand } from "../../PluginCommand";
@@ -40,10 +40,6 @@ export class CoinPayCommand extends PluginCommand {
 		const username: string = interaction.options.getString("username", true);
 		const amount: number = interaction.options.getInteger("amount", true);
 		minecraftBot.chat(`/coin pay ${username} ${amount}`);
-		return interaction.editReply({ "embeds": [this.paymentSent(username, amount)] });
-	}
-
-	private paymentSent(username: string, amount: number): APIEmbed {
-		return Embeds.template("Payment Sent", `The player \`${username}\` has been sent \`${amount} coins\`!`);
+		return interaction.editReply({ "embeds": [Embeds.commandExecuted()] });
 	}
 }

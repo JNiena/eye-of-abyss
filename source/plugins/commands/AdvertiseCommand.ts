@@ -85,7 +85,7 @@ export class AdvertiseCommand extends PluginSubcommand {
 					)
 					.addNumberOption(option => option
 						.setName("interval")
-						.setDescription("The interval in hours of the advertisement.")
+						.setDescription("The interval in minutes of the advertisement.")
 						.setMinValue(1)
 						.setRequired(true)
 					)
@@ -123,7 +123,7 @@ export class AdvertiseCommand extends PluginSubcommand {
 					)
 					.addNumberOption(option => option
 						.setName("interval")
-						.setDescription("The interval in hours of the advertisement.")
+						.setDescription("The interval in minutes of the advertisement.")
 						.setMinValue(1)
 						.setRequired(false)
 					)
@@ -218,7 +218,7 @@ export class AdvertiseCommand extends PluginSubcommand {
 			"enable": true,
 			"name": name,
 			"text": text,
-			"interval": interval * 3_600_000,
+			"interval": interval * 60_000,
 			"randomizer": randomizer * 60_000
 		});
 		config.save();
@@ -252,7 +252,7 @@ export class AdvertiseCommand extends PluginSubcommand {
 			ad.text = text;
 		}
 		if (interval) {
-			ad.interval = interval * 3_600_000;
+			ad.interval = interval * 60_000;
 		}
 		if (randomizer) {
 			ad.randomizer = randomizer * 60_000;
@@ -321,7 +321,7 @@ export class AdvertiseCommand extends PluginSubcommand {
 			},
 			{
 				"name": "__Interval__",
-				"value": `${ad.interval / 3_600_000}h`
+				"value": `${ad.interval / 60_000}m`
 			},
 			{
 				"name": "__Randomizer__",

@@ -1,6 +1,6 @@
 import { SapphireClient } from "@sapphire/framework";
 import { getRootData } from "@sapphire/pieces";
-import { APIEmbed, ClientOptions, TextChannel } from "discord.js";
+import { APIEmbed, ClientOptions, Message, TextChannel } from "discord.js";
 import path from "path";
 import { config } from "./Main";
 
@@ -12,15 +12,15 @@ export class DiscordClient extends SapphireClient {
 		}
 	}
 
-	public async send(message: string, channelID: string = config.get().discord.channelID): Promise<void> {
+	public async send(message: string, channelID: string = config.get().discord.channelID): Promise<Message> {
 		if (message.trim().length === 0) {
-			return Promise.resolve();
+			return Promise.reject();
 		}
-		await (this.channels.cache.get(channelID) as TextChannel).send(message);
+		return await (this.channels.cache.get(channelID) as TextChannel).send(message);
 	}
 
-	public async sendEmbed(embed: APIEmbed, channelID: string = config.get().discord.channelID): Promise<void> {
-		await (this.channels.cache.get(channelID) as TextChannel).send({ "embeds": [embed] });
+	public async sendEmbed(embed: APIEmbed, channelID: string = config.get().discord.channelID): Promise<Message> {
+		return await (this.channels.cache.get(channelID) as TextChannel).send({ "embeds": [embed] });
 	}
 }
 

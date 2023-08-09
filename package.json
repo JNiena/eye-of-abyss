@@ -2,14 +2,17 @@
 	"name": "eye-of-abyss",
 	"version": "1.0.0",
 	"dependencies": {
-		"discord.js": "^14.11.0",
-		"@sapphire/framework": "^4.4.3",
-		"@sapphire/plugin-subcommands": "^4.0.1",
-		"@sapphire/time-utilities": "^1.7.9",
-		"mineflayer": "^4.8.1"
+		"@sapphire/framework": "4.5.0",
+		"@sapphire/plugin-subcommands": "4.0.1",
+		"@sapphire/time-utilities": "1.7.9",
+		"discord.js": "14.11.0",
+		"mineflayer": "4.10.0"
 	},
 	"devDependencies": {
-		"typescript": "^5.0.4",
-		"@types/node": "^20.1.1"
+		"@types/node": "20.3.3",
+		"@typescript-eslint/eslint-plugin": "5.60.1",
+		"@typescript-eslint/parser": "5.60.1",
+		"eslint": "8.44.0",
+		"typescript": "5.1.6"
 	}
 }

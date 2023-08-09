@@ -1,11 +1,17 @@
+import { ChatInputCommandInteraction } from "discord.js";
 import { Embeds } from "../Embeds";
-import { discordBot, minecraftBot } from "../Main";
+import { minecraftBot } from "../Main";
 
 export class EndListener {
+	public static lastInteraction: ChatInputCommandInteraction | null;
+
 	public constructor() {
 		minecraftBot.on("end", () => {
 			minecraftBot.connected = false;
-			discordBot.sendEmbed(Embeds.disconnected()).then();
+			if (EndListener.lastInteraction) {
+				EndListener.lastInteraction.editReply({ "embeds": [Embeds.disconnected()] }).then();
+				EndListener.lastInteraction = null;
+			}
 		});
 	}
 }

@@ -6,9 +6,9 @@ import { minecraftBot } from "../../Main";
 import { PluginCommand } from "../../PluginCommand";
 
 export class CalculateCommand extends PluginCommand {
-	private coinChannelID: string = "1036858453060231198";
-	private moneyChannelID: string = "1036858727925547021";
-	private guildID: string = "866073594610057216";
+	private coinChannelID: string = "";
+	private moneyChannelID: string = "";
+	private guildID: string = "";
 
 	public constructor(context: Command.Context, options: Command.Options) {
 		super(context, {

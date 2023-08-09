@@ -3,6 +3,7 @@ import { ChatInputCommandInteraction, Message } from "discord.js";
 import { ChannelCommand } from "../ChannelCommand";
 import { Embeds } from "../Embeds";
 import { minecraftBot } from "../Main";
+import { LoginListener } from "../minecraft/LoginListener";
 
 export class ReconnectCommand extends ChannelCommand {
 	public constructor(context: Command.Context, options: Command.Options) {
@@ -23,6 +24,7 @@ export class ReconnectCommand extends ChannelCommand {
 
 	public override async run(interaction: ChatInputCommandInteraction): Promise<Message> {
 		await interaction.deferReply();
+		LoginListener.lastInteraction = interaction;
 		minecraftBot.reconnect(1_000);
 		return interaction.editReply({ "embeds": [Embeds.attemptingReconnect()] });
 	}

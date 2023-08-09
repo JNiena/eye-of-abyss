@@ -1,5 +1,5 @@
 import { Command } from "@sapphire/framework";
-import { APIEmbed, ChatInputCommandInteraction, Message } from "discord.js";
+import { ChatInputCommandInteraction, Message } from "discord.js";
 import { Embeds } from "../../Embeds";
 import { minecraftBot } from "../../Main";
 import { PluginCommand } from "../../PluginCommand";
@@ -33,10 +33,6 @@ export class TeleportCommand extends PluginCommand {
 		await interaction.deferReply();
 		const username: string = interaction.options.getString("username", true);
 		minecraftBot.chat(`/tpa ${username}`);
-		return interaction.editReply({ "embeds": [this.tagTaken(username)] });
-	}
-
-	private tagTaken(username: string): APIEmbed {
-		return Embeds.template("TPA Sent", `A teleportation request has been sent to \`${username}\`!`);
+		return interaction.editReply({ "embeds": [Embeds.commandExecuted()] });
 	}
 }

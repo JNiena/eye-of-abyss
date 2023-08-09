@@ -32,10 +32,11 @@ const minecraftBot: MinecraftBot = new MinecraftBot(() => {
 	new LoginListener();
 	new EndListener();
 });
-Repeater.start();
 
-minecraftBot.connect();
-discordBot.login(config.get().discord.token).then();
+discordBot.login(config.get().discord.token).then(() => {
+	Repeater.start();
+	minecraftBot.connect();
+});
 
 export {
 	config,

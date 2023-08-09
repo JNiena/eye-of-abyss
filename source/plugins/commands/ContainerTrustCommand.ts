@@ -1,5 +1,5 @@
 import { Command } from "@sapphire/framework";
-import { APIEmbed, ChatInputCommandInteraction, Message } from "discord.js";
+import { ChatInputCommandInteraction, Message } from "discord.js";
 import { Embeds } from "../../Embeds";
 import { minecraftBot } from "../../Main";
 import { PluginCommand } from "../../PluginCommand";
@@ -33,10 +33,6 @@ export class ContainerTrustCommand extends PluginCommand {
 		await interaction.deferReply();
 		const username: string = interaction.options.getString("username", true);
 		minecraftBot.chat(`/containertrust ${username}`);
-		return interaction.editReply({ "embeds": [this.trusted(username)] });
-	}
-
-	private trusted(username: string): APIEmbed {
-		return Embeds.template("User Trusted", `\`${username}\` has been container-trusted!`);
+		return interaction.editReply({ "embeds": [Embeds.commandExecuted()] });
 	}
 }

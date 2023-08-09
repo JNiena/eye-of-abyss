@@ -4,12 +4,12 @@ import { Embeds } from "../../Embeds";
 import { minecraftBot } from "../../Main";
 import { PluginCommand } from "../../PluginCommand";
 
-export class MessageCommand extends PluginCommand {
+export class TeleportCommand extends PluginCommand {
 	public constructor(context: Command.Context, options: Command.Options) {
 		super(context, {
 			...options,
-			"name": "message",
-			"description": "Sends a message to a player."
+			"name": "tpahere",
+			"description": "Sends a teleportation-here request to a player."
 		});
 	}
 
@@ -20,17 +20,11 @@ export class MessageCommand extends PluginCommand {
 				.setDescription(this.description)
 				.addStringOption(option => option
 					.setName("username")
-					.setDescription("The username of the player to send the message to.")
-					.setRequired(true)
-					.setMinLength(1)
-				)
-				.addStringOption(option => option
-					.setName("message")
-					.setDescription("The message to send.")
+					.setDescription("The username of the player to send a teleportation-here request to.")
 					.setRequired(true)
 					.setMinLength(1)
 				);
-		}, { "idHints": ["1105624908370808914"] });
+		}, { "idHints": ["1123341561250451638"] });
 	}
 
 	public override setup(): void {}
@@ -38,8 +32,7 @@ export class MessageCommand extends PluginCommand {
 	public override async run(interaction: ChatInputCommandInteraction): Promise<Message> {
 		await interaction.deferReply();
 		const username: string = interaction.options.getString("username", true);
-		const message: string = interaction.options.getString("message", true);
-		minecraftBot.chat(`/msg ${username} ${message}`);
+		minecraftBot.chat(`/tpahere ${username}`);
 		return interaction.editReply({ "embeds": [Embeds.commandExecuted()] });
 	}
 }

@@ -1,5 +1,5 @@
 import { Command } from "@sapphire/framework";
-import { APIEmbed, ChatInputCommandInteraction, Message } from "discord.js";
+import { ChatInputCommandInteraction, Message } from "discord.js";
 import { Embeds } from "../../Embeds";
 import { minecraftBot } from "../../Main";
 import { PluginCommand } from "../../PluginCommand";
@@ -26,10 +26,6 @@ export class TeleportAcceptCommand extends PluginCommand {
 	public override async run(interaction: ChatInputCommandInteraction): Promise<Message> {
 		await interaction.deferReply();
 		minecraftBot.chat("/tpaccept");
-		return interaction.editReply({ "embeds": [this.teleportAccepted()] });
-	}
-
-	private teleportAccepted(): APIEmbed {
-		return Embeds.template("TPA Accepted", "A teleportation request has been accepted!");
+		return interaction.editReply({ "embeds": [Embeds.commandExecuted()] });
 	}
 }
