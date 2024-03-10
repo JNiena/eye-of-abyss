@@ -32,4 +32,4 @@ export const commands_info: CommandInfo[] = [
 	{ "name": "back", "usage": ".back", "description": "Executes the /back command." },
 ];
 
-export const commands: string[] = ["action", "advertise", "autoconnect", "connect", "disconnect", "drop", "filter", "help", "logger", "say", "status", "server", "bal", "baltop", "delhome", "home", "invite", "kit", "msg", "pay", "pw", "sethome", "tpa", "tpaccept", "tpahere", "tpdeny", "trust", "warp", "back"];
+export const commands: string[] = ["action", "advertise", "autoreconnect", "connect", "disconnect", "drop", "filter", "help", "logger", "say", "status", "server", "bal", "baltop", "delhome", "home", "invite", "kit", "msg", "pay", "pw", "sethome", "tpa", "tpaccept", "tpahere", "tpdeny", "trust", "warp", "back"];
