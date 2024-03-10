@@ -10,9 +10,7 @@ export class Files {
 	}
 
 	public static write(path: string, data: string): void {
-		if (!this.exists(path)) {
-			this.create(path);
-		}
+		if (!this.exists(path)) { this.create(path); }
 		appendFileSync(path, data, "utf-8");
 	}
 

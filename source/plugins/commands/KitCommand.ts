@@ -1,38 +1,21 @@
-import { Command } from "@sapphire/framework";
-import { ChatInputCommandInteraction, Message } from "discord.js";
+import { Args, Command } from "@sapphire/framework";
+import { Message } from "discord.js";
 import { Embeds } from "../../Embeds";
-import { minecraftBot } from "../../Main";
-import { PluginCommand } from "../../PluginCommand";
+import { discordBot, minecraftBot } from "../../Main";
 
-export class KitCommand extends PluginCommand {
-	public constructor(context: Command.Context, options: Command.Options) {
+export class KitCommand extends Command {
+	public constructor(context: Command.LoaderContext, options: Command.Options) {
 		super(context, {
 			...options,
 			"name": "kit",
-			"description": "Acquires a kit."
+			"description": "Executes the /kit command.",
+			"preconditions": ["ValidChannel", "PluginEnabled"]
 		});
 	}
 
-	public override registerApplicationCommands(registry: Command.Registry): void {
-		registry.registerChatInputCommand((builder) => {
-			builder
-				.setName(this.name)
-				.setDescription(this.description)
-				.addStringOption(option => option
-					.setName("kit")
-					.setDescription("The kit to receive.")
-					.setRequired(true)
-					.setMinLength(1)
-				);
-		}, { "idHints": ["1120486114919198751"] });
-	}
-
-	public override setup(): void {}
-
-	public override async run(interaction: ChatInputCommandInteraction): Promise<Message> {
-		await interaction.deferReply();
-		const kit: string = interaction.options.getString("kit", true);
+	public override async messageRun(_message: Message<boolean>, args: Args) {
+		const kit: string = await args.pick("string");
 		minecraftBot.chat(`/kit ${kit}`);
-		return interaction.editReply({ "embeds": [Embeds.commandExecuted()] });
+		discordBot.sendEmbed(Embeds.commandExecuted());
 	}
 }

@@ -1,45 +1,39 @@
 import { LogLevel } from "@sapphire/framework";
 import { GatewayIntentBits } from "discord.js";
 import { Config } from "./Config";
-import { DiscordClient } from "./DiscordClient";
-import { ChatListener } from "./minecraft/ChatListener";
-import { DeathListener } from "./minecraft/DeathListener";
-import { EndListener } from "./minecraft/EndListener";
-import { ErrorListener } from "./minecraft/ErrorListener";
-import { JoinListener } from "./minecraft/JoinListener";
-import { KickedListener } from "./minecraft/KickedListener";
-import { LoginListener } from "./minecraft/LoginListener";
+import { AbyssClient } from "./AbyssClient";
+import { ChatHandler } from "./handlers/ChatHandler";
+import { DeathHandler } from "./handlers/DeathHandler";
+import { EndHandler } from "./handlers/EndHandler";
+import { ErrorHandler } from "./handlers/ErrorHandler";
+import { SpawnHandler } from "./handlers/SpawnHandler";
+import { KickedHandler } from "./handlers/KickedHandler";
+import { LoginHandler } from "./handlers/LoginHandler";
 import { MinecraftBot } from "./MinecraftBot";
-import { Repeater } from "./Repeater";
 
 const config: Config = new Config(process.argv[2]);
+const start: boolean = process.argv[3] === "--start";
 
-const discordBot: DiscordClient = new DiscordClient({
+const discordBot: AbyssClient = new AbyssClient({
 	"intents": [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent],
 	"loadMessageCommandListeners": true,
 	"loadDefaultErrorListeners": true,
 	"loadSubcommandErrorListeners": true,
 	"loadPlugins": true,
+	"defaultPrefix": ".",
 	"logger": { "level": LogLevel.Debug }
 });
 
 const minecraftBot: MinecraftBot = new MinecraftBot(() => {
-	new ErrorListener();
-	new ChatListener();
-	new JoinListener();
-	new KickedListener();
-	new DeathListener();
-	new LoginListener();
-	new EndListener();
+	new ErrorHandler();
+	new ChatHandler();
+	new SpawnHandler();
+	new KickedHandler();
+	new DeathHandler();
+	new LoginHandler();
+	new EndHandler();
 });
 
-discordBot.login(config.get().discord.token).then(() => {
-	Repeater.start();
-	minecraftBot.connect();
-});
+discordBot.login(config.get().discord.token).then(() => { if (start) { minecraftBot.connect(); } });
 
-export {
-	config,
-	discordBot,
-	minecraftBot
-};
+export { config, discordBot, minecraftBot };

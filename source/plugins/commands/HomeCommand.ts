@@ -3,19 +3,19 @@ import { Message } from "discord.js";
 import { Embeds } from "../../Embeds";
 import { discordBot, minecraftBot } from "../../Main";
 
-export class BaltopCommand extends Command {
+export class HomeCommand extends Command {
 	public constructor(context: Command.LoaderContext, options: Command.Options) {
 		super(context, {
 			...options,
-			"name": "baltop",
-			"description": "Executes the /baltop command.",
+			"name": "home",
+			"description": "Executes the /home command.",
 			"preconditions": ["ValidChannel", "PluginEnabled"]
 		});
 	}
 
 	public override async messageRun(_message: Message<boolean>, args: Args) {
-		const page: number = await args.pick("integer").catch(() => 1);
-		minecraftBot.chat(`/baltop ${page}`);
+		const home: string = await args.pick("string").catch(() => "");
+		minecraftBot.chat(`/home ${home}`);
 		discordBot.sendEmbed(Embeds.commandExecuted());
 	}
 }

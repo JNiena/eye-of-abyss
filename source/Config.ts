@@ -1,5 +1,6 @@
 import { Files } from "./Files";
 
+// Fix syncing issues
 export class Config {
 	private data: any;
 	private path: string | undefined;

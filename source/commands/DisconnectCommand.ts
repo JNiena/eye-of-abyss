@@ -1,34 +1,21 @@
 import { Command } from "@sapphire/framework";
-import { ChatInputCommandInteraction, Message } from "discord.js";
-import { ChannelCommand } from "../ChannelCommand";
+import { Message } from "discord.js";
 import { Embeds } from "../Embeds";
-import { minecraftBot } from "../Main";
-import { EndListener } from "../minecraft/EndListener";
+import { config, discordBot, minecraftBot } from "../Main";
 
-export class ConnectCommand extends ChannelCommand {
-	public constructor(context: Command.Context, options: Command.Options) {
+export class DisconnectCommand extends Command {
+	public constructor(context: Command.LoaderContext, options: Command.Options) {
 		super(context, {
 			...options,
 			"name": "disconnect",
-			"description": "Disconnects the bot from the server."
+			"description": "Disconnects the bot from the server.",
+			"preconditions": ["ValidChannel"]
 		});
 	}
 
-	public override registerApplicationCommands(registry: Command.Registry): void {
-		registry.registerChatInputCommand((builder) => {
-			builder
-				.setName(this.name)
-				.setDescription(this.description);
-		}, { "idHints": ["1094053789868249128"] });
-	}
-
-	public override async run(interaction: ChatInputCommandInteraction): Promise<Message> {
-		await interaction.deferReply();
-		if (!minecraftBot.isConnected()) {
-			return interaction.editReply({ "embeds": [Embeds.alreadyDisconnected()] });
-		}
-		EndListener.lastInteraction = interaction;
-		minecraftBot.disconnect(1_000);
-		return interaction.editReply({ "embeds": [Embeds.attemptingDisconnect()] });
+	public override async messageRun(_message: Message<boolean>) {
+		if (!minecraftBot.connected) { return discordBot.sendEmbed(Embeds.alreadyDisconnected()); }
+		config.get().events.disconnect.reconnect = false;
+		minecraftBot.disconnect();
 	}
 }

@@ -1,38 +1,21 @@
-import { Command } from "@sapphire/framework";
-import { ChatInputCommandInteraction, Message } from "discord.js";
+import { Args, Command } from "@sapphire/framework";
+import { Message } from "discord.js";
 import { Embeds } from "../../Embeds";
-import { minecraftBot } from "../../Main";
-import { PluginCommand } from "../../PluginCommand";
+import { discordBot, minecraftBot } from "../../Main";
 
-export class TrustCommand extends PluginCommand {
-	public constructor(context: Command.Context, options: Command.Options) {
+export class TrustCommand extends Command {
+	public constructor(context: Command.LoaderContext, options: Command.Options) {
 		super(context, {
 			...options,
 			"name": "trust",
-			"description": "Trusts a player."
+			"description": "Executes the /trust command.",
+			"preconditions": ["ValidChannel", "PluginEnabled"]
 		});
 	}
 
-	public override registerApplicationCommands(registry: Command.Registry): void {
-		registry.registerChatInputCommand((builder) => {
-			builder
-				.setName(this.name)
-				.setDescription(this.description)
-				.addStringOption(option => option
-					.setName("username")
-					.setDescription("The username of the player to trust.")
-					.setRequired(true)
-					.setMinLength(1)
-				);
-		}, { "idHints": ["1120486197437939732"] });
-	}
-
-	public override setup(): void {}
-
-	public override async run(interaction: ChatInputCommandInteraction): Promise<Message> {
-		await interaction.deferReply();
-		const username: string = interaction.options.getString("username", true);
+	public override async messageRun(_message: Message<boolean>, args: Args) {
+		const username: string = await args.pick("string");
 		minecraftBot.chat(`/trust ${username}`);
-		return interaction.editReply({ "embeds": [Embeds.commandExecuted()] });
+		discordBot.sendEmbed(Embeds.commandExecuted());
 	}
 }

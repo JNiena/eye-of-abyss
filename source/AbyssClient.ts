@@ -4,22 +4,18 @@ import { APIEmbed, ClientOptions, Message, TextChannel } from "discord.js";
 import path from "path";
 import { config } from "./Main";
 
-export class DiscordClient extends SapphireClient {
+export class AbyssClient extends SapphireClient {
 	public constructor(options: ExtendedClientOptions) {
 		super(options);
-		if (options.loadPlugins) {
-			this.stores.registerPath(path.join(getRootData().root, "plugins"));
-		}
+		if (options.loadPlugins) { this.stores.registerPath(path.join(getRootData().root, "plugins")); }
 	}
 
-	public async send(message: string, channelID: string = config.get().discord.channelID): Promise<Message> {
-		if (message.trim().length === 0) {
-			return Promise.reject();
-		}
+	public async send(message: string, channelID: string = config.get().discord.chatChannelID): Promise<Message> {
+		if (message.trim().length === 0) { return Promise.reject(); }
 		return await (this.channels.cache.get(channelID) as TextChannel).send(message);
 	}
 
-	public async sendEmbed(embed: APIEmbed, channelID: string = config.get().discord.channelID): Promise<Message> {
+	public async sendEmbed(embed: APIEmbed, channelID: string = config.get().discord.chatChannelID): Promise<Message> {
 		return await (this.channels.cache.get(channelID) as TextChannel).send({ "embeds": [embed] });
 	}
 }

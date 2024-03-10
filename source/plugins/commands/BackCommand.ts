@@ -1,31 +1,20 @@
-import { Command } from "@sapphire/framework";
-import { ChatInputCommandInteraction, Message } from "discord.js";
+import { Args, Command } from "@sapphire/framework";
+import { Message } from "discord.js";
 import { Embeds } from "../../Embeds";
-import { minecraftBot } from "../../Main";
-import { PluginCommand } from "../../PluginCommand";
+import { discordBot, minecraftBot } from "../../Main";
 
-export class BackCommand extends PluginCommand {
-	public constructor(context: Command.Context, options: Command.Options) {
+export class BackCommand extends Command {
+	public constructor(context: Command.LoaderContext, options: Command.Options) {
 		super(context, {
 			...options,
 			"name": "back",
-			"description": "Teleports the player to their previous position."
+			"description": "Executes the /back command.",
+			"preconditions": ["ValidChannel", "PluginEnabled"]
 		});
 	}
 
-	public override registerApplicationCommands(registry: Command.Registry): void {
-		registry.registerChatInputCommand((builder) => {
-			builder
-				.setName(this.name)
-				.setDescription(this.description);
-		}, { "idHints": ["1120486196360003725"] });
-	}
-
-	public override setup(): void { }
-
-	public override async run(interaction: ChatInputCommandInteraction): Promise<Message> {
-		await interaction.deferReply();
+	public override async messageRun(_message: Message<boolean>, _args: Args) {
 		minecraftBot.chat("/back");
-		return interaction.editReply({ "embeds": [Embeds.commandExecuted()] });
+		discordBot.sendEmbed(Embeds.commandExecuted());
 	}
 }

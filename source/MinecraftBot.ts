@@ -1,69 +1,36 @@
-import { Bot, BotEvents, createBot } from "mineflayer";
+import { Bot, createBot } from "mineflayer";
 import { config } from "./Main";
 
 export class MinecraftBot {
 	public connected: boolean;
-	// @ts-ignore
-	private bot: Bot;
-	private startup: Function;
+	public lastLog: Log | undefined;
+	public internal!: Bot;
+	public startup: Function;
 
 	public constructor(startup: Function) {
 		this.connected = false;
+		this.lastLog = undefined;
 		this.startup = startup;
+		setInterval(() => { if (config.get().events.disconnect.reconnect) { if (!this.connected) { this.connect(); } } }, config.get().events.disconnect.delay);
 	}
 
-	public connect(delay: number = 0): void {
-		setTimeout(() => {
-			this.bot = createBot({
-				"username": config.get().credentials.email,
-				"password": config.get().credentials.password,
-				"auth": config.get().credentials.auth,
-				"host": config.get().server.host,
-				"port": config.get().server.port,
-				"version": config.get().server.version
-			});
-			this.startup();
-		}, delay);
+	public connect(): void {
+		this.internal = createBot({ "username": config.get().credentials.email, "password": config.get().credentials.password, "auth": config.get().credentials.auth, "host": config.get().server.host, "port": config.get().server.port, "version": config.get().server.version });
+		this.startup();
 	}
 
-	public disconnect(delay: number = 0): void {
-		setTimeout(() => {
-			this.bot.quit();
-		}, delay);
+	public disconnect(): void {
+		this.internal.quit();
 	}
 
-	public reconnect(delay: number = 0): void {
-		setTimeout(() => {
-			if (this.isConnected()) {
-				this.disconnect();
-			}
-			this.connect(delay);
-		}, delay);
+	public reconnect(): void {
+		if (this.connected) { this.disconnect(); }
+		this.connect();
 	}
 
-	public isConnected(): boolean {
-		return this.connected;
-	}
-
-	public on(event: keyof BotEvents, listener: Function): void {
-		// @ts-ignore
-		this.bot.on(event, listener);
-	}
-
-	public once(event: keyof BotEvents, listener: Function): void {
-		// @ts-ignore
-		this.bot.once(event, listener);
-	}
-
-	public chat(message: string, delay: number = 0): void {
-		setTimeout(() => {
-			if (message.length > 0) {
-				this.bot.chat(message);
-			}
-		}, delay);
-	}
-
-	public internal(): Bot {
-		return this.bot;
+	public chat(message: string): void {
+		if (message.trim().length > 0) { this.internal.chat(message); }
 	}
 }
+
+export type Log = { "type": string, "message": string }

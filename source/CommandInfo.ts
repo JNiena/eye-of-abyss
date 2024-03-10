@@ -1,0 +1,35 @@
+export type CommandInfo = { "name": string, "usage": string, "description": string }
+
+export const commands_info: CommandInfo[] = [
+	{ "name": "action", "usage": ".action [left | right | forward | back | jump | sneak | stop] (seconds)", "description": "Does an action." },
+	{ "name": "advertise", "usage": ".advertise [enable | disable | list | info | add | remove | reset | set]", "description": "Manages the advertisements." },
+	{ "name": "autoreconnect", "usage": ".autoreconnect [enable | disable]", "description": "Enables or disables the auto-reconnect function." },
+	{ "name": "connect", "usage": ".connect", "description": "Connects the bot to the server." },
+	{ "name": "disconnect", "usage": ".disconnect", "description": "Disconnects the bot from the server." },
+	{ "name": "drop", "usage": ".drop [inventory | armor | mainhand | offhand]", "description": "Drops items from the bot's inventory, armor, mainhand, or offhand." },
+	{ "name": "filter", "usage": ".filter [enable | disable | list | add | remove | reset | paste]", "description": "Modifies the filter." },
+	{ "name": "help", "usage": ".help (optional command)", "description": "Displays a list of commands, their usage, and what they do." },
+	{ "name": "logger", "usage": ".logger [enable | disable", "description": "Enables or disables the logger." },
+	{ "name": "say", "usage": ".say (message)", "description": "Sends a message from the bot." },
+	{ "name": "status", "usage": ".status", "description": "Checks whether or not the bot is online." },
+	{ "name": "server", "usage": ".server [host | port | version] (value)", "description": "Configures the host, port, and version the bot connects with." },
+	{ "name": "bal", "usage": ".bal [optional user]", "description": "Executes the /balance command." },
+	{ "name": "baltop", "usage": ".baltop [optional page]", "description": "Executes the /baltop command." },
+	{ "name": "delhome", "usage": ".delhome [home]", "description": "Executes the /delhome command." },
+	{ "name": "home", "usage": ".home [optional home]", "description": "Executes the /home command." },
+	{ "name": "invite", "usage": ".invite [username]", "description": "Executes the /invite command." },
+	{ "name": "kit", "usage": ".kit [kit]", "description": "Executes the /kit command." },
+	{ "name": "msg", "usage": ".msg [username] [message]", "description": "Executes the /msg command." },
+	{ "name": "pay", "usage": ".pay [username] [amount]", "description": "Executes the /pay command." },
+	{ "name": "pw", "usage": ".pw [warp]", "description": "Executes the /pw command." },
+	{ "name": "sethome", "usage": ".sethome [home]", "description": "Executes the /sethome command." },
+	{ "name": "tpa", "usage": ".tpa [username]", "description": "Executes the /tpa command." },
+	{ "name": "tpaccept", "usage": ".tpaccept", "description": "Executes the /tpaccept command." },
+	{ "name": "tpahere", "usage": ".tpahere [username]", "description": "Executes the /tpahere command." },
+	{ "name": "tpdeny", "usage": ".tpdeny", "description": "Executes the /tpdeny command." },
+	{ "name": "trust", "usage": ".trust [username]", "description": "Executes the /trust command." },
+	{ "name": "warp", "usage": ".warp [warp]", "description": "Executes the /warp command." },
+	{ "name": "back", "usage": ".back", "description": "Executes the /back command." },
+];
+
+export const commands: string[] = ["action", "advertise", "autoconnect", "connect", "disconnect", "drop", "filter", "help", "logger", "say", "status", "server", "bal", "baltop", "delhome", "home", "invite", "kit", "msg", "pay", "pw", "sethome", "tpa", "tpaccept", "tpahere", "tpdeny", "trust", "warp", "back"];

@@ -1,31 +1,20 @@
 import { Command } from "@sapphire/framework";
-import { ChatInputCommandInteraction, Message } from "discord.js";
-import { ChannelCommand } from "../ChannelCommand";
+import { Message } from "discord.js";
 import { Embeds } from "../Embeds";
-import { minecraftBot } from "../Main";
+import { discordBot, minecraftBot } from "../Main";
 
-export class StatusCommand extends ChannelCommand {
-	public constructor(context: Command.Context, options: Command.Options) {
+export class StatusCommand extends Command {
+	public constructor(context: Command.LoaderContext, options: Command.Options) {
 		super(context, {
 			...options,
 			"name": "status",
-			"description": "Checks the status of the bot."
+			"description": "Checks whether or not the bot is online.",
+			"preconditions": ["ValidChannel"]
 		});
 	}
 
-	public override registerApplicationCommands(registry: Command.Registry): void {
-		registry.registerChatInputCommand((builder) => {
-			builder
-				.setName(this.name)
-				.setDescription(this.description);
-		}, { "idHints": ["1094053791453675550"] });
-	}
-
-	public override async run(interaction: ChatInputCommandInteraction): Promise<Message> {
-		await interaction.deferReply();
-		if (minecraftBot.isConnected()) {
-			return interaction.editReply({ "embeds": [Embeds.online()] });
-		}
-		return interaction.editReply({ "embeds": [Embeds.offline()] });
+	public override async messageRun(_message: Message<boolean>) {
+		if (minecraftBot.connected) { return discordBot.sendEmbed(Embeds.online()); }
+		return discordBot.sendEmbed(Embeds.offline());
 	}
 }

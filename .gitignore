@@ -4,3 +4,4 @@ accounts/
 processes/
 server/
 package-lock.json
+startup.sh

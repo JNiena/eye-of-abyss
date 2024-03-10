@@ -1,39 +1,22 @@
-import { Command } from "@sapphire/framework";
-import { ChatInputCommandInteraction, Message } from "discord.js";
-import { ChannelCommand } from "../ChannelCommand";
+import { Args, Command } from "@sapphire/framework";
+import { Message } from "discord.js";
 import { Embeds } from "../Embeds";
-import { minecraftBot } from "../Main";
+import { discordBot, minecraftBot } from "../Main";
 
-export class SayCommand extends ChannelCommand {
-	public constructor(context: Command.Context, options: Command.Options) {
+export class SayCommand extends Command {
+	public constructor(context: Command.LoaderContext, options: Command.Options) {
 		super(context, {
 			...options,
 			"name": "say",
-			"description": "Sends a message from the bot."
+			"description": "Sends a message from the bot.",
+			"preconditions": ["ValidChannel"]
 		});
 	}
 
-	public override registerApplicationCommands(registry: Command.Registry): void {
-		registry.registerChatInputCommand((builder) => {
-			builder
-				.setName(this.name)
-				.setDescription(this.description)
-				.addStringOption(option => option
-					.setName("message")
-					.setDescription("The message that the bot will send.")
-					.setRequired(true)
-					.setMinLength(1)
-				);
-		}, { "idHints": ["1094053789134245978"] });
-	}
-
-	public override async run(interaction: ChatInputCommandInteraction): Promise<Message> {
-		await interaction.deferReply();
-		if (!minecraftBot.isConnected()) {
-			return interaction.editReply({ "embeds": [Embeds.offline()] });
-		}
-		const message: string = interaction.options.getString("message", true);
-		minecraftBot.chat(message);
-		return interaction.editReply({ "embeds": [Embeds.messageSent()] });
+	public override async messageRun(_message: Message<boolean>, args: Args) {
+		if (!minecraftBot.connected) { return discordBot.sendEmbed(Embeds.offline()); }
+		const toSend: string = await args.rest("string");
+		minecraftBot.chat(toSend);
+		return discordBot.sendEmbed(Embeds.messageSent());
 	}
 }

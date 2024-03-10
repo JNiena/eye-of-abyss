@@ -1,11 +1,11 @@
 {
 	"discord": {
 		"token": "",
-		"channelID": ""
+		"chatChannelID": "",
+		"infoChannelID": ""
 	},
 	"credentials": {
 		"email": "",
-		"password": "",
 		"auth": ""
 	},
 	"server": {
@@ -21,38 +21,18 @@
 		"enable": false,
 		"list": []
 	},
+	"advertisements": [],
 	"events": {
-		"join": {
+		"connect": {
 			"enable": false,
 			"message": "",
 			"delay": 0
 		},
-		"death": {
+		"disconnect": {
 			"enable": false,
-			"message": "",
-			"delay": 0
-		},
-		"kicked": {
-			"enable": false,
-			"delay": 0
-		},
-		"error": {
-			"enable": false,
+			"reconnect": false,
 			"delay": 0
 		}
 	},
-	"chat": [
-		{
-			"trigger": "",
-			"reply": "",
-			"delay": 0
-		}
-	],
-	"repeater": [
-		{
-			"message": "",
-			"interval": 0
-		}
-	],
-	"plugins": {}
+	"plugins": []
 }

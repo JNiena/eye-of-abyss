@@ -3,12 +3,12 @@ import { Embeds } from "../Embeds";
 import { config, discordBot } from "../Main";
 import { Message } from "discord.js";
 
-export class AutoReconnectCommand extends Subcommand {
+export class LoggingCommand extends Subcommand {
 	public constructor(context: Subcommand.LoaderContext, options: Subcommand.Options) {
 		super(context, {
 			...options,
-			"name": "autoreconnect",
-			"description": "Manages the auto-reconnection options.",
+			"name": "logger",
+			"description": "Enables or disables the logger.",
 			"preconditions": ["ValidChannel"],
 			"subcommands": [
 				{ "name": "enable", "messageRun": "messageEnable" },
@@ -19,14 +19,23 @@ export class AutoReconnectCommand extends Subcommand {
 	}
 
 	public async messageEnable(_message: Message<boolean>) {
-		config.get().events.disconnect.reconnect = true;
+		config.get().logging.enable = true;
 		config.save();
-		return discordBot.sendEmbed(Embeds.autoReconnectEnabled());
+		return discordBot.sendEmbed(Embeds.loggerEnabled());
 	}
 
 	public async messageDisable(_message: Message<boolean>) {
-		config.get().events.disconnect.reconnect = false;
+		config.get().logging.enable = false;
 		config.save();
-		return discordBot.sendEmbed(Embeds.autoReconnectDisabled());
+		return discordBot.sendEmbed(Embeds.loggerDisabled());
 	}
+
+	/*
+	public async messagePath(_message: Message<boolean>, args: Args) {
+		const path: string = await args.pick("string");
+		config.get().logging.path = path;
+		config.save();
+		return discordBot.sendEmbed(Embeds.loggerPath());
+	}
+	*/
 }
