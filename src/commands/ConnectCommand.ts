@@ -19,8 +19,9 @@ export class ConnectCommand extends Command {
 	}
 
 	public override async chatInputRun(interaction: Command.ChatInputCommandInteraction) {
-		if (minecraftBot.connected) { return interaction.reply({ "embeds": [Embeds.connected()] }); }
+		if (minecraftBot.connected) { return interaction.reply({ "embeds": [Embeds.alreadyConnected()] }); }
 		config.get().events.disconnect.reconnect = true;
 		minecraftBot.connect();
+		return interaction.reply({ "embeds": [Embeds.connected()] });
 	}
 }

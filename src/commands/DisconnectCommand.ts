@@ -19,8 +19,9 @@ export class DisconnectCommand extends Command {
 	}
 
 	public override async chatInputRun(interaction: Command.ChatInputCommandInteraction) {
-		if (!minecraftBot.connected) { return interaction.reply({ "embeds": [Embeds.disconnected()] }); }
+		if (!minecraftBot.connected) { return interaction.reply({ "embeds": [Embeds.alreadyDisconnected()] }); }
 		config.get().events.disconnect.reconnect = false;
 		minecraftBot.disconnect();
+		return interaction.reply({ "embeds": [Embeds.disconnected()] });
 	}
 }

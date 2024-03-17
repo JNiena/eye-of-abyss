@@ -6,6 +6,7 @@ export class MinecraftBot {
 	public lastLog: Log | undefined;
 	public internal!: Bot;
 	public startup: Function;
+	public static username: string | undefined;
 
 	public constructor(startup: Function) {
 		this.connected = false;

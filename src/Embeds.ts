@@ -1,6 +1,5 @@
 import { APIEmbed } from "discord.js";
-import { minecraftBot } from "./Main";
-import { Log } from "./MinecraftBot";
+import { Log, MinecraftBot } from "./MinecraftBot";
 import { Advertisement } from "./commands/AdvertiseCommand";
 
 export class Embeds {
@@ -14,23 +13,25 @@ export class Embeds {
 			"title": title,
 			"description": description,
 			"color": color,
-			"thumbnail": { "url": `https://cravatar.eu/helmavatar/${minecraftBot.internal.username}/24.png` }
+			"thumbnail": { "url": `https://cravatar.eu/helmavatar/${MinecraftBot.username}/24.png` }
 		};
 	}
 
 	// CONNECTION
-	public static connected() { return this.template(`\`${minecraftBot.internal.username}\` Connected`); }
+	public static connected(username: string | undefined = undefined) {
+		return this.template(username ? `\`${username}\` Connected` : "Connected");
+	}
 	public static alreadyConnected() { return this.template("Already Connected"); }
-	public static disconnected(info: Log | undefined = undefined) {
-		if (!info) { return this.template(`\`${minecraftBot.internal.username}\` Disconnected`); }
-		const embed: APIEmbed = this.template(`${info.type} \`${minecraftBot.internal.username}\``);
+	public static disconnected(username: string | undefined = undefined, info: Log | undefined = undefined) {
+		if (!info) { return this.template(username ? `\`${username}\` Disconnected` : "Disconnected"); }
+		const embed: APIEmbed = this.template(`${info.type} \`${MinecraftBot.username}\``);
 		embed.fields = [{ "name": "Reason", "value": info.message }];
 		return embed;
 	}
 	public static alreadyDisconnected() { return this.template("Already Disconnected"); }
 
 	// MISC
-	public static death() { return this.template(`Death \`${minecraftBot.internal.username}\``); }
+	public static death() { return this.template(`Death \`${MinecraftBot.username}\``); }
 	public static messageSent() { return this.template("Message Sent"); }
 	public static exiting() { return this.template("Exiting"); }
 
