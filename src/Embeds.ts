@@ -32,6 +32,7 @@ export class Embeds {
 	// MISC
 	public static death() { return this.template(`Death \`${minecraftBot.internal.username}\``); }
 	public static messageSent() { return this.template("Message Sent"); }
+	public static exiting() { return this.template("Exiting"); }
 
 	// AUTO-RECONNECT
 	public static autoReconnectEnabled() { return this.template("Auto-Reconnect Enabled"); }
