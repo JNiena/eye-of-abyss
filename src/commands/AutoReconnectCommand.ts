@@ -1,32 +1,38 @@
 import { Subcommand } from "@sapphire/plugin-subcommands";
 import { Embeds } from "../Embeds";
-import { config, discordBot } from "../Main";
-import { Message } from "discord.js";
+import { config } from "../Main";
 
 export class AutoReconnectCommand extends Subcommand {
 	public constructor(context: Subcommand.LoaderContext, options: Subcommand.Options) {
 		super(context, {
 			...options,
 			"name": "autoreconnect",
-			"description": "Manages the auto-reconnection options.",
+			"description": "Manages auto-reconnection options.",
 			"preconditions": ["ValidChannel"],
 			"subcommands": [
-				{ "name": "enable", "messageRun": "messageEnable" },
-				{ "name": "disable", "messageRun": "messageDisable" },
-				// { "name": "path", "messageRun": "messagePath" },
+				{ "name": "enable", "chatInputRun": "chatInputEnable" },
+				{ "name": "disable", "chatInputRun": "chatInputDisable" }
 			]
 		});
 	}
 
-	public async messageEnable(_message: Message<boolean>) {
-		config.get().events.disconnect.reconnect = true;
-		config.save();
-		return discordBot.sendEmbed(Embeds.autoReconnectEnabled());
+	public override registerApplicationCommands(registry: Subcommand.Registry) {
+		registry.registerChatInputCommand(builder => {
+			builder.setName(this.name).setDescription(this.description)
+				.addSubcommand(command => command.setName("enable").setDescription("Enables auto-reconnection."))
+				.addSubcommand(command => command.setName("disable").setDescription("Disables auto-reconnection."));
+		}, { "idHints": ["1120099283958501436"] });
 	}
 
-	public async messageDisable(_message: Message<boolean>) {
+	public async chatInputEnable(interaction: Subcommand.ChatInputCommandInteraction) {
+		config.get().events.disconnect.reconnect = true;
+		config.save();
+		return interaction.reply({ "embeds": [Embeds.autoReconnectEnabled()] });
+	}
+
+	public async chatInputDisable(interaction: Subcommand.ChatInputCommandInteraction) {
 		config.get().events.disconnect.reconnect = false;
 		config.save();
-		return discordBot.sendEmbed(Embeds.autoReconnectDisabled());
+		return interaction.reply({ "embeds": [Embeds.autoReconnectDisabled()] });
 	}
 }

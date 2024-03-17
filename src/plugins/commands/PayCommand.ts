@@ -1,7 +1,6 @@
-import { Args, Command } from "@sapphire/framework";
-import { Message } from "discord.js";
+import { Command } from "@sapphire/framework";
 import { Embeds } from "../../Embeds";
-import { discordBot, minecraftBot } from "../../Main";
+import { minecraftBot } from "../../Main";
 
 export class PayCommand extends Command {
 	public constructor(context: Command.LoaderContext, options: Command.Options) {
@@ -13,10 +12,18 @@ export class PayCommand extends Command {
 		});
 	}
 
-	public override async messageRun(_message: Message<boolean>, args: Args) {
-		const username: string = await args.pick("string");
-		const amount: number = await args.pick("integer");
+	public override registerApplicationCommands(registry: Command.Registry) {
+		registry.registerChatInputCommand(builder => {
+			builder.setName(this.name).setDescription(this.description)
+				.addStringOption(option => option.setName("username").setDescription("The username of the player to pay.").setRequired(true).setMinLength(1))
+				.addNumberOption(option => option.setName("amount").setDescription("The amount to send.").setRequired(true).setMinValue(1));
+		}, { "idHints": ["1105624909134184539"] });
+	}
+
+	public override async chatInputRun(interaction: Command.ChatInputCommandInteraction) {
+		const username: string = interaction.options.getString("username", true);
+		const amount: number = interaction.options.getNumber("amount", true);
 		minecraftBot.chat(`/pay ${username} ${amount}`);
-		discordBot.sendEmbed(Embeds.commandExecuted());
+		return interaction.editReply({ "embeds": [Embeds.commandExecuted()] });
 	}
 }

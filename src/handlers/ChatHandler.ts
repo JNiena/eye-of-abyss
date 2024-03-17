@@ -11,11 +11,11 @@ export class ChatHandler {
 		});
 	}
 
-	private checkLogging(message: string): void {
+	private checkLogging(message: string) {
 		if (config.get().logging.enable) { Files.write(config.get().logging.path, `${message}\n`); }
 	}
 
-	private checkFilter(message: string): void {
+	private checkFilter(message: string) {
 		if (!config.get().filter.enable || Filter.complies(config.get().filter.list, message)) { discordBot.send(`${message}`).then(); }
 	}
 }

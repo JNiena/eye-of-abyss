@@ -14,21 +14,21 @@ export class MinecraftBot {
 		setInterval(() => { if (config.get().events.disconnect.reconnect) { if (!this.connected) { this.connect(); } } }, config.get().events.disconnect.delay);
 	}
 
-	public connect(): void {
+	public connect() {
 		this.internal = createBot({ "username": config.get().credentials.email, "password": config.get().credentials.password, "auth": config.get().credentials.auth, "host": config.get().server.host, "port": config.get().server.port, "version": config.get().server.version });
 		this.startup();
 	}
 
-	public disconnect(): void {
+	public disconnect() {
 		this.internal.quit();
 	}
 
-	public reconnect(): void {
+	public reconnect() {
 		if (this.connected) { this.disconnect(); }
 		this.connect();
 	}
 
-	public chat(message: string): void {
+	public chat(message: string) {
 		if (message.trim().length > 0) { this.internal.chat(message); }
 	}
 }

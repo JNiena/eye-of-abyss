@@ -1,7 +1,6 @@
-import { Args, Command } from "@sapphire/framework";
-import { Message } from "discord.js";
+import { Command } from "@sapphire/framework";
 import { Embeds } from "../../Embeds";
-import { discordBot, minecraftBot } from "../../Main";
+import { minecraftBot } from "../../Main";
 
 export class BaltopCommand extends Command {
 	public constructor(context: Command.LoaderContext, options: Command.Options) {
@@ -13,9 +12,16 @@ export class BaltopCommand extends Command {
 		});
 	}
 
-	public override async messageRun(_message: Message<boolean>, args: Args) {
-		const page: number = await args.pick("integer").catch(() => 1);
+	public override registerApplicationCommands(registry: Command.Registry) {
+		registry.registerChatInputCommand(builder => {
+			builder.setName(this.name).setDescription(this.description)
+				.addIntegerOption(option => option.setName("page").setDescription("The page of baltop to view.").setRequired(false).setMinValue(1));
+		}, { "idHints": ["1120486112054481017"] });
+	}
+
+	public override async chatInputRun(interaction: Command.ChatInputCommandInteraction) {
+		const page: number = interaction.options.getInteger("page", false) ?? 1;
 		minecraftBot.chat(`/baltop ${page}`);
-		discordBot.sendEmbed(Embeds.commandExecuted());
+		return interaction.editReply({ "embeds": [Embeds.commandExecuted()] });
 	}
 }

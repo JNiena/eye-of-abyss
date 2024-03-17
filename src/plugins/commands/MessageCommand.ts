@@ -1,23 +1,29 @@
-import { Args, Command } from "@sapphire/framework";
-import { Message } from "discord.js";
+import { Command } from "@sapphire/framework";
 import { Embeds } from "../../Embeds";
-import { discordBot, minecraftBot } from "../../Main";
+import { minecraftBot } from "../../Main";
 
 export class MessageCommand extends Command {
 	public constructor(context: Command.LoaderContext, options: Command.Options) {
 		super(context, {
 			...options,
 			"name": "message",
-			"aliases": ["msg"],
 			"description": "Executes the /msg command.",
 			"preconditions": ["ValidChannel", "PluginEnabled"]
 		});
 	}
 
-	public override async messageRun(_message: Message<boolean>, args: Args) {
-		const username: string = await args.pick("string");
-		const toSend: string = await args.rest("string");
-		minecraftBot.chat(`/msg ${username} ${toSend}`);
-		discordBot.sendEmbed(Embeds.commandExecuted());
+	public override registerApplicationCommands(registry: Command.Registry) {
+		registry.registerChatInputCommand(builder => {
+			builder.setName(this.name).setDescription(this.description)
+				.addStringOption(option => option.setName("username").setDescription("The username of the player to send a message to.").setRequired(true).setMinLength(1))
+				.addStringOption(option => option.setName("message").setDescription("The message to send.").setRequired(true).setMinLength(1));
+		}, { "idHints": ["1105624908370808914"] });
+	}
+
+	public override async chatInputRun(interaction: Command.ChatInputCommandInteraction) {
+		const username: string = interaction.options.getString("username", true);
+		const message: string = interaction.options.getString("message", true);
+		minecraftBot.chat(`/msg ${username} ${message}`);
+		return interaction.editReply({ "embeds": [Embeds.commandExecuted()] });
 	}
 }

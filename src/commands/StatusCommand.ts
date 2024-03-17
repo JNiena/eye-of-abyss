@@ -1,7 +1,6 @@
 import { Command } from "@sapphire/framework";
-import { Message } from "discord.js";
 import { Embeds } from "../Embeds";
-import { discordBot, minecraftBot } from "../Main";
+import { minecraftBot } from "../Main";
 
 export class StatusCommand extends Command {
 	public constructor(context: Command.LoaderContext, options: Command.Options) {
@@ -13,8 +12,14 @@ export class StatusCommand extends Command {
 		});
 	}
 
-	public override async messageRun(_message: Message<boolean>) {
-		if (minecraftBot.connected) { return discordBot.sendEmbed(Embeds.online()); }
-		return discordBot.sendEmbed(Embeds.offline());
+	public override registerApplicationCommands(registry: Command.Registry) {
+		registry.registerChatInputCommand(builder => {
+			builder.setName(this.name).setDescription(this.description);
+		}, { "idHints": ["1094053791453675550"] });
+	}
+
+	public override async chatInputRun(interaction: Command.ChatInputCommandInteraction) {
+		if (minecraftBot.connected) { return interaction.reply({ "embeds": [Embeds.online()] }); }
+		return interaction.reply({ "embeds": [Embeds.offline()] });
 	}
 }

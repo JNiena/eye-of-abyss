@@ -1,7 +1,6 @@
-import { Args, Command } from "@sapphire/framework";
-import { Message } from "discord.js";
+import { Command } from "@sapphire/framework";
 import { Embeds } from "../../Embeds";
-import { discordBot, minecraftBot } from "../../Main";
+import { minecraftBot } from "../../Main";
 
 export class TrustCommand extends Command {
 	public constructor(context: Command.LoaderContext, options: Command.Options) {
@@ -13,9 +12,16 @@ export class TrustCommand extends Command {
 		});
 	}
 
-	public override async messageRun(_message: Message<boolean>, args: Args) {
-		const username: string = await args.pick("string");
+	public override registerApplicationCommands(registry: Command.Registry) {
+		registry.registerChatInputCommand(builder => {
+			builder.setName(this.name).setDescription(this.description)
+				.addStringOption(option => option.setName("username").setDescription("The username of the player to trust.").setRequired(true).setMinLength(1));
+		}, { "idHints": ["1120486197437939732"] });
+	}
+
+	public override async chatInputRun(interaction: Command.ChatInputCommandInteraction) {
+		const username: string = interaction.options.getString("username", true);
 		minecraftBot.chat(`/trust ${username}`);
-		discordBot.sendEmbed(Embeds.commandExecuted());
+		return interaction.reply({ "embeds": [Embeds.commandExecuted()] });
 	}
 }

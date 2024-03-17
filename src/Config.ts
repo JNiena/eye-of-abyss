@@ -10,15 +10,15 @@ export class Config {
 		this.data = JSON.parse(Files.read(path));
 	}
 
-	public get(): any {
+	public get() {
 		return this.data;
 	}
 
-	public set(data: any): void {
+	public set(data: any) {
 		this.data = data;
 	}
 
-	public save(): void {
+	public save() {
 		if (this.path) {
 			Files.delete(this.path);
 			Files.write(this.path, JSON.stringify(this.data, null, "\t"));

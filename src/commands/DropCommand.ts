@@ -1,52 +1,55 @@
-import { Args, Command } from "@sapphire/framework";
-import { Message } from "discord.js";
+import { Subcommand } from "@sapphire/plugin-subcommands";
 import { Embeds } from "../Embeds";
-import { discordBot, minecraftBot } from "../Main";
+import { minecraftBot } from "../Main";
 
-export class DropCommand extends Command {
-	public constructor(context: Command.LoaderContext, options: Command.Options) {
+export class DropCommand extends Subcommand {
+	public constructor(context: Subcommand.LoaderContext, options: Subcommand.Options) {
 		super(context, {
 			...options,
 			"name": "drop",
 			"description": "Drops items from the bot's inventory, armor, mainhand, or offhand.",
-			"preconditions": ["ValidChannel"]
+			"preconditions": ["ValidChannel"],
+			"subcommands": [
+				{ "name": "inventory", "chatInputRun": "chatInputInventory" },
+				{ "name": "armor", "chatInputRun": "chatInputArmor" },
+				{ "name": "offhand", "chatInputRun": "chatInputOffhand" },
+				{ "name": "mainhand", "chatInputRun": "chatInputMainhand" }
+			]
 		});
 	}
 
-	public override async messageRun(_message: Message<boolean>, args: Args) {
-		if (!minecraftBot.connected) { return discordBot.sendEmbed(Embeds.offline()); }
-		const section: string = await args.pick("string");
-		switch (section) {
-			case "inventory":
-				this.dropInventory();
-				return discordBot.sendEmbed(Embeds.inventoryDropped());
-			case "armor":
-				this.dropArmor();
-				return discordBot.sendEmbed(Embeds.armorDropped());
-			case "offhand":
-				this.dropOffhand();
-				return discordBot.sendEmbed(Embeds.offhandDropped());
-			case "mainhand":
-				this.dropMainhand();
-				return discordBot.sendEmbed(Embeds.mainhandDropped());
-		}
-		return discordBot.sendEmbed(Embeds.invalidOption());
+	public override registerApplicationCommands(registry: Subcommand.Registry) {
+		registry.registerChatInputCommand(builder => {
+			builder.setName(this.name).setDescription(this.description)
+				.addSubcommand(command => command.setName("inventory").setDescription("Drops the bot's inventory."))
+				.addSubcommand(command => command.setName("armor").setDescription("Drops the bot's armor."))
+				.addSubcommand(command => command.setName("offhand").setDescription("Drops the bot's offhand."))
+				.addSubcommand(command => command.setName("mainhand").setDescription("Drops the bot's mainhand."));
+		}, { "idHints": ["1094050994960212058"] });
 	}
 
-	private dropInventory(): void {
+	public async chatInputInventory(interaction: Subcommand.ChatInputCommandInteraction) {
+		if (!minecraftBot.connected) { return interaction.reply({ "embeds": [Embeds.offline()] }); }
 		this.drop([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45]);
+		return interaction.reply({ "embeds": [Embeds.inventoryDropped()] });
 	}
 
-	private dropArmor(): void {
+	public async chatInputArmor(interaction: Subcommand.ChatInputCommandInteraction) {
+		if (!minecraftBot.connected) { return interaction.reply({ "embeds": [Embeds.offline()] }); }
 		this.drop([5, 6, 7, 8]);
+		return interaction.reply({ "embeds": [Embeds.armorDropped()] });
 	}
 
-	private dropOffhand(): void {
+	public async chatInputOffhand(interaction: Subcommand.ChatInputCommandInteraction) {
+		if (!minecraftBot.connected) { return interaction.reply({ "embeds": [Embeds.offline()] }); }
 		this.drop([45]);
+		return interaction.reply({ "embeds": [Embeds.offhandDropped()] });
 	}
 
-	private dropMainhand(): void {
+	public async chatInputMainhand(interaction: Subcommand.ChatInputCommandInteraction) {
+		if (!minecraftBot.connected) { return interaction.reply({ "embeds": [Embeds.offline()] }); }
 		this.drop([minecraftBot.internal.quickBarSlot]);
+		return interaction.reply({ "embeds": [Embeds.mainhandDropped()] });
 	}
 
 	private drop(slots: number[]): void {
@@ -55,21 +58,4 @@ export class DropCommand extends Command {
 			if (item) { setTimeout(() => { minecraftBot.internal.tossStack(item).then(); }, index * 1000); }
 		});
 	}
-
-	/*
-	private drop(slots: number[]): void {
-		if (slots.length === 0) { return; }
-		const item = minecraftBot.internal.inventory.slots[slots[0]];
-		if (item) {
-			minecraftBot.internal.tossStack(item).then(() => {
-				slots.shift();
-				this.drop(slots);
-			});
-		}
-		else {
-			slots.shift();
-			this.drop(slots);
-		}
-	}
-	*/
 }

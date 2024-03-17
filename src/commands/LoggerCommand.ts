@@ -1,7 +1,6 @@
 import { Subcommand } from "@sapphire/plugin-subcommands";
 import { Embeds } from "../Embeds";
-import { config, discordBot } from "../Main";
-import { Message } from "discord.js";
+import { config } from "../Main";
 
 export class LoggingCommand extends Subcommand {
 	public constructor(context: Subcommand.LoaderContext, options: Subcommand.Options) {
@@ -11,31 +10,30 @@ export class LoggingCommand extends Subcommand {
 			"description": "Enables or disables the logger.",
 			"preconditions": ["ValidChannel"],
 			"subcommands": [
-				{ "name": "enable", "messageRun": "messageEnable" },
-				{ "name": "disable", "messageRun": "messageDisable" },
-				// { "name": "path", "messageRun": "messagePath" },
+				{ "name": "enable", "chatInputRun": "chatInputEnable" },
+				{ "name": "disable", "chatInputRun": "chatInputDisable" }
 			]
 		});
 	}
 
-	public async messageEnable(_message: Message<boolean>) {
+	public override registerApplicationCommands(registry: Subcommand.Registry) {
+		registry.registerChatInputCommand(builder => {
+			builder.setName(this.name).setDescription(this.description)
+				.addSubcommand(command => command.setName("enable").setDescription("Enables the logger."))
+				.addSubcommand(command => command.setName("disable").setDescription("Disables the logger."));
+		}, { "idHints": ["1218760387269230602"] });
+	}
+
+	public async chatInputEnable(interaction: Subcommand.ChatInputCommandInteraction) {
 		config.get().logging.enable = true;
 		config.save();
-		return discordBot.sendEmbed(Embeds.loggerEnabled());
+		return interaction.reply({ "embeds": [Embeds.loggerEnabled()] });
 	}
 
-	public async messageDisable(_message: Message<boolean>) {
+	public async chatInputDisable(interaction: Subcommand.ChatInputCommandInteraction) {
 		config.get().logging.enable = false;
 		config.save();
-		return discordBot.sendEmbed(Embeds.loggerDisabled());
+		return interaction.reply({ "embeds": [Embeds.loggerDisabled()] });
 	}
 
-	/*
-	public async messagePath(_message: Message<boolean>, args: Args) {
-		const path: string = await args.pick("string");
-		config.get().logging.path = path;
-		config.save();
-		return discordBot.sendEmbed(Embeds.loggerPath());
-	}
-	*/
 }

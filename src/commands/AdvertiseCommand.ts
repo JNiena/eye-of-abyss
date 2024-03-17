@@ -1,8 +1,6 @@
-import { Args } from "@sapphire/framework";
 import { Subcommand } from "@sapphire/plugin-subcommands";
 import { Embeds } from "../Embeds";
-import { config, discordBot } from "../Main";
-import { Message } from "discord.js";
+import { config } from "../Main";
 
 export class AdvertiseCommand extends Subcommand {
 	public constructor(context: Subcommand.LoaderContext, options: Subcommand.Options) {
@@ -13,82 +11,112 @@ export class AdvertiseCommand extends Subcommand {
 			"description": "Modifies the advertisements.",
 			"preconditions": ["ValidChannel"],
 			"subcommands": [
-				{ "name": "add", "messageRun": "messageAdd", },
-				{ "name": "remove", "messageRun": "messageRemove" },
-				{ "name": "enable", "messageRun": "messageEnable" },
-				{ "name": "disable", "messageRun": "messageDisable" },
-				{ "name": "reset", "messageRun": "messageReset" },
-				{ "name": "list", "messageRun": "messageList" },
-				{ "name": "info", "messageRun": "messageInfo" },
-				{ "name": "edit", "messageRun": "messageEdit" }
+				{ "name": "list", "chatInputRun": "chatInputList" },
+				{ "name": "info", "chatInputRun": "chatInputInfo" },
+				{ "name": "enable", "chatInputRun": "chatInputEnable" },
+				{ "name": "disable", "chatInputRun": "chatInputDisable" },
+				{ "name": "reset", "chatInputRun": "chatInputReset" },
+				{ "name": "add", "chatInputRun": "chatInputAdd", },
+				{ "name": "remove", "chatInputRun": "chatInputRemove" },
+				{ "name": "edit", "chatInputRun": "chatInputEdit" },
 			]
 		});
 	}
 
-	public async messageList(_message: Message<boolean>) {
-		if (config.get().advertisements.length === 0) { return discordBot.sendEmbed(Embeds.adsEmpty()); }
-		return discordBot.sendEmbed(Embeds.adList(config.get().advertisements));
+	public override registerApplicationCommands(registry: Subcommand.Registry) {
+		registry.registerChatInputCommand(builder => {
+			builder.setName(this.name).setDescription(this.description)
+				.addSubcommand(command => command.setName("list").setDescription("Shows all advertisements."))
+				.addSubcommand(command => command.setName("info").setDescription("Show the specified advertisement.")
+					.addStringOption(option => option.setName("name").setDescription("The advertisement to show.").setMinLength(1).setRequired(true)))
+				.addSubcommand(command => command.setName("enable").setDescription("Enables the advertisement.")
+					.addStringOption(option => option.setName("name").setDescription("The advertisement to be enabled.").setMinLength(1).setRequired(true)))
+				.addSubcommand(command => command.setName("disable").setDescription("Disables the advertisement.")
+					.addStringOption(option => option.setName("name").setDescription("The advertisement to be disabled.").setMinLength(1).setRequired(true)))
+				.addSubcommand(command => command.setName("reset").setDescription("Resets the advertisements."))
+				.addSubcommand(command => command.setName("add").setDescription("Adds an advertisement.")
+					.addStringOption(option => option.setName("name").setDescription("The name of the advertisement.").setMinLength(1).setRequired(true))
+					.addStringOption(option => option.setName("text").setDescription("The text of the advertisement.").setMinLength(1).setRequired(true))
+					.addNumberOption(option => option.setName("interval").setDescription("The interval in minutes of the advertisement.").setMinValue(1).setRequired(true))
+					.addNumberOption(option => option.setName("randomizer").setDescription("The randomizer in minutes of the advertisement.").setMinValue(1).setRequired(true)))
+				.addSubcommand(command => command.setName("remove").setDescription("Removes an advertisement.")
+					.addStringOption(option => option.setName("name").setDescription("The name of the advertisement.").setMinLength(1).setRequired(true)))
+				.addSubcommand(command => command.setName("edit").setDescription("Edits an advertisement.")
+					.addStringOption(option => option.setName("name").setDescription("The name of the advertisement.").setMinLength(1).setRequired(true))
+					.addStringOption(option => option.setName("text").setDescription("The text of the advertisement.").setMinLength(1).setRequired(false))
+					.addNumberOption(option => option.setName("interval").setDescription("The interval in minutes of the advertisement.").setMinValue(1).setRequired(false))
+					.addNumberOption(option => option.setName("randomizer").setDescription("The randomizer in minutes of the advertisement.").setMinValue(1).setRequired(false)));
+		}, { "idHints": ["1117561544633487495"] });
 	}
 
-	public async messageInfo(_message: Message<boolean>, args: Args) {
-		const name: string = (await args.pick("string")).toLowerCase();
+	public async chatInputList(interaction: Subcommand.ChatInputCommandInteraction) {
+		if (config.get().advertisements.length === 0) { return interaction.reply({ "embeds": [Embeds.adsEmpty()] }); }
+		return interaction.reply({ "embeds": [Embeds.adList(config.get().advertisements)] });
+	}
+
+	public async chatInputInfo(interaction: Subcommand.ChatInputCommandInteraction) {
+		const name: string = interaction.options.getString("name", true).toLowerCase();
 		const ad: Advertisement | undefined = config.get().advertisements.find((ad: Advertisement) => ad.name === name);
-		if (!ad) { return discordBot.sendEmbed(Embeds.adNotFound()); }
-		return discordBot.sendEmbed(Embeds.adInfo(ad));
+		if (!ad) { return interaction.reply({ "embeds": [Embeds.adNotFound()] }); }
+		return interaction.reply({ "embeds": [Embeds.adInfo(ad)] });
 	}
 
-	public async messageEnable(_message: Message<boolean>, args: Args) {
-		const name: string = (await args.pick("string")).toLowerCase();
-		config.get().advertisements.find((ad: Advertisement) => ad.name === name).enable = true;
+	public async chatInputEnable(interaction: Subcommand.ChatInputCommandInteraction) {
+		const name: string = interaction.options.getString("name", true).toLowerCase();
+		const ad: Advertisement | undefined = config.get().advertisements.find((ad: Advertisement) => ad.name === name);
+		if (!ad) { return interaction.reply({ "embeds": [Embeds.adNotFound()] }); }
+		ad.enable = true;
 		config.save();
-		return discordBot.sendEmbed(Embeds.adEnabled());
+		return interaction.reply({ "embeds": [Embeds.adEnabled()] });
 	}
 
-	public async messageDisable(_message: Message<boolean>, args: Args) {
-		const name: string = (await args.pick("string")).toLowerCase();
-		config.get().advertisements.find((ad: Advertisement) => ad.name === name).enable = false;
+	public async chatInputDisable(interaction: Subcommand.ChatInputCommandInteraction) {
+		const name: string = interaction.options.getString("name", true).toLowerCase();
+		const ad: Advertisement | undefined = config.get().advertisements.find((ad: Advertisement) => ad.name === name);
+		if (!ad) { return interaction.reply({ "embeds": [Embeds.adNotFound()] }); }
+		ad.enable = false;
 		config.save();
-		return discordBot.sendEmbed(Embeds.adDisabled());
+		return interaction.reply({ "embeds": [Embeds.adDisabled()] });
 	}
 
-	public async messageReset(_message: Message<boolean>) {
+	public async chatInputReset(interaction: Subcommand.ChatInputCommandInteraction) {
 		config.get().advertisements = [];
 		config.save();
-		return discordBot.sendEmbed(Embeds.adsReset());
+		return interaction.reply({ "embeds": [Embeds.adsReset()] });
 	}
 
-	public async messageAdd(_message: Message<boolean>, args: Args) {
-		const name: string = (await args.pick("string")).toLowerCase();
-		const interval: number = await args.pick("number");
-		const randomizer: number = await args.pick("number").catch(() => 0);
-		const text: string = await args.rest("string");
+	public async chatInputAdd(interaction: Subcommand.ChatInputCommandInteraction) {
+		const name: string = interaction.options.getString("name", true).toLowerCase();
+		const text: string = interaction.options.getString("text", true);
+		const interval: number = interaction.options.getNumber("interval", true);
+		const randomizer: number = interaction.options.getNumber("randomizer", true);
 		const ad: Advertisement | undefined = config.get().advertisements.find((ad: Advertisement) => ad.name === name);
-		if (ad) { return discordBot.sendEmbed(Embeds.adAlreadyAdded(name)); }
+		if (ad) { return interaction.reply({ "embeds": [Embeds.adAlreadyAdded(name)] }); }
 		config.get().advertisements.push({ "enable": true, "name": name, "text": text, "interval": interval * 60_000, "randomizer": randomizer * 60_000 });
 		config.save();
-		return discordBot.sendEmbed(Embeds.adAdded(name));
+		return interaction.reply({ "embeds": [Embeds.adAdded(name)] });
 	}
 
-	public async messageRemove(_message: Message<boolean>, args: Args) {
-		const name: string = (await args.pick("string")).toLowerCase();
+	public async chatInputRemove(interaction: Subcommand.ChatInputCommandInteraction) {
+		const name: string = interaction.options.getString("name", true).toLowerCase();
 		const ad: Advertisement | undefined = config.get().advertisements.find((ad: Advertisement) => ad.name === name);
-		if (!ad) { return discordBot.sendEmbed(Embeds.adAlreadyRemoved(name)); }
+		if (!ad) { return interaction.reply({ "embeds": [Embeds.adAlreadyRemoved(name)] }); }
 		config.get().advertisements = config.get().advertisements.filter((ad: Advertisement) => ad.name !== name);
-		return discordBot.sendEmbed(Embeds.adRemoved(name));
+		return interaction.reply({ "embeds": [Embeds.adRemoved(name)] });
 	}
 
-	public async messageEdit(_message: Message<boolean>, args: Args) {
-		const name: string = (await args.pick("string")).toLowerCase();
-		const key: string = (await args.pick("string")).toLowerCase();
-		const value: string = await args.pick("string");
+	public async chatInputEdit(interaction: Subcommand.ChatInputCommandInteraction) {
+		const name: string = interaction.options.getString("name", true).toLowerCase();
+		const text: string | null = interaction.options.getString("text", false);
+		const interval: number | null = interaction.options.getNumber("interval", false);
+		const randomizer: number | null = interaction.options.getNumber("randomizer", false);
 		const ad: Advertisement | undefined = config.get().advertisements.find((ad: Advertisement) => ad.name === name);
-		if (!ad) { return discordBot.sendEmbed(Embeds.adNotFound()); }
-		if (key === "name") { ad.name = value; }
-		else if (key === "title") { ad.text = value; }
-		else if (key === "interval") { ad.interval = +value * 60_000; }
-		else if (key === "randomizer") { ad.randomizer = +value * 60_000; }
+		if (!ad) { return interaction.reply({ "embeds": [Embeds.adAlreadyRemoved(name)] }); }
+		if (text) { ad.text = text; }
+		if (interval) { ad.interval = interval * 60_000; }
+		if (randomizer) { ad.randomizer = randomizer * 60_000; }
 		config.save();
-		return discordBot.sendEmbed(Embeds.adEdited(name));
+		return interaction.reply({ "embeds": [Embeds.adEdited(name)] });
 	}
 }
 

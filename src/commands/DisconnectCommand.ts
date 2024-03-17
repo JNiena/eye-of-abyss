@@ -1,7 +1,6 @@
 import { Command } from "@sapphire/framework";
-import { Message } from "discord.js";
 import { Embeds } from "../Embeds";
-import { config, discordBot, minecraftBot } from "../Main";
+import { config, minecraftBot } from "../Main";
 
 export class DisconnectCommand extends Command {
 	public constructor(context: Command.LoaderContext, options: Command.Options) {
@@ -13,8 +12,14 @@ export class DisconnectCommand extends Command {
 		});
 	}
 
-	public override async messageRun(_message: Message<boolean>) {
-		if (!minecraftBot.connected) { return discordBot.sendEmbed(Embeds.alreadyDisconnected()); }
+	public override registerApplicationCommands(registry: Command.Registry) {
+		registry.registerChatInputCommand(builder => {
+			builder.setName(this.name).setDescription(this.description);
+		}, { "idHints": ["1094053789868249128"] });
+	}
+
+	public override async chatInputRun(interaction: Command.ChatInputCommandInteraction) {
+		if (!minecraftBot.connected) { return interaction.reply({ "embeds": [Embeds.disconnected()] }); }
 		config.get().events.disconnect.reconnect = false;
 		minecraftBot.disconnect();
 	}

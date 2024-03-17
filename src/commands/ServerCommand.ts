@@ -1,8 +1,6 @@
-import { Args } from "@sapphire/framework";
 import { Subcommand } from "@sapphire/plugin-subcommands";
 import { Embeds } from "../Embeds";
-import { config, discordBot } from "../Main";
-import { Message } from "discord.js";
+import { config } from "../Main";
 
 export class ServerCommand extends Subcommand {
 	public constructor(context: Subcommand.LoaderContext, options: Subcommand.Options) {
@@ -12,31 +10,43 @@ export class ServerCommand extends Subcommand {
 			"description": "Configures the host, port, and version the bot connects with.",
 			"preconditions": ["ValidChannel"],
 			"subcommands": [
-				{ "name": "host", "messageRun": "messageHost" },
-				{ "name": "port", "messageRun": "messagePort" },
-				{ "name": "version", "messageRun": "messageVersion" },
+				{ "name": "host", "chatInputRun": "chatInputHost" },
+				{ "name": "port", "chatInputRun": "chatInputPort" },
+				{ "name": "version", "chatInputRun": "chatInputVersion" },
 			]
 		});
 	}
 
-	public async messageHost(_message: Message<boolean>, args: Args) {
-		const host: string = await args.pick("string");
+	public override registerApplicationCommands(registry: Subcommand.Registry) {
+		registry.registerChatInputCommand(builder => {
+			builder.setName(this.name).setDescription(this.description)
+				.addSubcommand(command => command.setName("host").setDescription("Sets the host the bot connects to.")
+					.addStringOption(option => option.setName("host").setDescription("The host the bot connects to.").setRequired(true).setMinLength(1)))
+				.addSubcommand(command => command.setName("port").setDescription("Sets the port the bot connects to.")
+					.addStringOption(option => option.setName("port").setDescription("The port the bot connects to.").setRequired(true).setMinLength(1)))
+				.addSubcommand(command => command.setName("version").setDescription("Sets the version the bot connects to.")
+					.addStringOption(option => option.setName("version").setDescription("The version the version connects to.").setRequired(true).setMinLength(1)));
+		}, { "idHints": ["1218776044576968844"] });
+	}
+
+	public async chatInputHost(interaction: Subcommand.ChatInputCommandInteraction) {
+		const host: string = interaction.options.getString("host", true);
 		config.get().server.host = host;
 		config.save();
-		return discordBot.sendEmbed(Embeds.hostSet());
+		return interaction.reply({ "embeds": [Embeds.hostSet()] });
 	}
 
-	public async messagePort(_message: Message<boolean>, args: Args) {
-		const port: string = await args.pick("string");
+	public async chatInputPort(interaction: Subcommand.ChatInputCommandInteraction) {
+		const port: string = interaction.options.getString("port", true);
 		config.get().server.port = port;
 		config.save();
-		return discordBot.sendEmbed(Embeds.portSet());
+		return interaction.reply({ "embeds": [Embeds.portSet()] });
 	}
 
-	public async messageVersion(_message: Message<boolean>, args: Args) {
-		const version: string = await args.pick("string");
+	public async chatInputVersion(interaction: Subcommand.ChatInputCommandInteraction) {
+		const version: string = interaction.options.getString("version", true);
 		config.get().server.version = version;
 		config.save();
-		return discordBot.sendEmbed(Embeds.versionSet());
+		return interaction.reply({ "embeds": [Embeds.versionSet()] });
 	}
 }

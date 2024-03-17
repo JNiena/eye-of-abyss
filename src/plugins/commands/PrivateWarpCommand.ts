@@ -1,7 +1,6 @@
-import { Args, Command } from "@sapphire/framework";
-import { Message } from "discord.js";
+import { Command } from "@sapphire/framework";
 import { Embeds } from "../../Embeds";
-import { discordBot, minecraftBot } from "../../Main";
+import { minecraftBot } from "../../Main";
 
 export class PrivateWarpCommand extends Command {
 	public constructor(context: Command.LoaderContext, options: Command.Options) {
@@ -13,9 +12,16 @@ export class PrivateWarpCommand extends Command {
 		});
 	}
 
-	public override async messageRun(_message: Message<boolean>, args: Args) {
-		const pw: string = await args.pick("string");
-		minecraftBot.chat(`/pw ${pw}`);
-		discordBot.sendEmbed(Embeds.commandExecuted());
+	public override registerApplicationCommands(registry: Command.Registry) {
+		registry.registerChatInputCommand(builder => {
+			builder.setName(this.name).setDescription(this.description)
+				.addStringOption(option => option.setName("name").setDescription("The name of the warp to teleport to.").setRequired(true).setMinLength(1));
+		}, { "idHints": ["1218804149072695397"] });
+	}
+
+	public override async chatInputRun(interaction: Command.ChatInputCommandInteraction) {
+		const name: string = interaction.options.getString("name", true);
+		minecraftBot.chat(`/pw ${name}`);
+		return interaction.editReply({ "embeds": [Embeds.commandExecuted()] });
 	}
 }

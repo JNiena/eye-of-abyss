@@ -1,8 +1,6 @@
-import { Args } from "@sapphire/framework";
 import { Subcommand } from "@sapphire/plugin-subcommands";
 import { Embeds } from "../Embeds";
-import { config, discordBot } from "../Main";
-import { Message } from "discord.js";
+import { config } from "../Main";
 
 export class FilterCommand extends Subcommand {
 	public constructor(context: Subcommand.LoaderContext, options: Subcommand.Options) {
@@ -12,62 +10,78 @@ export class FilterCommand extends Subcommand {
 			"description": "Modifies the filter.",
 			"preconditions": ["ValidChannel"],
 			"subcommands": [
-				{ "name": "list", "messageRun": "messageList", },
-				{ "name": "enable", "messageRun": "messageEnable" },
-				{ "name": "disable", "messageRun": "messageDisable" },
-				{ "name": "reset", "messageRun": "messageReset" },
-				{ "name": "add", "messageRun": "messageAdd" },
-				{ "name": "remove", "messageRun": "messageRemove" },
-				{ "name": "paste", "messageRun": "messagePaste" }
+				{ "name": "list", "chatInputRun": "chatInputList", },
+				{ "name": "enable", "chatInputRun": "chatInputEnable" },
+				{ "name": "disable", "chatInputRun": "chatInputDisable" },
+				{ "name": "reset", "chatInputRun": "chatInputReset" },
+				{ "name": "add", "chatInputRun": "chatInputAdd" },
+				{ "name": "remove", "chatInputRun": "chatInputRemove" },
+				{ "name": "paste", "chatInputRun": "chatInputPaste" }
 			]
 		});
 	}
 
-	public async messageList(_message: Message<boolean>) {
-		if (config.get().filter.list.length === 0) { return discordBot.sendEmbed(Embeds.filterEmpty()); }
-		return discordBot.sendEmbed(Embeds.filterList(config.get().filter.list));
+	public override registerApplicationCommands(registry: Subcommand.Registry) {
+		registry.registerChatInputCommand(builder => {
+			builder.setName(this.name).setDescription(this.description)
+				.addSubcommand(command => command.setName("list").setDescription("Shows all items on the filter."))
+				.addSubcommand(command => command.setName("enable").setDescription("Enables the filter."))
+				.addSubcommand(command => command.setName("disable").setDescription("Disables the filter."))
+				.addSubcommand(command => command.setName("reset").setDescription("Resets the filter."))
+				.addSubcommand(command => command.setName("add").setDescription("Adds an item to the filter.")
+					.addStringOption(option => option.setName("item").setDescription("The item to be added to the filter.").setMinLength(1).setRequired(true)))
+				.addSubcommand(command => command.setName("remove").setDescription("Removes an item from the filter.")
+					.addStringOption(option => option.setName("item").setDescription("The item to be removed from the filter.").setMinLength(1).setRequired(true)))
+				.addSubcommand(command => command.setName("paste").setDescription("Pastes a list to the filter.")
+					.addStringOption(option => option.setName("list").setDescription("The list to be pasted to the filter.").setMinLength(1).setRequired(true)));
+		}, { "idHints": ["1094050997183184906"] });
 	}
 
-	public async messageEnable(_message: Message<boolean>) {
+	public async chatInputList(interaction: Subcommand.ChatInputCommandInteraction) {
+		if (config.get().filter.list.length === 0) { return interaction.reply({ "embeds": [Embeds.filterEmpty()] }); }
+		return interaction.reply({ "embeds": [Embeds.filterList(config.get().filter.list)] });
+	}
+
+	public async chatInputEnable(interaction: Subcommand.ChatInputCommandInteraction) {
 		config.get().filter.enable = true;
 		config.save();
-		return discordBot.sendEmbed(Embeds.filterEnabled());
+		return interaction.reply({ "embeds": [Embeds.filterEnabled()] });
 	}
 
-	public async messageDisable(_message: Message<boolean>) {
+	public async chatInputDisable(interaction: Subcommand.ChatInputCommandInteraction) {
 		config.get().filter.enable = false;
 		config.save();
-		return discordBot.sendEmbed(Embeds.filterDisabled());
+		return interaction.reply({ "embeds": [Embeds.filterDisabled()] });
 	}
 
-	public async messageReset(_message: Message<boolean>) {
+	public async chatInputReset(interaction: Subcommand.ChatInputCommandInteraction) {
 		config.get().filter.list = [];
 		config.save();
-		return discordBot.sendEmbed(Embeds.filterReset());
+		return interaction.reply({ "embeds": [Embeds.filterReset()] });
 	}
 
-	public async messageAdd(_message: Message<boolean>, args: Args) {
-		const item: string = (await args.rest("string")).toLowerCase();
-		if (config.get().filter.list.includes(item)) { return discordBot.sendEmbed(Embeds.filterAlreadyAdded(item)); }
+	public async chatInputAdd(interaction: Subcommand.ChatInputCommandInteraction) {
+		const item: string = interaction.options.getString("item", true);
+		if (config.get().filter.list.includes(item)) { return interaction.reply({ "embeds": [Embeds.filterAlreadyAdded(item)] }); }
 		config.get().filter.list.push(item);
 		config.save();
-		return discordBot.sendEmbed(Embeds.filterAdded(item));
+		return interaction.reply({ "embeds": [Embeds.filterAdded(item)] });
 	}
 
-	public async messageRemove(_message: Message<boolean>, args: Args) {
-		const item: string = (await args.rest("string")).toLowerCase();
+	public async chatInputRemove(interaction: Subcommand.ChatInputCommandInteraction) {
+		const item: string = interaction.options.getString("item", true);
 		if (config.get().filter.list.includes(item)) {
 			config.get().filter.list = config.get().filter.list.filter((element: string) => element !== item);
 			config.save();
-			return discordBot.sendEmbed(Embeds.filterRemoved(item));
+			return interaction.reply({ "embeds": [Embeds.filterRemoved(item)] });
 		}
-		return discordBot.sendEmbed(Embeds.filterAlreadyRemoved(item));
+		return interaction.reply({ "embeds": [Embeds.filterAlreadyRemoved(item)] });
 	}
 
-	public async messagePaste(_message: Message<boolean>, args: Args) {
-		const list: string = (await (args.rest("string"))).toLowerCase();
+	public async chatInputPaste(interaction: Subcommand.ChatInputCommandInteraction) {
+		const list: string = interaction.options.getString("list", true);
 		config.get().filter.list = list.split(", ");
 		config.save();
-		return discordBot.sendEmbed(Embeds.filterPasted());
+		return interaction.reply({ "embeds": [Embeds.filterPasted()] });
 	}
 }
