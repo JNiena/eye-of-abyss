@@ -21,7 +21,6 @@
 		"enable": false,
 		"list": []
 	},
-	"advertisements": [],
 	"events": {
 		"connect": {
 			"enable": false,
@@ -34,5 +33,6 @@
 			"delay": 0
 		}
 	},
-	"plugins": []
+	"plugins": [],
+	"advertisements": []
 }
