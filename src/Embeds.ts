@@ -24,14 +24,14 @@ export class Embeds {
 	public static alreadyConnected() { return this.template("Already Connected"); }
 	public static disconnected(username: string | undefined = undefined, info: Log | undefined = undefined) {
 		if (!info) { return this.template(username ? `\`${username}\` Disconnected` : "Disconnected"); }
-		const embed: APIEmbed = this.template(`${info.type} \`${MinecraftBot.username}\``);
+		const embed: APIEmbed = this.template(`\`${MinecraftBot.username}\` ${info.type}`);
 		embed.fields = [{ "name": "Reason", "value": info.message }];
 		return embed;
 	}
 	public static alreadyDisconnected() { return this.template("Already Disconnected"); }
 
 	// MISC
-	public static death() { return this.template(`Death \`${MinecraftBot.username}\``); }
+	public static death() { return this.template(`\`${MinecraftBot.username}\` Died`); }
 	public static messageSent() { return this.template("Message Sent"); }
 	public static exiting() { return this.template("Exiting"); }
 
@@ -57,10 +57,10 @@ export class Embeds {
 	public static invalidArguments() { return this.template("Invalid Arguments"); }
 
 	// DROP
-	public static inventoryDropped() { return this.template("Inventory Dropped"); }
-	public static armorDropped() { return this.template("Armor Dropped"); }
-	public static offhandDropped() { return this.template("Offhand Dropped"); }
-	public static mainhandDropped() { return this.template("Mainhand Dropped"); }
+	public static inventoryDropped() { return this.template("Dropping Inventory"); }
+	public static armorDropped() { return this.template("Dropping Armor"); }
+	public static offhandDropped() { return this.template("Dropping Offhand"); }
+	public static mainhandDropped() { return this.template("Dropping Mainhand"); }
 
 	// ACTION
 	public static actionStarted() { return this.template("Action Started"); }
@@ -109,3 +109,10 @@ export class Embeds {
 		return this.template("Advertisements", formatted);
 	}
 }
+/*
+
+
+**`1m + ...1m`**\naaaa\n\n `**__aaa__**: `
+
+
+*/

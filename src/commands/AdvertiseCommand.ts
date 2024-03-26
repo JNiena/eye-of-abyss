@@ -1,6 +1,7 @@
 import { Subcommand } from "@sapphire/plugin-subcommands";
 import { Embeds } from "../Embeds";
-import { config } from "../Main";
+import { config, minecraftBot } from "../Main";
+import { Util } from "../Util";
 
 export class AdvertiseCommand extends Subcommand {
 	public constructor(context: Subcommand.LoaderContext, options: Subcommand.Options) {
@@ -21,6 +22,9 @@ export class AdvertiseCommand extends Subcommand {
 				{ "name": "edit", "chatInputRun": "chatInputEdit" },
 			]
 		});
+		for (const ad of config.get().advertisements) {
+			this.startAd(ad.name);
+		}
 	}
 
 	public override registerApplicationCommands(registry: Subcommand.Registry) {
@@ -94,6 +98,7 @@ export class AdvertiseCommand extends Subcommand {
 		if (ad) { return interaction.reply({ "embeds": [Embeds.adAlreadyAdded(name)] }); }
 		config.get().advertisements.push({ "enable": true, "name": name, "text": text, "interval": interval * 60_000, "randomizer": randomizer * 60_000 });
 		config.save();
+		this.startAd(name);
 		return interaction.reply({ "embeds": [Embeds.adAdded(name)] });
 	}
 
@@ -102,6 +107,7 @@ export class AdvertiseCommand extends Subcommand {
 		const ad: Advertisement | undefined = config.get().advertisements.find((ad: Advertisement) => ad.name === name);
 		if (!ad) { return interaction.reply({ "embeds": [Embeds.adAlreadyRemoved(name)] }); }
 		config.get().advertisements = config.get().advertisements.filter((ad: Advertisement) => ad.name !== name);
+		config.save();
 		return interaction.reply({ "embeds": [Embeds.adRemoved(name)] });
 	}
 
@@ -117,6 +123,18 @@ export class AdvertiseCommand extends Subcommand {
 		if (randomizer) { ad.randomizer = randomizer * 60_000; }
 		config.save();
 		return interaction.reply({ "embeds": [Embeds.adEdited(name)] });
+	}
+
+	private startAd(name: string) {
+		let ad: Advertisement | undefined = config.get().advertisements.find((ad: Advertisement) => ad.name === name);
+		if (!ad) { return; }
+		setTimeout(() => {
+			ad = config.get().advertisements.find((ad: Advertisement) => ad.name === name);
+			if (ad?.enable) {
+				if (minecraftBot.connected) { minecraftBot.chat(ad.text); }
+				this.startAd(ad.name);
+			}
+		}, ad.interval + Util.random(0, ad.randomizer));
 	}
 }
 

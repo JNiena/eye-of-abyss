@@ -20,9 +20,9 @@ export class SayCommand extends Command {
 	}
 
 	public override async chatInputRun(interaction: Command.ChatInputCommandInteraction) {
-		if (!minecraftBot.connected) { return interaction.editReply({ "embeds": [Embeds.offline()] }); }
+		if (!minecraftBot.connected) { return interaction.reply({ "embeds": [Embeds.offline()] }); }
 		const message: string = interaction.options.getString("message", true);
 		minecraftBot.chat(message);
-		return interaction.editReply({ "embeds": [Embeds.messageSent()] });
+		return interaction.reply({ "embeds": [Embeds.messageSent()] });
 	}
 }

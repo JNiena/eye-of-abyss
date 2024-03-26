@@ -12,6 +12,7 @@ export class ChatHandler {
 	}
 
 	private checkLogging(message: string) {
+		if (!Files.exists(config.get().logging.path)) { return; }
 		if (config.get().logging.enable) { Files.write(config.get().logging.path, `${message}\n`); }
 	}
 

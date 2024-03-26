@@ -53,9 +53,13 @@ export class DropCommand extends Subcommand {
 	}
 
 	private drop(slots: number[]): void {
-		slots.forEach((slot, index) => {
+		let i: number = 0;
+		for (const slot of slots) {
 			const item = minecraftBot.internal.inventory.slots[slot];
-			if (item) { setTimeout(() => { minecraftBot.internal.tossStack(item).then(); }, index * 1000); }
-		});
+			if (item) {
+				setTimeout(() => { minecraftBot.internal.tossStack(item).then(); }, i * 1000);
+				i++;
+			}
+		}
 	}
 }

@@ -1,5 +1,6 @@
 import { Bot, createBot } from "mineflayer";
-import { config } from "./Main";
+import { config, discordBot } from "./Main";
+import { Embeds } from "./Embeds";
 
 export class MinecraftBot {
 	public connected: boolean;
