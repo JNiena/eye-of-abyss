@@ -10,12 +10,12 @@ export class AbyssClient extends SapphireClient {
 		if (options.loadPlugins) { this.stores.registerPath(path.join(getRootData().root, "plugins")); }
 	}
 
-	public async send(message: string, channelID: string = config.get().discord.chatChannelID){
+	public async send(message: string, channelID: string = config.get().discord.chatChannelID) {
 		if (message.trim().length === 0) { return Promise.reject(); }
 		return await (this.channels.cache.get(channelID) as TextChannel).send(message);
 	}
 
-	public async sendEmbed(embed: APIEmbed, channelID: string = config.get().discord.chatChannelID){
+	public async sendEmbed(embed: APIEmbed, channelID: string = config.get().discord.chatChannelID) {
 		return await (this.channels.cache.get(channelID) as TextChannel).send({ "embeds": [embed] });
 	}
 }
