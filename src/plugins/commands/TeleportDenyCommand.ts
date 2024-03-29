@@ -1,6 +1,6 @@
 import { Command } from "@sapphire/framework";
 import { Embeds } from "../../Embeds";
-import { minecraftBot } from "../../Main";
+import { config, minecraftBot } from "../../Main";
 
 export class TeleportDenyCommand extends Command {
 	public constructor(context: Command.LoaderContext, options: Command.Options) {
@@ -8,7 +8,7 @@ export class TeleportDenyCommand extends Command {
 			...options,
 			"name": "tpdeny",
 			"description": "Executes the /tpdeny command.",
-			"preconditions": ["ValidChannel", "PluginEnabled"]
+			"preconditions": ["PluginEnabled"]
 		});
 	}
 	public override registerApplicationCommands(registry: Command.Registry) {
@@ -18,6 +18,7 @@ export class TeleportDenyCommand extends Command {
 	}
 
 	public override async chatInputRun(interaction: Command.ChatInputCommandInteraction) {
+		if (config.get().discord.chatChannelID !== interaction.channelId) { return; }
 		minecraftBot.chat("/tpdeny");
 		return interaction.editReply({ "embeds": [Embeds.commandExecuted()] });
 	}

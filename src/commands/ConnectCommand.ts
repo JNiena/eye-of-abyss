@@ -7,8 +7,7 @@ export class ConnectCommand extends Command {
 		super(context, {
 			...options,
 			"name": "connect",
-			"description": "Connects the bot to the server.",
-			"preconditions": ["ValidChannel"]
+			"description": "Connects the bot to the server."
 		});
 	}
 
@@ -19,6 +18,7 @@ export class ConnectCommand extends Command {
 	}
 
 	public override async chatInputRun(interaction: Command.ChatInputCommandInteraction) {
+		if (config.get().discord.chatChannelID !== interaction.channelId) { return; }
 		if (minecraftBot.connected) { return interaction.reply({ "embeds": [Embeds.alreadyConnected()] }); }
 		config.get().events.disconnect.reconnect = true;
 		minecraftBot.connect();

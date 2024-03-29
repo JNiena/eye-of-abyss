@@ -11,7 +11,7 @@ export class AbyssClient extends SapphireClient {
 	}
 
 	public async send(message: string, channelID: string = config.get().discord.chatChannelID) {
-		if (message.trim().length === 0) { return Promise.reject(); }
+		if (message.trim().length === 0) { return Promise.resolve(); }
 		return await (this.channels.cache.get(channelID) as TextChannel).send(message);
 	}
 

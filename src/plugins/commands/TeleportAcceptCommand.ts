@@ -1,6 +1,6 @@
 import { Command } from "@sapphire/framework";
 import { Embeds } from "../../Embeds";
-import { minecraftBot } from "../../Main";
+import { config, minecraftBot } from "../../Main";
 
 export class TeleportAcceptCommand extends Command {
 	public constructor(context: Command.LoaderContext, options: Command.Options) {
@@ -8,7 +8,7 @@ export class TeleportAcceptCommand extends Command {
 			...options,
 			"name": "tpaccept",
 			"description": "Executes the /tpaccept command.",
-			"preconditions": ["ValidChannel", "PluginEnabled"]
+			"preconditions": ["PluginEnabled"]
 		});
 	}
 
@@ -19,6 +19,7 @@ export class TeleportAcceptCommand extends Command {
 	}
 
 	public override async chatInputRun(interaction: Command.ChatInputCommandInteraction) {
+		if (config.get().discord.chatChannelID !== interaction.channelId) { return; }
 		minecraftBot.chat("/tpaccept");
 		return interaction.editReply({ "embeds": [Embeds.commandExecuted()] });
 	}

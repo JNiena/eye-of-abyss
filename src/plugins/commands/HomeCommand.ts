@@ -1,6 +1,6 @@
 import { Command } from "@sapphire/framework";
 import { Embeds } from "../../Embeds";
-import { minecraftBot } from "../../Main";
+import { config, minecraftBot } from "../../Main";
 
 export class HomeCommand extends Command {
 	public constructor(context: Command.LoaderContext, options: Command.Options) {
@@ -8,7 +8,7 @@ export class HomeCommand extends Command {
 			...options,
 			"name": "home",
 			"description": "Executes the /home command.",
-			"preconditions": ["ValidChannel", "PluginEnabled"]
+			"preconditions": ["PluginEnabled"]
 		});
 	}
 
@@ -20,6 +20,7 @@ export class HomeCommand extends Command {
 	}
 
 	public override async chatInputRun(interaction: Command.ChatInputCommandInteraction) {
+		if (config.get().discord.chatChannelID !== interaction.channelId) { return; }
 		const name: string = interaction.options.getString("name", true);
 		minecraftBot.chat(`/home ${name}`);
 		return interaction.editReply({ "embeds": [Embeds.commandExecuted()] });

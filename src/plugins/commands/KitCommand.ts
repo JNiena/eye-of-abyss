@@ -1,6 +1,6 @@
 import { Command } from "@sapphire/framework";
 import { Embeds } from "../../Embeds";
-import { minecraftBot } from "../../Main";
+import { config, minecraftBot } from "../../Main";
 
 export class KitCommand extends Command {
 	public constructor(context: Command.LoaderContext, options: Command.Options) {
@@ -8,7 +8,7 @@ export class KitCommand extends Command {
 			...options,
 			"name": "kit",
 			"description": "Executes the /kit command.",
-			"preconditions": ["ValidChannel", "PluginEnabled"]
+			"preconditions": ["PluginEnabled"]
 		});
 	}
 
@@ -20,6 +20,7 @@ export class KitCommand extends Command {
 	}
 
 	public override async chatInputRun(interaction: Command.ChatInputCommandInteraction) {
+		if (config.get().discord.chatChannelID !== interaction.channelId) { return; }
 		const kit: string = interaction.options.getString("kit", true);
 		minecraftBot.chat(`/kit ${kit}`);
 		return interaction.editReply({ "embeds": [Embeds.commandExecuted()] });

@@ -1,6 +1,6 @@
 import { Command } from "@sapphire/framework";
 import { Embeds } from "../../Embeds";
-import { minecraftBot } from "../../Main";
+import { config, minecraftBot } from "../../Main";
 
 export class PayCommand extends Command {
 	public constructor(context: Command.LoaderContext, options: Command.Options) {
@@ -8,7 +8,7 @@ export class PayCommand extends Command {
 			...options,
 			"name": "pay",
 			"description": "Executes the /pay command.",
-			"preconditions": ["ValidChannel", "PluginEnabled"]
+			"preconditions": ["PluginEnabled"]
 		});
 	}
 
@@ -21,6 +21,7 @@ export class PayCommand extends Command {
 	}
 
 	public override async chatInputRun(interaction: Command.ChatInputCommandInteraction) {
+		if (config.get().discord.chatChannelID !== interaction.channelId) { return; }
 		const username: string = interaction.options.getString("username", true);
 		const amount: number = interaction.options.getNumber("amount", true);
 		minecraftBot.chat(`/pay ${username} ${amount}`);

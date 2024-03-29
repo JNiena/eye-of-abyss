@@ -10,7 +10,6 @@ export class AdvertiseCommand extends Subcommand {
 			"name": "advertise",
 			"aliases": ["ad", "advertisement"],
 			"description": "Modifies the advertisements.",
-			"preconditions": ["ValidChannel"],
 			"subcommands": [
 				{ "name": "list", "chatInputRun": "chatInputList" },
 				{ "name": "info", "chatInputRun": "chatInputInfo" },
@@ -54,11 +53,13 @@ export class AdvertiseCommand extends Subcommand {
 	}
 
 	public async chatInputList(interaction: Subcommand.ChatInputCommandInteraction) {
+		if (config.get().discord.chatChannelID !== interaction.channelId) { return; }
 		if (config.get().advertisements.length === 0) { return interaction.reply({ "embeds": [Embeds.adsEmpty()] }); }
 		return interaction.reply({ "embeds": [Embeds.adList(config.get().advertisements)] });
 	}
 
 	public async chatInputInfo(interaction: Subcommand.ChatInputCommandInteraction) {
+		if (config.get().discord.chatChannelID !== interaction.channelId) { return; }
 		const name: string = interaction.options.getString("name", true).toLowerCase();
 		const ad: Advertisement | undefined = config.get().advertisements.find((ad: Advertisement) => ad.name === name);
 		if (!ad) { return interaction.reply({ "embeds": [Embeds.adNotFound()] }); }
@@ -66,6 +67,7 @@ export class AdvertiseCommand extends Subcommand {
 	}
 
 	public async chatInputEnable(interaction: Subcommand.ChatInputCommandInteraction) {
+		if (config.get().discord.chatChannelID !== interaction.channelId) { return; }
 		const name: string = interaction.options.getString("name", true).toLowerCase();
 		const ad: Advertisement | undefined = config.get().advertisements.find((ad: Advertisement) => ad.name === name);
 		if (!ad) { return interaction.reply({ "embeds": [Embeds.adNotFound()] }); }
@@ -75,6 +77,7 @@ export class AdvertiseCommand extends Subcommand {
 	}
 
 	public async chatInputDisable(interaction: Subcommand.ChatInputCommandInteraction) {
+		if (config.get().discord.chatChannelID !== interaction.channelId) { return; }
 		const name: string = interaction.options.getString("name", true).toLowerCase();
 		const ad: Advertisement | undefined = config.get().advertisements.find((ad: Advertisement) => ad.name === name);
 		if (!ad) { return interaction.reply({ "embeds": [Embeds.adNotFound()] }); }
@@ -84,12 +87,14 @@ export class AdvertiseCommand extends Subcommand {
 	}
 
 	public async chatInputReset(interaction: Subcommand.ChatInputCommandInteraction) {
+		if (config.get().discord.chatChannelID !== interaction.channelId) { return; }
 		config.get().advertisements = [];
 		config.save();
 		return interaction.reply({ "embeds": [Embeds.adsReset()] });
 	}
 
 	public async chatInputAdd(interaction: Subcommand.ChatInputCommandInteraction) {
+		if (config.get().discord.chatChannelID !== interaction.channelId) { return; }
 		const name: string = interaction.options.getString("name", true).toLowerCase();
 		const text: string = interaction.options.getString("text", true);
 		const interval: number = interaction.options.getNumber("interval", true);
@@ -103,6 +108,7 @@ export class AdvertiseCommand extends Subcommand {
 	}
 
 	public async chatInputRemove(interaction: Subcommand.ChatInputCommandInteraction) {
+		if (config.get().discord.chatChannelID !== interaction.channelId) { return; }
 		const name: string = interaction.options.getString("name", true).toLowerCase();
 		const ad: Advertisement | undefined = config.get().advertisements.find((ad: Advertisement) => ad.name === name);
 		if (!ad) { return interaction.reply({ "embeds": [Embeds.adAlreadyRemoved(name)] }); }
@@ -112,6 +118,7 @@ export class AdvertiseCommand extends Subcommand {
 	}
 
 	public async chatInputEdit(interaction: Subcommand.ChatInputCommandInteraction) {
+		if (config.get().discord.chatChannelID !== interaction.channelId) { return; }
 		const name: string = interaction.options.getString("name", true).toLowerCase();
 		const text: string | null = interaction.options.getString("text", false);
 		const interval: number | null = interaction.options.getNumber("interval", false);

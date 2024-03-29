@@ -1,6 +1,6 @@
 import { Command } from "@sapphire/framework";
 import { Embeds } from "../../Embeds";
-import { minecraftBot } from "../../Main";
+import { config, minecraftBot } from "../../Main";
 
 export class BaltopCommand extends Command {
 	public constructor(context: Command.LoaderContext, options: Command.Options) {
@@ -8,7 +8,7 @@ export class BaltopCommand extends Command {
 			...options,
 			"name": "baltop",
 			"description": "Executes the /baltop command.",
-			"preconditions": ["ValidChannel", "PluginEnabled"]
+			"preconditions": ["PluginEnabled"]
 		});
 	}
 
@@ -20,6 +20,7 @@ export class BaltopCommand extends Command {
 	}
 
 	public override async chatInputRun(interaction: Command.ChatInputCommandInteraction) {
+		if (config.get().discord.chatChannelID !== interaction.channelId) { return; }
 		const page: number = interaction.options.getInteger("page", false) ?? 1;
 		minecraftBot.chat(`/baltop ${page}`);
 		return interaction.editReply({ "embeds": [Embeds.commandExecuted()] });

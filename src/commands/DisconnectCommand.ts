@@ -7,8 +7,7 @@ export class DisconnectCommand extends Command {
 		super(context, {
 			...options,
 			"name": "disconnect",
-			"description": "Disconnects the bot from the server.",
-			"preconditions": ["ValidChannel"]
+			"description": "Disconnects the bot from the server."
 		});
 	}
 
@@ -19,6 +18,7 @@ export class DisconnectCommand extends Command {
 	}
 
 	public override async chatInputRun(interaction: Command.ChatInputCommandInteraction) {
+		if (config.get().discord.chatChannelID !== interaction.channelId) { return; }
 		if (!minecraftBot.connected) { return interaction.reply({ "embeds": [Embeds.alreadyDisconnected()] }); }
 		config.get().events.disconnect.reconnect = false;
 		minecraftBot.disconnect();

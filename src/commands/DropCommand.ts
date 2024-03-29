@@ -1,6 +1,6 @@
 import { Subcommand } from "@sapphire/plugin-subcommands";
 import { Embeds } from "../Embeds";
-import { minecraftBot } from "../Main";
+import { config, minecraftBot } from "../Main";
 
 export class DropCommand extends Subcommand {
 	public constructor(context: Subcommand.LoaderContext, options: Subcommand.Options) {
@@ -8,7 +8,6 @@ export class DropCommand extends Subcommand {
 			...options,
 			"name": "drop",
 			"description": "Drops items from the bot's inventory, armor, mainhand, or offhand.",
-			"preconditions": ["ValidChannel"],
 			"subcommands": [
 				{ "name": "inventory", "chatInputRun": "chatInputInventory" },
 				{ "name": "armor", "chatInputRun": "chatInputArmor" },
@@ -29,24 +28,28 @@ export class DropCommand extends Subcommand {
 	}
 
 	public async chatInputInventory(interaction: Subcommand.ChatInputCommandInteraction) {
+		if (config.get().discord.chatChannelID !== interaction.channelId) { return; }
 		if (!minecraftBot.connected) { return interaction.reply({ "embeds": [Embeds.offline()] }); }
 		this.drop([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45]);
 		return interaction.reply({ "embeds": [Embeds.inventoryDropped()] });
 	}
 
 	public async chatInputArmor(interaction: Subcommand.ChatInputCommandInteraction) {
+		if (config.get().discord.chatChannelID !== interaction.channelId) { return; }
 		if (!minecraftBot.connected) { return interaction.reply({ "embeds": [Embeds.offline()] }); }
 		this.drop([5, 6, 7, 8]);
 		return interaction.reply({ "embeds": [Embeds.armorDropped()] });
 	}
 
 	public async chatInputOffhand(interaction: Subcommand.ChatInputCommandInteraction) {
+		if (config.get().discord.chatChannelID !== interaction.channelId) { return; }
 		if (!minecraftBot.connected) { return interaction.reply({ "embeds": [Embeds.offline()] }); }
 		this.drop([45]);
 		return interaction.reply({ "embeds": [Embeds.offhandDropped()] });
 	}
 
 	public async chatInputMainhand(interaction: Subcommand.ChatInputCommandInteraction) {
+		if (config.get().discord.chatChannelID !== interaction.channelId) { return; }
 		if (!minecraftBot.connected) { return interaction.reply({ "embeds": [Embeds.offline()] }); }
 		this.drop([minecraftBot.internal.quickBarSlot]);
 		return interaction.reply({ "embeds": [Embeds.mainhandDropped()] });

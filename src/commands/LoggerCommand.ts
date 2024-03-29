@@ -8,7 +8,6 @@ export class LoggingCommand extends Subcommand {
 			...options,
 			"name": "logger",
 			"description": "Enables or disables the logger.",
-			"preconditions": ["ValidChannel"],
 			"subcommands": [
 				{ "name": "enable", "chatInputRun": "chatInputEnable" },
 				{ "name": "disable", "chatInputRun": "chatInputDisable" }
@@ -25,12 +24,14 @@ export class LoggingCommand extends Subcommand {
 	}
 
 	public async chatInputEnable(interaction: Subcommand.ChatInputCommandInteraction) {
+		if (config.get().discord.chatChannelID !== interaction.channelId) { return; }
 		config.get().logging.enable = true;
 		config.save();
 		return interaction.reply({ "embeds": [Embeds.loggerEnabled()] });
 	}
 
 	public async chatInputDisable(interaction: Subcommand.ChatInputCommandInteraction) {
+		if (config.get().discord.chatChannelID !== interaction.channelId) { return; }
 		config.get().logging.enable = false;
 		config.save();
 		return interaction.reply({ "embeds": [Embeds.loggerDisabled()] });

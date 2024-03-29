@@ -8,7 +8,6 @@ export class FilterCommand extends Subcommand {
 			...options,
 			"name": "filter",
 			"description": "Modifies the filter.",
-			"preconditions": ["ValidChannel"],
 			"subcommands": [
 				{ "name": "list", "chatInputRun": "chatInputList", },
 				{ "name": "enable", "chatInputRun": "chatInputEnable" },
@@ -38,29 +37,34 @@ export class FilterCommand extends Subcommand {
 	}
 
 	public async chatInputList(interaction: Subcommand.ChatInputCommandInteraction) {
+		if (config.get().discord.chatChannelID !== interaction.channelId) { return; }
 		if (config.get().filter.list.length === 0) { return interaction.reply({ "embeds": [Embeds.filterEmpty()] }); }
 		return interaction.reply({ "embeds": [Embeds.filterList(config.get().filter.list)] });
 	}
 
 	public async chatInputEnable(interaction: Subcommand.ChatInputCommandInteraction) {
+		if (config.get().discord.chatChannelID !== interaction.channelId) { return; }
 		config.get().filter.enable = true;
 		config.save();
 		return interaction.reply({ "embeds": [Embeds.filterEnabled()] });
 	}
 
 	public async chatInputDisable(interaction: Subcommand.ChatInputCommandInteraction) {
+		if (config.get().discord.chatChannelID !== interaction.channelId) { return; }
 		config.get().filter.enable = false;
 		config.save();
 		return interaction.reply({ "embeds": [Embeds.filterDisabled()] });
 	}
 
 	public async chatInputReset(interaction: Subcommand.ChatInputCommandInteraction) {
+		if (config.get().discord.chatChannelID !== interaction.channelId) { return; }
 		config.get().filter.list = [];
 		config.save();
 		return interaction.reply({ "embeds": [Embeds.filterReset()] });
 	}
 
 	public async chatInputAdd(interaction: Subcommand.ChatInputCommandInteraction) {
+		if (config.get().discord.chatChannelID !== interaction.channelId) { return; }
 		const item: string = interaction.options.getString("item", true);
 		if (config.get().filter.list.includes(item)) { return interaction.reply({ "embeds": [Embeds.filterAlreadyAdded(item)] }); }
 		config.get().filter.list.push(item);
@@ -69,6 +73,7 @@ export class FilterCommand extends Subcommand {
 	}
 
 	public async chatInputRemove(interaction: Subcommand.ChatInputCommandInteraction) {
+		if (config.get().discord.chatChannelID !== interaction.channelId) { return; }
 		const item: string = interaction.options.getString("item", true);
 		if (config.get().filter.list.includes(item)) {
 			config.get().filter.list = config.get().filter.list.filter((element: string) => element !== item);
@@ -79,6 +84,7 @@ export class FilterCommand extends Subcommand {
 	}
 
 	public async chatInputPaste(interaction: Subcommand.ChatInputCommandInteraction) {
+		if (config.get().discord.chatChannelID !== interaction.channelId) { return; }
 		const list: string = interaction.options.getString("list", true);
 		config.get().filter.list = list.split(", ");
 		config.save();

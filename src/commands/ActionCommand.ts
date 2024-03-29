@@ -12,7 +12,6 @@ export class ActionCommand extends Subcommand {
 			...options,
 			"name": "action",
 			"description": "Performs an action.",
-			"preconditions": ["ValidChannel"],
 			"subcommands": [
 				{ "name": "interval", "chatInputRun": "chatInputInterval" },
 				{ "name": "once", "chatInputRun": "chatInputOnce" },
@@ -50,6 +49,7 @@ export class ActionCommand extends Subcommand {
 	}
 
 	public async chatInputInterval(interaction: Subcommand.ChatInputCommandInteraction) {
+		if (config.get().discord.chatChannelID !== interaction.channelId) { return; }
 		if (!minecraftBot.connected) { return interaction.reply({ "embeds": [Embeds.offline()] }); }
 		const action: string = interaction.options.getString("action", true);
 		const interval: number = interaction.options.getNumber("time", true);
@@ -59,6 +59,7 @@ export class ActionCommand extends Subcommand {
 	}
 
 	public async chatInputOnce(interaction: Subcommand.ChatInputCommandInteraction) {
+		if (config.get().discord.chatChannelID !== interaction.channelId) { return; }
 		if (!minecraftBot.connected) { return interaction.reply({ "embeds": [Embeds.offline()] }); }
 		const action: string = interaction.options.getString("action", true);
 		const time: number = interaction.options.getNumber("time", false) ?? 1;
@@ -67,6 +68,7 @@ export class ActionCommand extends Subcommand {
 	}
 
 	public async chatInputStop(interaction: Subcommand.ChatInputCommandInteraction) {
+		if (config.get().discord.chatChannelID !== interaction.channelId) { return; }
 		if (!minecraftBot.connected) { return interaction.reply({ "embeds": [Embeds.offline()] }); }
 		const action: string | null = interaction.options.getString("action", false);
 		if (action) { this.stopAction(action); }

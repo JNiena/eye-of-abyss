@@ -8,7 +8,6 @@ export class ServerCommand extends Subcommand {
 			...options,
 			"name": "server",
 			"description": "Configures the host, port, and version the bot connects with.",
-			"preconditions": ["ValidChannel"],
 			"subcommands": [
 				{ "name": "host", "chatInputRun": "chatInputHost" },
 				{ "name": "port", "chatInputRun": "chatInputPort" },
@@ -30,6 +29,7 @@ export class ServerCommand extends Subcommand {
 	}
 
 	public async chatInputHost(interaction: Subcommand.ChatInputCommandInteraction) {
+		if (config.get().discord.chatChannelID !== interaction.channelId) { return; }
 		const host: string = interaction.options.getString("host", true);
 		config.get().server.host = host;
 		config.save();
@@ -37,6 +37,7 @@ export class ServerCommand extends Subcommand {
 	}
 
 	public async chatInputPort(interaction: Subcommand.ChatInputCommandInteraction) {
+		if (config.get().discord.chatChannelID !== interaction.channelId) { return; }
 		const port: string = interaction.options.getString("port", true);
 		config.get().server.port = port;
 		config.save();
@@ -44,6 +45,7 @@ export class ServerCommand extends Subcommand {
 	}
 
 	public async chatInputVersion(interaction: Subcommand.ChatInputCommandInteraction) {
+		if (config.get().discord.chatChannelID !== interaction.channelId) { return; }
 		const version: string = interaction.options.getString("version", true);
 		config.get().server.version = version;
 		config.save();

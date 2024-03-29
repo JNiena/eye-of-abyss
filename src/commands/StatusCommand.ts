@@ -1,6 +1,6 @@
 import { Command } from "@sapphire/framework";
 import { Embeds } from "../Embeds";
-import { minecraftBot } from "../Main";
+import { config, minecraftBot } from "../Main";
 
 export class StatusCommand extends Command {
 	public constructor(context: Command.LoaderContext, options: Command.Options) {
@@ -8,7 +8,6 @@ export class StatusCommand extends Command {
 			...options,
 			"name": "status",
 			"description": "Checks whether or not the bot is online.",
-			"preconditions": ["ValidChannel"]
 		});
 	}
 
@@ -19,6 +18,7 @@ export class StatusCommand extends Command {
 	}
 
 	public override async chatInputRun(interaction: Command.ChatInputCommandInteraction) {
+		if (config.get().discord.chatChannelID !== interaction.channelId) { return; }
 		if (minecraftBot.connected) { return interaction.reply({ "embeds": [Embeds.online()] }); }
 		return interaction.reply({ "embeds": [Embeds.offline()] });
 	}

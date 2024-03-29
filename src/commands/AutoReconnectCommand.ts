@@ -8,7 +8,6 @@ export class AutoReconnectCommand extends Subcommand {
 			...options,
 			"name": "autoreconnect",
 			"description": "Manages auto-reconnection options.",
-			"preconditions": ["ValidChannel"],
 			"subcommands": [
 				{ "name": "enable", "chatInputRun": "chatInputEnable" },
 				{ "name": "disable", "chatInputRun": "chatInputDisable" }
@@ -25,12 +24,14 @@ export class AutoReconnectCommand extends Subcommand {
 	}
 
 	public async chatInputEnable(interaction: Subcommand.ChatInputCommandInteraction) {
+		if (config.get().discord.chatChannelID !== interaction.channelId) { return; }
 		config.get().events.disconnect.reconnect = true;
 		config.save();
 		return interaction.reply({ "embeds": [Embeds.autoReconnectEnabled()] });
 	}
 
 	public async chatInputDisable(interaction: Subcommand.ChatInputCommandInteraction) {
+		if (config.get().discord.chatChannelID !== interaction.channelId) { return; }
 		config.get().events.disconnect.reconnect = false;
 		config.save();
 		return interaction.reply({ "embeds": [Embeds.autoReconnectDisabled()] });
