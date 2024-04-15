@@ -1,11 +1,11 @@
 {
 	"discord": {
 		"token": "",
-		"channelID": ""
+		"chatChannelID": "",
+		"infoChannelID": ""
 	},
 	"credentials": {
 		"email": "",
-		"password": "",
 		"auth": ""
 	},
 	"server": {
@@ -21,38 +21,26 @@
 		"enable": false,
 		"list": []
 	},
+	"actions": {
+		"left": 0,
+		"right": 0,
+		"forward": 0,
+		"back": 0,
+		"jump": 0,
+		"sprint": 0,
+		"sneak": 0
+	},
 	"events": {
-		"join": {
-			"enable": false,
-			"message": "",
-			"delay": 0
-		},
-		"death": {
-			"enable": false,
-			"message": "",
-			"delay": 0
-		},
-		"kicked": {
-			"enable": false,
-			"delay": 0
-		},
-		"error": {
-			"enable": false,
-			"delay": 0
+		"connect": {
+			"enable": true,
+			"messages": [],
+			"actions": []
 		}
 	},
-	"chat": [
-		{
-			"trigger": "",
-			"reply": "",
-			"delay": 0
-		}
-	],
-	"repeater": [
-		{
-			"message": "",
-			"interval": 0
-		}
-	],
-	"plugins": {}
+	"autoreconnect": {
+		"enable": false,
+		"interval": 0
+	},
+	"plugins": [],
+	"advertisements": []
 }
