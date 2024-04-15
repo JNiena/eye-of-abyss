@@ -16,7 +16,7 @@ export class PrivateWarpCommand extends Command {
 		registry.registerChatInputCommand(builder => {
 			builder.setName(this.name).setDescription(this.description)
 				.addStringOption(option => option.setName("name").setDescription("The name of the warp to teleport to.").setRequired(true).setMinLength(1));
-		}, { "idHints": ["1218804149072695397"] });
+		}, { "idHints": ["1226024197700976642"] });
 	}
 
 	public override async chatInputRun(interaction: Command.ChatInputCommandInteraction) {

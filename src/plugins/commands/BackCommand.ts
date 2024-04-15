@@ -15,7 +15,7 @@ export class BackCommand extends Command {
 	public override registerApplicationCommands(registry: Command.Registry) {
 		registry.registerChatInputCommand(builder => {
 			builder.setName(this.name).setDescription(this.description);
-		}, { "idHints": ["1120486196360003725"] });
+		}, { "idHints": ["1226024387145371762"] });
 	}
 
 	public override async chatInputRun(interaction: Command.ChatInputCommandInteraction) {

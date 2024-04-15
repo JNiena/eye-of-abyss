@@ -17,7 +17,7 @@ export class MessageCommand extends Command {
 			builder.setName(this.name).setDescription(this.description)
 				.addStringOption(option => option.setName("username").setDescription("The username of the player to send a message to.").setRequired(true).setMinLength(1))
 				.addStringOption(option => option.setName("message").setDescription("The message to send.").setRequired(true).setMinLength(1));
-		}, { "idHints": ["1105624908370808914"] });
+		}, { "idHints": ["1226024200570146888"] });
 	}
 
 	public override async chatInputRun(interaction: Command.ChatInputCommandInteraction) {

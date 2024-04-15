@@ -16,7 +16,7 @@ export class KitCommand extends Command {
 		registry.registerChatInputCommand(builder => {
 			builder.setName(this.name).setDescription(this.description)
 				.addStringOption(option => option.setName("name").setDescription("The name of the kit to get.").setRequired(true).setMinLength(1));
-		}, { "idHints": ["1120486114919198751"] });
+		}, { "idHints": ["1226024385312325632"] });
 	}
 
 	public override async chatInputRun(interaction: Command.ChatInputCommandInteraction) {

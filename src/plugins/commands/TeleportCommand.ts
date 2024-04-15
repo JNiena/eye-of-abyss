@@ -16,7 +16,7 @@ export class TeleportCommand extends Command {
 		registry.registerChatInputCommand(builder => {
 			builder.setName(this.name).setDescription(this.description)
 				.addStringOption(option => option.setName("username").setDescription("The username of the player to teleport to.").setRequired(true).setMinLength(1));
-		}, { "idHints": ["1120486112910118984"] });
+		}, { "idHints": ["1226024300117758043"] });
 	}
 
 	public override async chatInputRun(interaction: Command.ChatInputCommandInteraction) {

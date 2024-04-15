@@ -28,12 +28,12 @@ export class FilterCommand extends Subcommand {
 				.addSubcommand(command => command.setName("disable").setDescription("Disables the filter."))
 				.addSubcommand(command => command.setName("reset").setDescription("Resets the filter."))
 				.addSubcommand(command => command.setName("add").setDescription("Adds an item to the filter.")
-					.addStringOption(option => option.setName("item").setDescription("The item to be added to the filter.").setMinLength(1).setRequired(true)))
+					.addStringOption(option => option.setName("item").setDescription("The item.").setMinLength(1).setRequired(true)))
 				.addSubcommand(command => command.setName("remove").setDescription("Removes an item from the filter.")
-					.addStringOption(option => option.setName("item").setDescription("The item to be removed from the filter.").setMinLength(1).setRequired(true)))
+					.addStringOption(option => option.setName("item").setDescription("The item.").setMinLength(1).setRequired(true)))
 				.addSubcommand(command => command.setName("paste").setDescription("Pastes a list to the filter.")
-					.addStringOption(option => option.setName("list").setDescription("The list to be pasted to the filter.").setMinLength(1).setRequired(true)));
-		}, { "idHints": ["1094050997183184906"] });
+					.addStringOption(option => option.setName("list").setDescription("The list.").setMinLength(1).setRequired(true)));
+		}, { "idHints": ["1226024472700653630"] });
 	}
 
 	public async chatInputList(interaction: Subcommand.ChatInputCommandInteraction) {

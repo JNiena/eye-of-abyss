@@ -16,7 +16,7 @@ export class SetHomeCommand extends Command {
 		registry.registerChatInputCommand(builder => {
 			builder.setName(this.name).setDescription(this.description)
 				.addStringOption(option => option.setName("name").setDescription("The name of the home to set.").setRequired(true).setMinLength(1));
-		}, { "idHints": ["1218804230899634216"] });
+		}, { "idHints": ["1226024301166067823"] });
 	}
 
 	public override async chatInputRun(interaction: Command.ChatInputCommandInteraction) {

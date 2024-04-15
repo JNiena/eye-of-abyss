@@ -21,17 +21,25 @@
 		"enable": false,
 		"list": []
 	},
+	"actions": {
+		"left": 0,
+		"right": 0,
+		"forward": 0,
+		"back": 0,
+		"jump": 0,
+		"sprint": 0,
+		"sneak": 0
+	},
 	"events": {
 		"connect": {
-			"enable": false,
-			"message": "",
-			"delay": 0
-		},
-		"disconnect": {
-			"enable": false,
-			"reconnect": false,
-			"delay": 0
+			"enable": true,
+			"messages": [],
+			"actions": []
 		}
+	},
+	"autoreconnect": {
+		"enable": false,
+		"interval": 0
 	},
 	"plugins": [],
 	"advertisements": []

@@ -20,7 +20,7 @@ export class LoggingCommand extends Subcommand {
 			builder.setName(this.name).setDescription(this.description)
 				.addSubcommand(command => command.setName("enable").setDescription("Enables the logger."))
 				.addSubcommand(command => command.setName("disable").setDescription("Disables the logger."));
-		}, { "idHints": ["1218760387269230602"] });
+		}, { "idHints": ["1226024475188006964"] });
 	}
 
 	public async chatInputEnable(interaction: Subcommand.ChatInputCommandInteraction) {

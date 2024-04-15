@@ -20,12 +20,12 @@ export class ServerCommand extends Subcommand {
 		registry.registerChatInputCommand(builder => {
 			builder.setName(this.name).setDescription(this.description)
 				.addSubcommand(command => command.setName("host").setDescription("Sets the host the bot connects to.")
-					.addStringOption(option => option.setName("host").setDescription("The host the bot connects to.").setRequired(true).setMinLength(1)))
+					.addStringOption(option => option.setName("host").setDescription("The host.").setRequired(true).setMinLength(1)))
 				.addSubcommand(command => command.setName("port").setDescription("Sets the port the bot connects to.")
-					.addStringOption(option => option.setName("port").setDescription("The port the bot connects to.").setRequired(true).setMinLength(1)))
+					.addStringOption(option => option.setName("port").setDescription("The port.").setRequired(true).setMinLength(1)))
 				.addSubcommand(command => command.setName("version").setDescription("Sets the version the bot connects to.")
-					.addStringOption(option => option.setName("version").setDescription("The version the version connects to.").setRequired(true).setMinLength(1)));
-		}, { "idHints": ["1218776044576968844"] });
+					.addStringOption(option => option.setName("version").setDescription("The version.").setRequired(true).setMinLength(1)));
+		}, { "idHints": ["1226024642565767261"] });
 	}
 
 	public async chatInputHost(interaction: Subcommand.ChatInputCommandInteraction) {

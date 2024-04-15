@@ -16,7 +16,7 @@ export class BaltopCommand extends Command {
 		registry.registerChatInputCommand(builder => {
 			builder.setName(this.name).setDescription(this.description)
 				.addIntegerOption(option => option.setName("page").setDescription("The page of baltop to view.").setRequired(false).setMinValue(1));
-		}, { "idHints": ["1120486112054481017"] });
+		}, { "idHints": ["1226024299299602472"] });
 	}
 
 	public override async chatInputRun(interaction: Command.ChatInputCommandInteraction) {

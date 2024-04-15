@@ -18,10 +18,9 @@ export class Embeds {
 	}
 
 	// CONNECTION
-	public static connected(username: string | undefined = undefined) {
-		return this.template(username ? `\`${username}\` Connected` : "Connected");
-	}
+	public static connected(username: string | undefined = undefined) { return this.template(username ? `\`${username}\` Connected` : "Connected"); }
 	public static alreadyConnected() { return this.template("Already Connected"); }
+	public static attemptedConnection(channelID: string) { return this.template("Attempted Connection", `<#${channelID}>`); }
 	public static disconnected(username: string | undefined = undefined, info: Log | undefined = undefined) {
 		if (!info) { return this.template(username ? `\`${username}\` Disconnected` : "Disconnected"); }
 		const embed: APIEmbed = this.template(`\`${MinecraftBot.username}\` ${info.type}`);
@@ -38,6 +37,7 @@ export class Embeds {
 	// AUTO-RECONNECT
 	public static autoReconnectEnabled() { return this.template("Auto-Reconnect Enabled"); }
 	public static autoReconnectDisabled() { return this.template("Auto-Reconnect Disabled"); }
+	public static autoReconnectIntervalSet() { return this.template("Auto-Reconnect Interval Set"); }
 
 	// STATUS
 	public static online() { return this.template("Online"); }
@@ -70,6 +70,9 @@ export class Embeds {
 	public static loggerEnabled() { return this.template("Logger Enabled"); }
 	public static loggerDisabled() { return this.template("Logger Disabled"); }
 	public static loggerPath() { return this.template("Logger Path"); }
+
+	// DASHBOARD
+	public static emptyDashboard() { return this.template("Dashboard"); }
 
 	// FILTER
 	public static filterEnabled() { return this.template("Filter Enabled"); }
@@ -109,10 +112,3 @@ export class Embeds {
 		return this.template("Advertisements", formatted);
 	}
 }
-/*
-
-
-**`1m + ...1m`**\naaaa\n\n `**__aaa__**: `
-
-
-*/

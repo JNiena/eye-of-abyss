@@ -16,7 +16,7 @@ export class DeleteHomeCommand extends Command {
 		registry.registerChatInputCommand(builder => {
 			builder.setName(this.name).setDescription(this.description)
 				.addStringOption(option => option.setName("name").setDescription("The name of the home to delete.").setRequired(true).setMinLength(1));
-		}, { "idHints": ["1218804146472222731"] });
+		}, { "idHints": ["1226024386050654228"] });
 	}
 
 	public override async chatInputRun(interaction: Command.ChatInputCommandInteraction) {

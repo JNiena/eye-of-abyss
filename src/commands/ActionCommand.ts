@@ -26,14 +26,14 @@ export class ActionCommand extends Subcommand {
 		registry.registerChatInputCommand(builder => {
 			builder.setName(this.name).setDescription(this.description)
 				.addSubcommand(command => command.setName("interval").setDescription("Performs an action at the set interval.")
-					.addStringOption(option => this.createChoices(option).setName("action").setDescription("The action for the bot to perform.").setRequired(true).setMinLength(1))
+					.addStringOption(option => this.createChoices(option).setName("action").setDescription("The action.").setRequired(true).setMinLength(1))
 					.addNumberOption(option => option.setName("time").setDescription("The interval in minutes for the action to be performed.").setRequired(true).setMinValue(1)))
 				.addSubcommand(command => command.setName("once").setDescription("Performs an action for the set time.")
-					.addStringOption(option => this.createChoices(option).setName("action").setDescription("The action for the bot to perform.").setRequired(true).setMinLength(1))
+					.addStringOption(option => this.createChoices(option).setName("action").setDescription("The action.").setRequired(true).setMinLength(1))
 					.addNumberOption(option => option.setName("time").setDescription("The time in seconds for the action to be performed.").setRequired(false).setMinValue(1)))
 				.addSubcommand(command => command.setName("stop").setDescription("Stops an action.")
-					.addStringOption(option => this.createChoices(option).setName("action").setDescription("The action for the bot to stop.").setRequired(false).setMinLength(1)));
-		}, { "idHints": ["1218760382357835947"] });
+					.addStringOption(option => this.createChoices(option).setName("action").setDescription("The action.").setRequired(false).setMinLength(1)));
+		}, { "idHints": ["1226024555659919372"] });
 	}
 
 	private createChoices(option: SlashCommandStringOption) {
@@ -51,11 +51,12 @@ export class ActionCommand extends Subcommand {
 	public async chatInputInterval(interaction: Subcommand.ChatInputCommandInteraction) {
 		if (config.get().discord.chatChannelID !== interaction.channelId) { return; }
 		if (!minecraftBot.connected) { return interaction.reply({ "embeds": [Embeds.offline()] }); }
-		const action: string = interaction.options.getString("action", true);
-		const interval: number = interaction.options.getNumber("time", true);
-		this.createActionInterval(action, interval * 60_000);
-		this.startActionInterval(action, interval * 60_000);
-		return interaction.reply({ "embeds": [Embeds.actionStarted()] });
+		return interaction.reply({ "embeds": [Embeds.template("Disabled Command", "This command is disabled because it could potentially get us banned.")] });
+		// const action: string = interaction.options.getString("action", true);
+		// const interval: number = interaction.options.getNumber("time", true);
+		// this.createActionInterval(action, interval * 60_000);
+		// this.startActionInterval(action, interval * 60_000);
+		// return interaction.reply({ "embeds": [Embeds.actionStarted()] });
 	}
 
 	public async chatInputOnce(interaction: Subcommand.ChatInputCommandInteraction) {

@@ -15,7 +15,7 @@ export class SayCommand extends Command {
 		registry.registerChatInputCommand(builder => {
 			builder.setName(this.name).setDescription(this.description)
 				.addStringOption(option => option.setName("message").setDescription("The message that the bot will send.").setRequired(true).setMinLength(1));
-		}, { "idHints": ["1094053789134245978"] });
+		}, { "idHints": ["1226024559040401480"] });
 	}
 
 	public override async chatInputRun(interaction: Command.ChatInputCommandInteraction) {

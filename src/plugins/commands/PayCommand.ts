@@ -17,7 +17,7 @@ export class PayCommand extends Command {
 			builder.setName(this.name).setDescription(this.description)
 				.addStringOption(option => option.setName("username").setDescription("The username of the player to pay.").setRequired(true).setMinLength(1))
 				.addNumberOption(option => option.setName("amount").setDescription("The amount to send.").setRequired(true).setMinValue(1));
-		}, { "idHints": ["1105624909134184539"] });
+		}, { "idHints": ["1226024388881547294"] });
 	}
 
 	public override async chatInputRun(interaction: Command.ChatInputCommandInteraction) {

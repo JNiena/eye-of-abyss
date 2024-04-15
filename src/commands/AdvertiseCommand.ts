@@ -31,25 +31,25 @@ export class AdvertiseCommand extends Subcommand {
 			builder.setName(this.name).setDescription(this.description)
 				.addSubcommand(command => command.setName("list").setDescription("Shows all advertisements."))
 				.addSubcommand(command => command.setName("info").setDescription("Show the specified advertisement.")
-					.addStringOption(option => option.setName("name").setDescription("The advertisement to show.").setMinLength(1).setRequired(true)))
+					.addStringOption(option => option.setName("name").setDescription("The name.").setMinLength(1).setRequired(true)))
 				.addSubcommand(command => command.setName("enable").setDescription("Enables the advertisement.")
-					.addStringOption(option => option.setName("name").setDescription("The advertisement to be enabled.").setMinLength(1).setRequired(true)))
+					.addStringOption(option => option.setName("name").setDescription("The name.").setMinLength(1).setRequired(true)))
 				.addSubcommand(command => command.setName("disable").setDescription("Disables the advertisement.")
-					.addStringOption(option => option.setName("name").setDescription("The advertisement to be disabled.").setMinLength(1).setRequired(true)))
+					.addStringOption(option => option.setName("name").setDescription("The name.").setMinLength(1).setRequired(true)))
 				.addSubcommand(command => command.setName("reset").setDescription("Resets the advertisements."))
 				.addSubcommand(command => command.setName("add").setDescription("Adds an advertisement.")
-					.addStringOption(option => option.setName("name").setDescription("The name of the advertisement.").setMinLength(1).setRequired(true))
-					.addStringOption(option => option.setName("text").setDescription("The text of the advertisement.").setMinLength(1).setRequired(true))
-					.addNumberOption(option => option.setName("interval").setDescription("The interval in minutes of the advertisement.").setMinValue(1).setRequired(true))
-					.addNumberOption(option => option.setName("randomizer").setDescription("The randomizer in minutes of the advertisement.").setMinValue(1).setRequired(true)))
+					.addStringOption(option => option.setName("name").setDescription("The name.").setMinLength(1).setRequired(true))
+					.addStringOption(option => option.setName("text").setDescription("The text.").setMinLength(1).setRequired(true))
+					.addNumberOption(option => option.setName("interval").setDescription("The interval in minutes.").setMinValue(1).setRequired(true))
+					.addNumberOption(option => option.setName("randomizer").setDescription("The randomizer in minutes.").setMinValue(1).setRequired(true)))
 				.addSubcommand(command => command.setName("remove").setDescription("Removes an advertisement.")
-					.addStringOption(option => option.setName("name").setDescription("The name of the advertisement.").setMinLength(1).setRequired(true)))
+					.addStringOption(option => option.setName("name").setDescription("The name.").setMinLength(1).setRequired(true)))
 				.addSubcommand(command => command.setName("edit").setDescription("Edits an advertisement.")
-					.addStringOption(option => option.setName("name").setDescription("The name of the advertisement.").setMinLength(1).setRequired(true))
-					.addStringOption(option => option.setName("text").setDescription("The text of the advertisement.").setMinLength(1).setRequired(false))
-					.addNumberOption(option => option.setName("interval").setDescription("The interval in minutes of the advertisement.").setMinValue(1).setRequired(false))
-					.addNumberOption(option => option.setName("randomizer").setDescription("The randomizer in minutes of the advertisement.").setMinValue(1).setRequired(false)));
-		}, { "idHints": ["1117561544633487495"] });
+					.addStringOption(option => option.setName("name").setDescription("The name.").setMinLength(1).setRequired(true))
+					.addStringOption(option => option.setName("text").setDescription("The text.").setMinLength(1).setRequired(false))
+					.addNumberOption(option => option.setName("interval").setDescription("The interval in minutes.").setMinValue(1).setRequired(false))
+					.addNumberOption(option => option.setName("randomizer").setDescription("The randomizer in minutes.").setMinValue(1).setRequired(false)));
+		}, { "idHints": ["1226024560005087232"] });
 	}
 
 	public async chatInputList(interaction: Subcommand.ChatInputCommandInteraction) {

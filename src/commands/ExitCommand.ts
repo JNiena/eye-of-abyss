@@ -15,7 +15,7 @@ export class ExitCommand extends Command {
 	public override registerApplicationCommands(registry: Command.Registry) {
 		registry.registerChatInputCommand(builder => {
 			builder.setName(this.name).setDescription(this.description);
-		}, { "idHints": ["1218809765447209002"] });
+		}, { "idHints": ["1226024557899550833"] });
 	}
 
 	public override async chatInputRun(interaction: Command.ChatInputCommandInteraction) {

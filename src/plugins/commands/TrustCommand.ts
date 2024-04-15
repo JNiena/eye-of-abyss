@@ -16,7 +16,7 @@ export class TrustCommand extends Command {
 		registry.registerChatInputCommand(builder => {
 			builder.setName(this.name).setDescription(this.description)
 				.addStringOption(option => option.setName("username").setDescription("The username of the player to trust.").setRequired(true).setMinLength(1));
-		}, { "idHints": ["1120486197437939732"] });
+		}, { "idHints": ["1226024387548024893"] });
 	}
 
 	public override async chatInputRun(interaction: Command.ChatInputCommandInteraction) {

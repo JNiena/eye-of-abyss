@@ -14,13 +14,13 @@ export class DisconnectCommand extends Command {
 	public override registerApplicationCommands(registry: Command.Registry) {
 		registry.registerChatInputCommand(builder => {
 			builder.setName(this.name).setDescription(this.description);
-		}, { "idHints": ["1094053789868249128"] });
+		}, { "idHints": ["1226024557131989104"] });
 	}
 
 	public override async chatInputRun(interaction: Command.ChatInputCommandInteraction) {
 		if (config.get().discord.chatChannelID !== interaction.channelId) { return; }
 		if (!minecraftBot.connected) { return interaction.reply({ "embeds": [Embeds.alreadyDisconnected()] }); }
-		config.get().events.disconnect.reconnect = false;
+		config.get().autoreconnect.enable = false;
 		minecraftBot.disconnect();
 		return interaction.reply({ "embeds": [Embeds.disconnected()] });
 	}

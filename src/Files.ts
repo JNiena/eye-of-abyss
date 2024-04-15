@@ -1,4 +1,4 @@
-import { appendFileSync, existsSync, readdirSync, readFileSync, unlinkSync, writeFileSync } from "fs";
+import { appendFileSync, existsSync, readdirSync, readFileSync, truncateSync, unlinkSync, writeFileSync } from "fs";
 
 export class Files {
 	public static read(path: string) {
@@ -20,6 +20,10 @@ export class Files {
 
 	public static delete(path: string) {
 		unlinkSync(path);
+	}
+
+	public static clear(path: string) {
+		truncateSync(path, 0);
 	}
 
 	public static exists(path: string) {

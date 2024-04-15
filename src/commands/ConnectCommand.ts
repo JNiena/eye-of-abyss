@@ -14,14 +14,14 @@ export class ConnectCommand extends Command {
 	public override registerApplicationCommands(registry: Command.Registry) {
 		registry.registerChatInputCommand(builder => {
 			builder.setName(this.name).setDescription(this.description);
-		}, { "idHints": ["1094053790623215729"] });
+		}, { "idHints": ["1226024474009403534"] });
 	}
 
 	public override async chatInputRun(interaction: Command.ChatInputCommandInteraction) {
 		if (config.get().discord.chatChannelID !== interaction.channelId) { return; }
 		if (minecraftBot.connected) { return interaction.reply({ "embeds": [Embeds.alreadyConnected()] }); }
-		config.get().events.disconnect.reconnect = true;
+		config.get().autoreconnect.enable = true;
 		minecraftBot.connect();
-		return interaction.reply({ "embeds": [Embeds.connected()] });
+		return interaction.reply({ "embeds": [Embeds.attemptedConnection(config.get().discord.infoChannelID)] });
 	}
 }

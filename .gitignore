@@ -4,5 +4,4 @@ accounts/
 processes/
 server/
 package-lock.json
-startup.sh
 src/DeleteCommands.ts

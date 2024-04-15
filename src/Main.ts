@@ -20,7 +20,6 @@ const discordBot: AbyssClient = new AbyssClient({
 	"loadDefaultErrorListeners": true,
 	"loadSubcommandErrorListeners": true,
 	"loadPlugins": true,
-	"defaultPrefix": ".",
 	"logger": { "level": LogLevel.Debug }
 });
 

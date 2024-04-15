@@ -16,7 +16,7 @@ export class HomeCommand extends Command {
 		registry.registerChatInputCommand(builder => {
 			builder.setName(this.name).setDescription(this.description)
 				.addStringOption(option => option.setName("name").setDescription("The name of the home to teleport to.").setRequired(true).setMinLength(1));
-		}, { "idHints": ["1218804060639989821"] });
+		}, { "idHints": ["1226024199051808869"] });
 	}
 
 	public override async chatInputRun(interaction: Command.ChatInputCommandInteraction) {

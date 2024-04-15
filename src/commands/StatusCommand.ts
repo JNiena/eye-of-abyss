@@ -14,7 +14,7 @@ export class StatusCommand extends Command {
 	public override registerApplicationCommands(registry: Command.Registry) {
 		registry.registerChatInputCommand(builder => {
 			builder.setName(this.name).setDescription(this.description);
-		}, { "idHints": ["1094053791453675550"] });
+		}, { "idHints": ["1226024643702292652"] });
 	}
 
 	public override async chatInputRun(interaction: Command.ChatInputCommandInteraction) {

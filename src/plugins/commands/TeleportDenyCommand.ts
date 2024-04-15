@@ -14,7 +14,7 @@ export class TeleportDenyCommand extends Command {
 	public override registerApplicationCommands(registry: Command.Registry) {
 		registry.registerChatInputCommand(builder => {
 			builder.setName(this.name).setDescription(this.description);
-		}, { "idHints": ["1218804231935492166"] });
+		}, { "idHints": ["1226024302009385103"] });
 	}
 
 	public override async chatInputRun(interaction: Command.ChatInputCommandInteraction) {

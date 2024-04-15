@@ -24,7 +24,7 @@ export class DropCommand extends Subcommand {
 				.addSubcommand(command => command.setName("armor").setDescription("Drops the bot's armor."))
 				.addSubcommand(command => command.setName("offhand").setDescription("Drops the bot's offhand."))
 				.addSubcommand(command => command.setName("mainhand").setDescription("Drops the bot's mainhand."));
-		}, { "idHints": ["1094050994960212058"] });
+		}, { "idHints": ["1226024471543021688"] });
 	}
 
 	public async chatInputInventory(interaction: Subcommand.ChatInputCommandInteraction) {

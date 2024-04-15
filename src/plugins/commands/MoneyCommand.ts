@@ -16,7 +16,7 @@ export class MoneyCommand extends Command {
 		registry.registerChatInputCommand(builder => {
 			builder.setName(this.name).setDescription(this.description)
 				.addStringOption(option => option.setName("username").setDescription("The username of the player to view the money of.").setRequired(true).setMinLength(1));
-		}, { "idHints": ["1222024738331951254"] });
+		}, { "idHints": ["1226024470620409958"] });
 	}
 
 	public override async chatInputRun(interaction: Command.ChatInputCommandInteraction) {

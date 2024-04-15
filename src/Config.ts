@@ -1,13 +1,12 @@
 import { Files } from "./Files";
 
-// Fix syncing issues
 export class Config {
+	private path: string;
 	private data: any;
-	private path: string | undefined;
 
 	public constructor(path: string) {
 		this.path = path;
-		this.data = JSON.parse(Files.read(path));
+		this.load();
 	}
 
 	public get() {
@@ -19,9 +18,11 @@ export class Config {
 	}
 
 	public save() {
-		if (this.path) {
-			Files.delete(this.path);
-			Files.write(this.path, JSON.stringify(this.data, null, "\t"));
-		}
+		Files.clear(this.path);
+		Files.write(this.path, JSON.stringify(this.data, null, "\t"));
+	}
+
+	public load() {
+		this.data = JSON.parse(Files.read(this.path));
 	}
 }

@@ -16,7 +16,7 @@ export class InviteCommand extends Command {
 		registry.registerChatInputCommand(builder => {
 			builder.setName(this.name).setDescription(this.description)
 				.addStringOption(option => option.setName("username").setDescription("The username of the player to invite.").setRequired(true).setMinLength(1));
-		}, { "idHints": ["1105624906646958080"] });
+		}, { "idHints": ["1226024224259571763"] });
 	}
 
 	public override async chatInputRun(interaction: Command.ChatInputCommandInteraction) {
