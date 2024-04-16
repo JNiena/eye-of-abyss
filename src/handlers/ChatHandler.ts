@@ -17,6 +17,6 @@ export class ChatHandler {
 	}
 
 	private checkFilter(message: string) {
-		if (!config.get().filter.enable || Filter.complies(config.get().filter.list, message)) { discordBot.send(`${message}`).then(); }
+		if (!config.get().filter.enable || Filter.complies(config.get().filter.list, message)) { discordBot.send(`${message}`); }
 	}
 }

@@ -9,7 +9,7 @@ export class LoginHandler {
 				config.get().credentials.username = minecraftBot.internal.username;
 				config.save();
 			}
-			discordBot.sendEmbed(Embeds.connected(), config.get().discord.infoChannelID).then();
+			discordBot.sendEmbed(Embeds.connected(), config.get().discord.infoChannelID);
 		});
 	}
 }

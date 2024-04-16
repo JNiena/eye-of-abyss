@@ -3,6 +3,6 @@ import { config, discordBot, minecraftBot } from "../Main";
 
 export class DeathHandler {
 	public constructor() {
-		minecraftBot.internal.on("death", () => { discordBot.sendEmbed(Embeds.death(), config.get().discord.infoChannelID).then(); });
+		minecraftBot.internal.on("death", () => { discordBot.sendEmbed(Embeds.death(), config.get().discord.infoChannelID); });
 	}
 }
