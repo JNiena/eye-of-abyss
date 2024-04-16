@@ -1,6 +1,7 @@
 import { APIEmbed } from "discord.js";
-import { Log, MinecraftBot } from "./MinecraftBot";
+import { Log } from "./MinecraftBot";
 import { Advertisement } from "./commands/AdvertiseCommand";
+import { config } from "./Main";
 
 export class Embeds {
 	public static readonly green: number = 2817792;
@@ -13,24 +14,24 @@ export class Embeds {
 			"title": title,
 			"description": description,
 			"color": color,
-			"thumbnail": { "url": `https://cravatar.eu/helmavatar/${MinecraftBot.username}/24.png` }
+			"thumbnail": { "url": `https://cravatar.eu/helmavatar/${config.get().credentials.username}/24.png` }
 		};
 	}
 
 	// CONNECTION
-	public static connected(username: string | undefined = undefined) { return this.template(username ? `\`${username}\` Connected` : "Connected"); }
+	public static connected() { return this.template(`<#${config.get().discord.chatChannelID}> Connected`); }
 	public static alreadyConnected() { return this.template("Already Connected"); }
-	public static attemptedConnection(channelID: string) { return this.template("Attempted Connection", `<#${channelID}>`); }
-	public static disconnected(username: string | undefined = undefined, info: Log | undefined = undefined) {
-		if (!info) { return this.template(username ? `\`${username}\` Disconnected` : "Disconnected"); }
-		const embed: APIEmbed = this.template(`\`${MinecraftBot.username}\` ${info.type}`);
+	public static attemptedConnection() { return this.template("Attempted Connection", `<#${config.get().discord.infoChannelID}>`); }
+	public static disconnected(info: Log | undefined = undefined) {
+		if (!info) { return this.template(`<#${config.get().discord.chatChannelID}> Disconnected`); }
+		const embed: APIEmbed = this.template(`<#${config.get().discord.chatChannelID}> ${info.type}`);
 		embed.fields = [{ "name": "Reason", "value": info.message }];
 		return embed;
 	}
 	public static alreadyDisconnected() { return this.template("Already Disconnected"); }
 
 	// MISC
-	public static death() { return this.template(`\`${MinecraftBot.username}\` Died`); }
+	public static death() { return this.template(`<#${config.get().discord.chatChannelID}> Died`); }
 	public static messageSent() { return this.template("Message Sent"); }
 	public static exiting() { return this.template("Exiting"); }
 
