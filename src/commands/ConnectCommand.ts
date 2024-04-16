@@ -22,6 +22,6 @@ export class ConnectCommand extends Command {
 		if (minecraftBot.connected) { return interaction.reply({ "embeds": [Embeds.alreadyConnected()] }); }
 		config.get().autoreconnect.enable = true;
 		minecraftBot.connect();
-		return interaction.reply({ "embeds": [Embeds.attemptedConnection(config.get().discord.infoChannelID)] });
+		return interaction.reply({ "embeds": [Embeds.attemptedConnection()] });
 	}
 }
