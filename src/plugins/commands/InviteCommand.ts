@@ -23,6 +23,6 @@ export class InviteCommand extends Command {
 		if (config.get().discord.chatChannelID !== interaction.channelId) { return; }
 		const username: string = interaction.options.getString("username", true);
 		minecraftBot.chat(`/team invite ${username}`);
-		return interaction.editReply({ "embeds": [Embeds.commandExecuted()] });
+		return interaction.reply({ "embeds": [Embeds.commandExecuted()] });
 	}
 }

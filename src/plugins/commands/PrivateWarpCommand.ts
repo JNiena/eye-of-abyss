@@ -23,6 +23,6 @@ export class PrivateWarpCommand extends Command {
 		if (config.get().discord.chatChannelID !== interaction.channelId) { return; }
 		const name: string = interaction.options.getString("name", true);
 		minecraftBot.chat(`/pw ${name}`);
-		return interaction.editReply({ "embeds": [Embeds.commandExecuted()] });
+		return interaction.reply({ "embeds": [Embeds.commandExecuted()] });
 	}
 }

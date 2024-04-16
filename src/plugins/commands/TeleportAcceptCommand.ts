@@ -21,6 +21,6 @@ export class TeleportAcceptCommand extends Command {
 	public override async chatInputRun(interaction: Command.ChatInputCommandInteraction) {
 		if (config.get().discord.chatChannelID !== interaction.channelId) { return; }
 		minecraftBot.chat("/tpaccept");
-		return interaction.editReply({ "embeds": [Embeds.commandExecuted()] });
+		return interaction.reply({ "embeds": [Embeds.commandExecuted()] });
 	}
 }

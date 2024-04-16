@@ -23,6 +23,6 @@ export class TeleportHereCommand extends Command {
 		if (config.get().discord.chatChannelID !== interaction.channelId) { return; }
 		const username: string = interaction.options.getString("username", true);
 		minecraftBot.chat(`/tpahere ${username}`);
-		return interaction.editReply({ "embeds": [Embeds.commandExecuted()] });
+		return interaction.reply({ "embeds": [Embeds.commandExecuted()] });
 	}
 }

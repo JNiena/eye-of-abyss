@@ -2,12 +2,12 @@ import { Command } from "@sapphire/framework";
 import { Embeds } from "../../Embeds";
 import { config, minecraftBot } from "../../Main";
 
-export class MessageCommand extends Command {
+export class SetHomeCommand extends Command {
 	public constructor(context: Command.LoaderContext, options: Command.Options) {
 		super(context, {
 			...options,
-			"name": "message",
-			"description": "Executes the /msg command.",
+			"name": "sethome",
+			"description": "Executes the /sethome command.",
 			"preconditions": ["PluginEnabled"]
 		});
 	}
@@ -15,16 +15,14 @@ export class MessageCommand extends Command {
 	public override registerApplicationCommands(registry: Command.Registry) {
 		registry.registerChatInputCommand(builder => {
 			builder.setName(this.name).setDescription(this.description)
-				.addStringOption(option => option.setName("username").setDescription("The username of the player to send a message to.").setRequired(true).setMinLength(1))
-				.addStringOption(option => option.setName("message").setDescription("The message to send.").setRequired(true).setMinLength(1));
-		}, { "idHints": ["1226024200570146888"] });
+				.addStringOption(option => option.setName("name").setDescription("The name of the home to set.").setRequired(true).setMinLength(1));
+		}, { "idHints": ["1226024301166067823"] });
 	}
 
 	public override async chatInputRun(interaction: Command.ChatInputCommandInteraction) {
 		if (config.get().discord.chatChannelID !== interaction.channelId) { return; }
-		const username: string = interaction.options.getString("username", true);
-		const message: string = interaction.options.getString("message", true);
-		minecraftBot.chat(`/msg ${username} ${message}`);
+		const name: string = interaction.options.getString("name", true);
+		minecraftBot.chat(`/sethome ${name}`);
 		return interaction.reply({ "embeds": [Embeds.commandExecuted()] });
 	}
 }

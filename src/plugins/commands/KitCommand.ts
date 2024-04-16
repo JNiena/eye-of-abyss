@@ -23,6 +23,6 @@ export class KitCommand extends Command {
 		if (config.get().discord.chatChannelID !== interaction.channelId) { return; }
 		const kit: string = interaction.options.getString("kit", true);
 		minecraftBot.chat(`/kit ${kit}`);
-		return interaction.editReply({ "embeds": [Embeds.commandExecuted()] });
+		return interaction.reply({ "embeds": [Embeds.commandExecuted()] });
 	}
 }

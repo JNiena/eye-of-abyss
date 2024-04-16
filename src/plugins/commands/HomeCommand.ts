@@ -23,6 +23,6 @@ export class HomeCommand extends Command {
 		if (config.get().discord.chatChannelID !== interaction.channelId) { return; }
 		const name: string = interaction.options.getString("name", true);
 		minecraftBot.chat(`/home ${name}`);
-		return interaction.editReply({ "embeds": [Embeds.commandExecuted()] });
+		return interaction.reply({ "embeds": [Embeds.commandExecuted()] });
 	}
 }

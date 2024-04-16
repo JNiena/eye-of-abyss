@@ -23,6 +23,6 @@ export class BaltopCommand extends Command {
 		if (config.get().discord.chatChannelID !== interaction.channelId) { return; }
 		const page: number = interaction.options.getInteger("page", false) ?? 1;
 		minecraftBot.chat(`/baltop ${page}`);
-		return interaction.editReply({ "embeds": [Embeds.commandExecuted()] });
+		return interaction.reply({ "embeds": [Embeds.commandExecuted()] });
 	}
 }

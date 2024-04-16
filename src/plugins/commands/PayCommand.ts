@@ -25,6 +25,6 @@ export class PayCommand extends Command {
 		const username: string = interaction.options.getString("username", true);
 		const amount: number = interaction.options.getNumber("amount", true);
 		minecraftBot.chat(`/pay ${username} ${amount}`);
-		return interaction.editReply({ "embeds": [Embeds.commandExecuted()] });
+		return interaction.reply({ "embeds": [Embeds.commandExecuted()] });
 	}
 }
