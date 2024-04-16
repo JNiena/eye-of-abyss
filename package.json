@@ -1,7 +1,6 @@
 {
 	"name": "eye-of-abyss",
 	"version": "1.0.0",
-	"main": "target/Main.js",
 	"scripts": {
 		"start": "npx tsc && node target/Main.js accounts/testing.json --start"
 	},
