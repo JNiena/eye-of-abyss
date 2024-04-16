@@ -1,5 +1,5 @@
 import { Bot, createBot } from "mineflayer";
-import { config } from "./Main";
+import { config, minecraftBot } from "./Main";
 
 export class MinecraftBot {
 	public connected: boolean;
@@ -27,7 +27,7 @@ export class MinecraftBot {
 	}
 
 	public chat(message: string) {
-		if (message.trim().length > 0) { this.internal.chat(message); }
+		if (minecraftBot.connected && message.trim().length > 0) { this.internal.chat(message); }
 	}
 }
 
