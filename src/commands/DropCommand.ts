@@ -60,7 +60,7 @@ export class DropCommand extends Subcommand {
 		for (const slot of slots) {
 			const item = minecraftBot.internal.inventory.slots[slot];
 			if (item) {
-				setTimeout(() => { minecraftBot.internal.tossStack(item).then(); }, i * 1000);
+				setTimeout(() => { minecraftBot.internal.tossStack(item); }, i * 1000);
 				i++;
 			}
 		}
