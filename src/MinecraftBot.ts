@@ -3,7 +3,8 @@ import { config } from "./Main";
 
 export class MinecraftBot {
 	public connected: boolean;
-	public autoReconnect: NodeJS.Timeout | undefined;
+	public autoReconnectInterval: NodeJS.Timeout | undefined;
+	public allowAutoReconnect: boolean;
 	public lastLog: Log | undefined;
 	public internal!: Bot;
 	public startup: Function[];
@@ -12,11 +13,12 @@ export class MinecraftBot {
 		this.connected = false;
 		this.lastLog = undefined;
 		this.startup = startup;
+		this.allowAutoReconnect = true;
 	}
 
 	public connect() {
 		this.internal = createBot({ "username": config.get().credentials.email, "password": config.get().credentials.password, "auth": config.get().credentials.auth, "host": config.get().server.host, "port": config.get().server.port, "version": config.get().server.version });
-		if (!this.autoReconnect) { this.autoReconnect = setInterval(() => { if (config.get().autoreconnect.enable) { if (!this.connected) { this.connect(); } } }, config.get().autoreconnect.interval); }
+		if (!this.autoReconnectInterval) { this.autoReconnectInterval = setInterval(() => { if (config.get().autoreconnect.enable && this.allowAutoReconnect && !this.connected) { this.connect(); } }, config.get().autoreconnect.interval); }
 		for (const startup of this.startup) { startup(); }
 	}
 
