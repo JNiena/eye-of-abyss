@@ -23,7 +23,7 @@ const discordBot: AbyssClient = new AbyssClient({
 	"logger": { "level": LogLevel.Debug }
 });
 
-const minecraftBot: MinecraftBot = new MinecraftBot(() => {
+const minecraftBot: MinecraftBot = new MinecraftBot([() => {
 	new ErrorHandler();
 	new ChatHandler();
 	new SpawnHandler();
@@ -31,7 +31,7 @@ const minecraftBot: MinecraftBot = new MinecraftBot(() => {
 	new DeathHandler();
 	new LoginHandler();
 	new EndHandler();
-});
+}]);
 
 discordBot.login(config.get().discord.token).then(() => { if (start) { minecraftBot.connect(); } });
 
