@@ -3,7 +3,7 @@ import { config, minecraftBot } from "../Main";
 
 export class SpawnHandler {
 	public constructor() {
-		minecraftBot.internal.on("spawn", () => {
+		minecraftBot.internal.once("spawn", () => {
 			if (config.get().events.connect.enable) {
 				for (let message of config.get().events.connect.messages) { setTimeout(() => { minecraftBot.chat(message.text); }, message.delay); }
 				for (let action of config.get().events.connect.actions) {
