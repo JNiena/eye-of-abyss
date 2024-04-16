@@ -22,7 +22,7 @@ export class BossAlertCommand extends Subcommand {
 		});
 
 		// Set our inital values.
-		this.bosses = ["queen_bee", "levian", "minotaur", "valkyrie", "azalea", "star_serpent", "warden", "wither", "ender_dragon", "soul_knight", "yukima", "erebus", "thanatos"];
+		this.bosses = ["queenbee", "levian", "minotaur", "valkyrie", "azalea", "starserpent", "warden", "wither", "enderdragon", "soulknight", "yukima", "erebus", "thanatos"];
 		this.bossIndex = 0;
 		this.enable = true;
 		this.blockedPings = [];
