@@ -4,8 +4,8 @@ import { config, discordBot, minecraftBot } from "../../Main";
 import { BossBar } from "mineflayer";
 
 export class BossAlertCommand extends Subcommand {
-	private bosses: string[];
-	private bossIndex: number;
+/* 	private bosses: string[];
+	private bossIndex: number; */
 	private enable: boolean;
 	private blockedPings: string[];
 
@@ -22,22 +22,22 @@ export class BossAlertCommand extends Subcommand {
 		});
 
 		// Set our inital values.
-		this.bosses = ["queenbee", "levian", "minotaur", "valkyrie", "azalea", "starserpent", "warden", "wither", "enderdragon", "soulknight", "yukima", "erebus", "thanatos"];
-		this.bossIndex = 0;
+/* 		this.bosses = ["queenbee", "levian", "minotaur", "valkyrie", "azalea", "starserpent", "warden", "wither", "enderdragon", "soulknight", "yukima", "erebus", "thanatos"];
+		this.bossIndex = 0; */
 		this.enable = true;
 		this.blockedPings = [];
 
 		if (!config.get().plugins.includes("bossalert")) { return; }
 
 		// Warp through all bosses every 15 seconds (+5 seconds because of /warp command delay).
-		setInterval(() => {
+		/* setInterval(() => {
 			if (!minecraftBot.connected || !this.enable) { return; }
 			minecraftBot.chat(`/warp ${this.bosses[this.bossIndex]}`);
 
 			// Increment the index if we're not at the end of the list. Set it back to 0 if we are.
 			if (this.bossIndex == this.bosses.length - 1) { this.bossIndex = 0; }
 			else { this.bossIndex += 1; }
-		}, 15_000);
+		}, 15_000); */
 
 		// Send a message to discord when the bossBarCreated event is activated. 
 		minecraftBot.startup.push(() => {
